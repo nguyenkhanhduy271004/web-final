@@ -192,4 +192,15 @@ public class HomePageController {
         return "client/infor/profile";
     }
 
+    @GetMapping("/shop/register")
+    public String getRegisterShopPage(Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute("id") == null) {
+            return "redirect:/login";
+        }
+
+        return "client/shop/register";
+
+    }
+
 }

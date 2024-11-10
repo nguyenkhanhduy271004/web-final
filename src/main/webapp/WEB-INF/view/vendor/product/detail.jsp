@@ -25,8 +25,8 @@
                             <div class="container-fluid px-4">
                                 <h1 class="mt-4">Products</h1>
                                 <ol class="breadcrumb mb-4">
-                                    <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
-                                    <li class="breadcrumb-item"><a href="/admin/product">Product</a></li>
+                                    <li class="breadcrumb-item"><a href="/vendor">Dashboard</a></li>
+                                    <li class="breadcrumb-item"><a href="/vendor/product">Product</a></li>
                                     <li class="breadcrumb-item active">View detail</li>
                                 </ol>
                                 <div class="container mt-5">
@@ -51,7 +51,7 @@
                                                     <li class="list-group-item">Price: ${product.price}</li>
                                                 </ul>
                                             </div>
-                                            <a href="/admin/product" class="btn btn-success mt-3">Back</a>
+                                            <a href="/vendor/product" class="btn btn-success mt-3">Back</a>
 
                                         </div>
 

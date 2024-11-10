@@ -14,33 +14,61 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import vn.nguyenduy.laptopshop.domain.Order;
+import vn.nguyenduy.laptopshop.domain.Shop;
+import vn.nguyenduy.laptopshop.domain.User;
 import vn.nguyenduy.laptopshop.service.OrderService;
+import vn.nguyenduy.laptopshop.service.ShopService;
+import vn.nguyenduy.laptopshop.service.UserService;
 
 @Controller
 public class OrderVendorController {
 
     private final OrderService orderService;
+    private final UserService userService;
+    private final ShopService shopService;
 
-    public OrderVendorController(OrderService orderService) {
+    public OrderVendorController(OrderService orderService, UserService userService, ShopService shopService) {
         this.orderService = orderService;
+        this.userService = userService;
+        this.shopService = shopService;
     }
 
     @GetMapping("/vendor/order")
-    public String getDashboard(Model model, @RequestParam("page") Optional<String> pageOptional) {
+    public String getDashboard(Model model, @RequestParam("page") Optional<String> pageOptional,
+            HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute("id") == null) {
+            return "redirect:/login";
+        }
+
+        Long userId = (Long) session.getAttribute("id");
+        Optional<User> user = this.userService.getUserById(userId);
+        if (!user.isPresent()) {
+            return "redirect:/login";
+        }
+
+        Shop shop = this.shopService.findByOwner(user.get());
+        if (shop == null) {
+            model.addAttribute("error", "User không sở hữu shop nào.");
+            return "vendor/order/show";
+        }
+
         int page = 1;
-        try {
-            if (pageOptional.isPresent()) {
+        if (pageOptional.isPresent()) {
+            try {
                 page = Integer.parseInt(pageOptional.get());
-            } else {
+            } catch (NumberFormatException e) {
                 page = 1;
             }
-        } catch (Exception e) {
-            page = 1;
         }
+
         Pageable pageable = PageRequest.of(page - 1, 2);
-        Page<Order> prs = this.orderService.fetchAllOrders(pageable);
+        Page<Order> prs = this.orderService.fetchOrdersByShop(shop, pageable);
         List<Order> orders = prs.getContent();
+
         model.addAttribute("orders", orders);
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", prs.getTotalPages());

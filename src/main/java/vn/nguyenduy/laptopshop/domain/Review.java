@@ -10,6 +10,7 @@ import jakarta.persistence.Table;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "reviews")
@@ -30,6 +31,7 @@ public class Review implements Serializable {
     private int rating;
     private String reviewText;
     private LocalDate reviewDate;
+    private List<String> images;
 
     public long getId() {
         return id;
@@ -77,6 +79,14 @@ public class Review implements Serializable {
 
     public void setReviewDate(LocalDate reviewDate) {
         this.reviewDate = reviewDate;
+    }
+
+    public List<String> getImages() {
+        return images;
+    }
+
+    public void setImages(List<String> images) {
+        this.images = images;
     }
 
 }

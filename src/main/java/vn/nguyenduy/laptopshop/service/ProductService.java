@@ -15,6 +15,7 @@ import vn.nguyenduy.laptopshop.domain.CartDetail;
 import vn.nguyenduy.laptopshop.domain.Order;
 import vn.nguyenduy.laptopshop.domain.OrderDetail;
 import vn.nguyenduy.laptopshop.domain.Product;
+import vn.nguyenduy.laptopshop.domain.Shop;
 import vn.nguyenduy.laptopshop.domain.User;
 import vn.nguyenduy.laptopshop.domain.dto.ProductCriteriaDTO;
 import vn.nguyenduy.laptopshop.repository.CartDetailRepository;
@@ -272,6 +273,10 @@ public class ProductService {
     public List<Product> searchProductsByName(String name, int page, int size) {
         Page<Product> productPage = productRepository.findByNameContainingIgnoreCase(name, PageRequest.of(page, size));
         return productPage.getContent();
+    }
+
+    public Page<Product> fetchProductsByShop(Shop shop, Pageable pageable) {
+        return productRepository.findByShop(shop, pageable);
     }
 
 }

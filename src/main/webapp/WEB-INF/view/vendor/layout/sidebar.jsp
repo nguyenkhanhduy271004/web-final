@@ -19,6 +19,11 @@
                             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                             Order
                         </a>
+
+                        <a class="nav-link" href="/vendor/promotion">
+                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                            Promotion
+                        </a>
                     </div>
                 </div>
                 <div class="sb-sidenav-footer">

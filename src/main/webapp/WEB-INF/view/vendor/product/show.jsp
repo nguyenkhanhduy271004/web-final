@@ -24,7 +24,7 @@
                             <div class="container-fluid px-4">
                                 <h1 class="mt-4">Manage Products</h1>
                                 <ol class="breadcrumb mb-4">
-                                    <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
+                                    <li class="breadcrumb-item"><a href="/vendor">Dashboard</a></li>
                                     <li class="breadcrumb-item active">Product</li>
                                 </ol>
                                 <div class="mt-5">
@@ -32,7 +32,7 @@
                                         <div class="col-12 mx-auto">
                                             <div class="d-flex justify-content-between">
                                                 <h3>Table products</h3>
-                                                <a href="/admin/product/create" class="btn btn-primary">Create a
+                                                <a href="/vendor/product/create" class="btn btn-primary">Create a
                                                     product</a>
                                             </div>
 
@@ -59,11 +59,11 @@
                                                             </td>
                                                             <td>${product.factory}</td>
                                                             <td>
-                                                                <a href="/admin/product/${product.id}"
+                                                                <a href="/vendor/product/${product.id}"
                                                                     class="btn btn-success">View</a>
-                                                                <a href="/admin/product/update/${product.id}"
+                                                                <a href="/vendor/product/update/${product.id}"
                                                                     class="btn btn-warning  mx-2">Update</a>
-                                                                <a href="/admin/product/delete/${product.id}"
+                                                                <a href="/vendor/product/delete/${product.id}"
                                                                     class="btn btn-danger">Delete</a>
                                                             </td>
                                                         </tr>
@@ -76,7 +76,7 @@
                                                 <ul class="pagination justify-content-center">
                                                     <li class="page-item ${currentPage eq 1 ? 'disabled' : ''}">
                                                         <a class="page-link"
-                                                            href="/admin/product?page=${currentPage - 1}"
+                                                            href="/vendor/product?page=${currentPage - 1}"
                                                             aria-label="Previous">
                                                             <span aria-hidden="true">&laquo;</span>
                                                             <span class="sr-only">Previous</span>
@@ -85,14 +85,14 @@
                                                     <c:forEach begin="1" end="${totalPages}" varStatus="loop">
                                                         <li class="page-item">
                                                             <a class="${loop.index eq currentPage ? 'active page-link' : 'page-link'}"
-                                                                href="/admin/product?page=${loop.index}">${loop.index}
+                                                                href="/vendor/product?page=${loop.index}">${loop.index}
                                                             </a>
                                                         </li>
                                                     </c:forEach>
                                                     <li
                                                         class="page-item ${currentPage eq totalPages ? 'disabled' : ''}">
                                                         <a class="page-link"
-                                                            href="/admin/product?page=${currentPage + 1}"
+                                                            href="/vendor/product?page=${currentPage + 1}"
                                                             aria-label="Next">
                                                             <span aria-hidden="true">&raquo;</span>
                                                             <span class="sr-only">Next</span>

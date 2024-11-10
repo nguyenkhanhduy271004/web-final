@@ -54,8 +54,8 @@
 
                     .review-item {
                         padding: 15px;
-                        border-bottom: 1px solid #ddd;
-                        background-color: #f8f9fa;
+                        /* border-bottom: 1px solid #ddd; */
+                        /* background-color: #f8f9fa; */
                         transition: 0.3s;
                         border-radius: 8px;
                     }
@@ -125,7 +125,7 @@
                             <div class="d-flex">
                                 <div>
                                     <button data-product-id="${product.id}"
-                                        class="btnAddToCartDetail btn border border-secondary rounded-pill px-4 py-2 mb-4"
+                                        class="btnAddToCartDetail btn border border-secondary px-4 py-2 mb-4"
                                         style="background-color: #a5678e; color: #fff;">
                                         <i class="fa fa-shopping-bag me-2"></i>
                                         Add to cart
@@ -168,16 +168,15 @@
                         </div>
                         <div class="review-list mt-4">
                             <c:forEach var="review" items="${reviews.content}">
-                                <div class="review-item d-flex p-3 mb-3"
-                                    style="background-color: #f8f9fa; border-radius: 8px;">
+                                <div class="review-item d-flex p-3 mb-3" style="border-radius: 8px;">
                                     <div class="me-3">
                                         <img src="<c:url value='/client/img/avatar/5.png' />" alt="Avatar logo"
-                                            style="width: 70px; height: 70px; border-radius: 50%; object-fit: cover;" />
+                                            style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;" />
                                     </div>
                                     <div style="flex-grow: 1;">
                                         <div class="d-flex justify-content-between">
                                             <div class="review-user">
-                                                <div>${review.user.fullName}</div>
+                                                <div style="font-size: 0.7rem;">${review.user.fullName}</div>
                                                 <span class="text-muted"
                                                     style="font-size: 0.7rem;">${review.reviewDate}</span>
                                             </div>
@@ -190,7 +189,6 @@
                                                 <ul class="dropdown-menu dropdown-menu-end"
                                                     aria-labelledby="dropdownMenuButton">
                                                     <c:if test="${userId != null && review.user.id == userId}">
-                                                        <!-- Show Delete button only if the review belongs to the logged-in user -->
                                                         <li>
                                                             <form action="/delete-review" method="post"
                                                                 style="display:inline;">
@@ -211,13 +209,25 @@
                                         </div>
                                         <div class="review-text mt-2" style="color: #555;">Nội dung:
                                             ${review.reviewText}</div>
+
+                                        <!-- Review images -->
+                                        <c:if test="${not empty review.images}">
+                                            <div class="review-images mt-3">
+                                                <c:forEach var="image" items="${review.images}">
+                                                    <img src="/images/review/${image}" alt="Review Image"
+                                                        class="review-image" />
+                                                </c:forEach>
+                                            </div>
+                                        </c:if>
                                     </div>
                                 </div>
+                                <hr>
                             </c:forEach>
                             <c:if test="${reviews.totalElements == 0}">
                                 <p class="text-center text-muted">Chưa có đánh giá nào cho sản phẩm này.</p>
                             </c:if>
                         </div>
+
 
 
                     </div>
@@ -251,9 +261,11 @@
                                 <h4 class="mb-4 text-center" style="color: #a5678e; font-weight: bold;">Write a
                                     Review
                                 </h4>
-                                <form action="<c:url value='/create-review' />" method="post" class="text-center">
+                                <form action="<c:url value='/create-review' />" method="post"
+                                    enctype="multipart/form-data" class="text-center">
                                     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
                                     <input type="hidden" name="productId" value="${product.id}" />
+
                                     <div class="mb-3">
                                         <label for="rating" class="form-label">Rating (1-5):</label>
                                         <div class="star-rating">
@@ -265,16 +277,25 @@
                                             <span class="star" data-value="5">★</span>
                                         </div>
                                     </div>
+
                                     <div class="mb-3">
                                         <label for="reviewText" class="form-label">Your Review:</label>
                                         <textarea id="reviewText" name="reviewText" class="form-control w-75 mx-auto"
                                             rows="3" placeholder="Share your thoughts..." required></textarea>
                                     </div>
+
+                                    <div class="mb-3">
+                                        <label for="reviewMedia" class="form-label">Add Images/Videos:</label>
+                                        <input type="file" id="reviewMedia" name="reviewMedia"
+                                            class="form-control w-75 mx-auto" accept="image/*,video/*" multiple>
+                                    </div>
+
                                     <button type="submit" class="btn btn-primary px-4 py-2 rounded-pill"
                                         style="background-color: #a5678e; border: none;">
                                         <i class="fa fa-paper-plane me-2"></i>Submit Review
                                     </button>
                                 </form>
+
                             </div>
                         </c:if>
                         <c:if test="${empty pageContext.request.userPrincipal}">

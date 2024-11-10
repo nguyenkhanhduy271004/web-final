@@ -73,9 +73,21 @@
                                                 </div>
                                                 <ul class="star-rating">
                                                     <c:forEach begin="1" end="5" var="star">
-                                                        <li><a href="#" data-value="${star}">&#9733;</a></li>
+                                                        <li>
+                                                            <a href="#" data-value="${star}">
+                                                                <c:choose>
+                                                                    <c:when test="${star <= product.star}">
+                                                                        &#9733;
+                                                                    </c:when>
+                                                                    <c:otherwise>
+                                                                        &#9734;
+                                                                    </c:otherwise>
+                                                                </c:choose>
+                                                            </a>
+                                                        </li>
                                                     </c:forEach>
                                                 </ul>
+
                                             </div>
                                             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
                                             <input class="form-control d-none" type="text" value="${product.id}"
@@ -84,7 +96,7 @@
                                             <input class="form-control d-none" type="text" name="quantity"
                                                 id="cartDetails0.quantity" value="1" />
                                             <button data-product-id="${product.id}"
-                                                class="btnAddToCartDetail btn border border-secondary rounded-pill px-4 py-2 mb-4"
+                                                class="btnAddToCartDetail btn border border-secondary  px-4 py-2 mb-4"
                                                 style="background-color: #a5678e; color: #fff;">
                                                 <i class="fa fa-shopping-bag me-2"></i>
                                                 Add to cart
@@ -150,7 +162,7 @@
                                             <input class="form-control d-none" type="text" name="quantity"
                                                 id="cartDetails0.quantity" value="1" />
                                             <button data-product-id="${product.id}"
-                                                class="btnAddToCartDetail btn border border-secondary rounded-pill px-4 py-2 mb-4"
+                                                class="btnAddToCartDetail btn border border-secondary  px-4 py-2 mb-4"
                                                 style="background-color: #a5678e; color: #fff;">
                                                 <i class="fa fa-shopping-bag me-2"></i>
                                                 Add to cart

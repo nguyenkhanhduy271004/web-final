@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import vn.nguyenduy.laptopshop.domain.Order;
 import vn.nguyenduy.laptopshop.domain.OrderDetail;
+import vn.nguyenduy.laptopshop.domain.Shop;
 import vn.nguyenduy.laptopshop.domain.User;
 import vn.nguyenduy.laptopshop.repository.OrderDetailsRepository;
 import vn.nguyenduy.laptopshop.repository.OrderRepository;
@@ -58,6 +59,10 @@ public class OrderService {
 
     public List<Order> fetchOrderByUser(User user) {
         return this.orderRepository.findByUser(user);
+    }
+
+    public Page<Order> fetchOrdersByShop(Shop shop, Pageable pageable) {
+        return orderRepository.findByShop(shop, pageable);
     }
 
 }

@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 import vn.nguyenduy.laptopshop.domain.Product;
+import vn.nguyenduy.laptopshop.domain.Shop;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -30,5 +32,7 @@ public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpec
     Page<Product> findAll(Specification specification, Pageable page);
 
     Page<Product> findByNameContainingIgnoreCase(String name, Pageable pageable);
+
+    Page<Product> findByShop(Shop shop, Pageable pageable);
 
 }

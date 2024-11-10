@@ -18,40 +18,69 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import vn.nguyenduy.laptopshop.domain.Product;
+import vn.nguyenduy.laptopshop.domain.Shop;
+import vn.nguyenduy.laptopshop.domain.User;
 import vn.nguyenduy.laptopshop.service.ProductService;
+import vn.nguyenduy.laptopshop.service.ShopService;
 import vn.nguyenduy.laptopshop.service.UploadService;
+import vn.nguyenduy.laptopshop.service.UserService;
 
 @Controller
 public class ProductVendorController {
 
     private final UploadService uploadService;
     private final ProductService productService;
+    private final UserService userService;
+    private final ShopService shopService;
 
     public ProductVendorController(
             UploadService uploadService,
-            ProductService productService) {
+            ProductService productService,
+            UserService userService,
+            ShopService shopService) {
         this.uploadService = uploadService;
         this.productService = productService;
+        this.userService = userService;
+        this.shopService = shopService;
     }
 
     @GetMapping("/vendor/product")
     public String getProduct(Model model,
-            @RequestParam("page") Optional<String> pageOptional) {
+            @RequestParam("page") Optional<String> pageOptional, HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute("id") == null) {
+            return "redirect:/login";
+        }
+
+        Long userId = (Long) session.getAttribute("id");
+        Optional<User> user = this.userService.getUserById(userId);
+        if (!user.isPresent()) {
+            return "redirect:/login";
+        }
+
+        Shop shop = this.shopService.findByOwner(user.get());
+        if (shop == null) {
+            model.addAttribute("error", "No shop associated with this user.");
+            return "vendor/product/show";
+        }
+
         int page = 1;
-        try {
-            if (pageOptional.isPresent()) {
+        if (pageOptional.isPresent()) {
+            try {
                 page = Integer.parseInt(pageOptional.get());
-            } else {
+            } catch (NumberFormatException e) {
                 page = 1;
             }
-        } catch (Exception e) {
-            page = 1;
         }
+
         Pageable pageable = PageRequest.of(page - 1, 10);
-        Page<Product> prs = this.productService.fetchProducts(pageable);
+        Page<Product> prs = this.productService.fetchProductsByShop(shop, pageable);
         List<Product> products = prs.getContent();
+
         model.addAttribute("products", products);
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", prs.getTotalPages());
@@ -125,21 +154,43 @@ public class ProductVendorController {
     public String createProduct(Model model,
             @ModelAttribute("newProduct") @Valid Product newProduct,
             BindingResult bindingResult,
-            @RequestParam("nguyenduyFile") MultipartFile file) {
-
-        List<FieldError> errors = bindingResult.getFieldErrors();
-        for (FieldError error : errors) {
-            System.out.println(error.getField() + " - " + error.getDefaultMessage());
-        }
+            @RequestParam("nguyenduyFile") MultipartFile file, HttpServletRequest request) {
 
         if (bindingResult.hasErrors()) {
+            bindingResult.getFieldErrors().forEach(error -> {
+                System.out.println(error.getField() + " - " + error.getDefaultMessage());
+            });
             return "vendor/product/create";
         }
 
-        String image = this.uploadService.handleSaveUploadFile(file, "product");
+        HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute("id") == null) {
+            return "redirect:/login";
+        }
+
+        Long userId = (Long) session.getAttribute("id");
+        Optional<User> user = this.userService.getUserById(userId);
+        if (!user.isPresent()) {
+            return "redirect:/login";
+        }
+
+        Shop shop = this.shopService.findByOwner(user.get());
+        if (shop == null) {
+            model.addAttribute("error", "No shop associated with this user.");
+            return "vendor/product/show";
+        }
+
+        String image = null;
+        if (!file.isEmpty()) {
+            image = this.uploadService.handleSaveUploadFile(file, "product");
+            if (image == null) {
+                model.addAttribute("error", "Failed to upload image.");
+                return "vendor/product/create";
+            }
+        }
 
         newProduct.setImage(image);
-
+        newProduct.setShop(shop);
         this.productService.createProduct(newProduct);
 
         return "redirect:/vendor/product";

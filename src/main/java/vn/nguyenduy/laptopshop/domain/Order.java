@@ -30,13 +30,16 @@ public class Order implements Serializable {
 
     private String status;
 
-    // user id
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
     @OneToMany(mappedBy = "order")
     List<OrderDetail> orderDetails;
+
+    @ManyToOne
+    @JoinColumn(name = "shop_id")
+    private Shop shop;
 
     public long getId() {
         return id;
