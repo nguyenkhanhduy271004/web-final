@@ -1,6 +1,7 @@
 package vn.nguyenduy.laptopshop.controller.client;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 
 import org.springframework.data.domain.Page;
@@ -173,4 +174,22 @@ public class HomePageController {
 
         return "client/product/show";
     }
+
+    @GetMapping("/profile")
+    public String getInfoUserPage(Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute("id") == null) {
+            return "redirect:/login";
+        }
+        long id = (long) session.getAttribute("id");
+        Optional<User> userOptional = this.userService.getUserById(id);
+
+        if (userOptional.isPresent()) {
+            model.addAttribute("user", userOptional.get());
+        } else {
+            model.addAttribute("error", "User not found");
+        }
+        return "client/infor/profile";
+    }
+
 }

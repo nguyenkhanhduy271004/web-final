@@ -243,35 +243,33 @@
         let factoryArr = [];
         let targetArr = [];
         let priceArr = [];
-        //factory filter
+
         $("#factoryFilter .form-check-input:checked").each(function () {
             factoryArr.push($(this).val());
         });
 
-        //target filter
         $("#targetFilter .form-check-input:checked").each(function () {
             targetArr.push($(this).val());
         });
 
-        //price filter
         $("#priceFilter .form-check-input:checked").each(function () {
             priceArr.push($(this).val());
         });
 
-        //sort order
+        let criteriaValue = $("#criteriaFilter .form-check-input:checked").val();
+
         let sortValue = $('input[name="radio-sort"]:checked').val();
 
         const currentUrl = new URL(window.location.href);
         const searchParams = currentUrl.searchParams;
 
-        // Add or update query parameters
         searchParams.set('page', '1');
         searchParams.set('sort', sortValue);
 
-        //reset
         searchParams.delete('factory');
         searchParams.delete('target');
         searchParams.delete('price');
+        searchParams.delete('criteria');
 
         if (factoryArr.length > 0) {
             searchParams.set('factory', factoryArr.join(','));
@@ -285,9 +283,13 @@
             searchParams.set('price', priceArr.join(','));
         }
 
-        // Update the URL and reload the page
+        if (criteriaValue) {
+            searchParams.set('criteria', criteriaValue);
+        }
+
         window.location.href = currentUrl.toString();
     });
+
 
     //handle auto checkbox after page loading
     // Parse the URL parameters
@@ -321,6 +323,11 @@
     if (params.has('sort')) {
         const sort = params.get('sort');
         $(`input[type="radio"][name="radio-sort"][value="${sort}"]`).prop('checked', true);
+    }
+
+    if (params.has('criteria')) {
+        const criteria = params.get('criteria');
+        $(`#criteriaFilter .form-check-input[value="${criteria}"]`).prop('checked', true);
     }
 
 

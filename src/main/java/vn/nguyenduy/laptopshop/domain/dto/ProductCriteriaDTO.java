@@ -9,6 +9,7 @@ public class ProductCriteriaDTO {
     private Optional<List<String>> target;
     private Optional<List<String>> price;
     private Optional<String> sort;
+    private Optional<String> criteria;
 
     public Optional<String> getPage() {
         return page;
@@ -48,6 +49,14 @@ public class ProductCriteriaDTO {
 
     public void setSort(Optional<String> sort) {
         this.sort = sort;
+    }
+
+    public Optional<String> getCriteria() {
+        return criteria;
+    }
+
+    public void setCriteria(Optional<String> criteria) {
+        this.criteria = criteria;
     }
 
 }

@@ -191,17 +191,12 @@ public class ItemController {
         int page = 1;
         try {
             if (productCriteriaDTO.getPage().isPresent()) {
-                // convert from String to int
                 page = Integer.parseInt(productCriteriaDTO.getPage().get());
-            } else {
-                // page = 1
             }
         } catch (Exception e) {
             // page = 1
-            // TODO: handle exception
         }
 
-        // check sort price
         Pageable pageable = PageRequest.of(page - 1, 10);
 
         if (productCriteriaDTO.getSort() != null && productCriteriaDTO.getSort().isPresent()) {
@@ -213,14 +208,25 @@ public class ItemController {
             }
         }
 
+        if (productCriteriaDTO.getCriteria() != null && productCriteriaDTO.getCriteria().isPresent()) {
+            String criteria = productCriteriaDTO.getCriteria().get();
+            if (criteria.equals("best_seller")) {
+                pageable = PageRequest.of(page - 1, 10, Sort.by(Product_.QUANTITY_SOLD).descending());
+            } else if (criteria.equals("new")) {
+                pageable = PageRequest.of(page - 1, 10, Sort.by(Product_.CREATE_DATE).descending());
+            } else if (criteria.equals("evaluate")) {
+                pageable = PageRequest.of(page - 1, 10, Sort.by(Product_.STAR).descending());
+            } else if (criteria.equals("favorite")) {
+                pageable = PageRequest.of(page - 1, 10, Sort.by(Product_.LIKES).descending());
+            }
+        }
+
         Page<Product> prs = this.productService.fetchProductsWithSpec(pageable, productCriteriaDTO);
 
-        List<Product> products = prs.getContent().size() > 0 ? prs.getContent()
-                : new ArrayList<Product>();
+        List<Product> products = prs.getContent().size() > 0 ? prs.getContent() : new ArrayList<Product>();
 
         String qs = request.getQueryString();
         if (qs != null && !qs.isBlank()) {
-            // remove page
             qs = qs.replace("page=" + page, "");
         }
 
@@ -228,6 +234,7 @@ public class ItemController {
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", prs.getTotalPages());
         model.addAttribute("queryString", qs);
+
         return "client/product/show";
     }
 

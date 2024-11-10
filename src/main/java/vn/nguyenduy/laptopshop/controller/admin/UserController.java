@@ -1,5 +1,7 @@
 package vn.nguyenduy.laptopshop.controller.admin;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,6 +18,8 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import vn.nguyenduy.laptopshop.domain.User;
 import vn.nguyenduy.laptopshop.service.UploadService;
@@ -161,6 +165,38 @@ public class UserController {
         }
 
         return "redirect:/product/" + productId;
+    }
+
+    @PostMapping("/profile/update")
+    public String updateUserInfo(@RequestParam("fullName") String fullName,
+            @RequestParam("phone") String phone,
+            @RequestParam("address") String address,
+            @RequestParam(value = "avatar", required = false) MultipartFile avatar,
+            HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute("id") == null) {
+            return "redirect:/login";
+        }
+
+        long id = (long) session.getAttribute("id");
+        Optional<User> userOptional = userService.getUserById(id);
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            user.setFullName(fullName);
+            user.setPhone(phone);
+            user.setAddress(address);
+
+            if (avatar != null && !avatar.isEmpty()) {
+                String avatarFileName = this.uploadService.handleSaveUploadFile(avatar, "avatar");
+                user.setAvatar(avatarFileName);
+            }
+
+            this.userService.handleSaveUser(user);
+
+            return "redirect:/profile";
+        }
+
+        return "redirect:/login";
     }
 
 }

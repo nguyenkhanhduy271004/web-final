@@ -8,7 +8,7 @@
 
                 <head>
                     <meta charset="utf-8">
-                    <title> Sản Phẩm - Laptopshop</title>
+                    <title> Sản Phẩm - Comestic Shop</title>
                     <meta content="width=device-width, initial-scale=1.0" name="viewport">
                     <meta content="" name="keywords">
                     <meta content="" name="description">
@@ -79,6 +79,30 @@
                                 <div class="row g-4 fruite">
                                     <div class="col-12 col-md-4">
                                         <div class="row g-4">
+                                            <div class="col-12" id="criteriaFilter">
+                                                <div class="mb-2"><b>Tiêu chí</b></div>
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="checkbox" id="criteria-1"
+                                                        value="new" onclick="selectOnlyThis(this)">
+                                                    <label class="form-check-label" for="criteria-1">Sản phẩm
+                                                        mới</label>
+                                                </div>
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="checkbox" id="criteria-2"
+                                                        value="best_seller" onclick="selectOnlyThis(this)">
+                                                    <label class="form-check-label" for="criteria-2">Bán chạy</label>
+                                                </div>
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="checkbox" id="criteria-3"
+                                                        value="evaluate" onclick="selectOnlyThis(this)">
+                                                    <label class="form-check-label" for="criteria-3">Đánh giá</label>
+                                                </div>
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="checkbox" id="criteria-4"
+                                                        value="favorite" onclick="selectOnlyThis(this)">
+                                                    <label class="form-check-label" for="criteria-4">Yêu thích</label>
+                                                </div>
+                                            </div>
                                             <div class="col-12" id="factoryFilter">
                                                 <div class="mb-2"><b>Hãng sản xuất</b></div>
                                                 <div class="form-check form-check-inline">
@@ -333,6 +357,14 @@
 
                     <!-- Template Javascript -->
                     <script src="/client/js/main.js"></script>
+                    <script>
+                        function selectOnlyThis(checkbox) {
+                            const checkboxes = document.querySelectorAll('#criteriaFilter .form-check-input');
+                            checkboxes.forEach((item) => {
+                                if (item !== checkbox) item.checked = false;
+                            });
+                        }
+                    </script>
                 </body>
 
                 </html>
