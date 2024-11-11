@@ -23,8 +23,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import vn.nguyenduy.laptopshop.domain.Product;
+import vn.nguyenduy.laptopshop.domain.Shop;
 import vn.nguyenduy.laptopshop.domain.User;
 import vn.nguyenduy.laptopshop.service.ProductService;
+import vn.nguyenduy.laptopshop.service.ShopService;
 import vn.nguyenduy.laptopshop.service.UploadService;
 import vn.nguyenduy.laptopshop.service.UserService;
 
@@ -34,14 +36,17 @@ public class ProductController {
     private final UploadService uploadService;
     private final ProductService productService;
     private final UserService userService;
+    private final ShopService shopService;
 
     public ProductController(
             UploadService uploadService,
             ProductService productService,
-            UserService userService) {
+            UserService userService,
+            ShopService shopService) {
         this.uploadService = uploadService;
         this.productService = productService;
         this.userService = userService;
+        this.shopService = shopService;
     }
 
     @GetMapping("/admin/product")
@@ -60,7 +65,9 @@ public class ProductController {
         Pageable pageable = PageRequest.of(page - 1, 10);
         Page<Product> prs = this.productService.fetchProducts(pageable);
         List<Product> products = prs.getContent();
+        List<Shop> shops = this.shopService.findAll();
         model.addAttribute("products", products);
+        model.addAttribute("shops", shops);
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", prs.getTotalPages());
         return "admin/product/show";
@@ -151,6 +158,39 @@ public class ProductController {
         this.productService.createProduct(newProduct);
 
         return "redirect:/admin/product";
+    }
+
+    @GetMapping(value = "/admin/product/search")
+    public String getProductByShop(
+            @RequestParam(name = "shopId", required = false) Long shopId,
+            @RequestParam(name = "page", defaultValue = "1") int page,
+            Model model) {
+
+        Pageable pageable = PageRequest.of(page - 1, 10);
+
+        List<Shop> shops = this.shopService.findAll();
+
+        Page<Product> products;
+        if (shopId != null) {
+            Shop shop = this.shopService.findById(shopId);
+            if (shop != null) {
+                products = this.productService.fetchProductsByShop(shop, pageable);
+            } else {
+                products = Page.empty(pageable);
+            }
+        } else {
+            products = this.productService.fetchProducts(pageable);
+        }
+
+        System.out.println("products:" + products);
+        System.out.println("shops" + shops);
+
+        model.addAttribute("products", products.getContent());
+        model.addAttribute("shops", shops);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", products.getTotalPages());
+
+        return "admin/product/show";
     }
 
     @GetMapping("/user/wishlist")

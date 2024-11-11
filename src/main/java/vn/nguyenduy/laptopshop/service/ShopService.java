@@ -8,6 +8,7 @@ import vn.nguyenduy.laptopshop.repository.ShopRepository;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.List;
 
 @Service
 public class ShopService {
@@ -24,6 +25,14 @@ public class ShopService {
 
     public Shop findByOwner(User user) {
         return this.shopRepository.findByOwner(user);
+    }
+
+    public Shop findById(long shopId) {
+        return this.shopRepository.findById(shopId);
+    }
+
+    public List<Shop> findAll() {
+        return this.shopRepository.findAll();
     }
 
     public String saveLogoFile(byte[] logoBytes, String shopName) throws IOException {

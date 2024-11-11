@@ -36,7 +36,7 @@
             </head>
 
 
-            <body class="sb-nav-fixed">
+            <body class="sb-nav-fixed" style="margin-top: 40px;">
                 <jsp:include page="../layout/header.jsp" />
                 <div id="layoutSidenav">
                     <jsp:include page="../layout/sidebar.jsp" />

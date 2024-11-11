@@ -9,8 +9,6 @@
                 <meta charset="utf-8">
                 <title>Lịch sử mua hàng - BeautyShop</title>
                 <meta content="width=device-width, initial-scale=1.0" name="viewport">
-                <meta content="" name="keywords">
-                <meta content="" name="description">
                 <link rel="preconnect" href="https://fonts.googleapis.com">
                 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
                 <link
@@ -88,6 +86,25 @@
                         box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
                         border-radius: 8px;
                         overflow: hidden;
+                    }
+
+                    .table th,
+                    .table td {
+                        text-align: center;
+                        vertical-align: middle;
+                    }
+
+                    .breadcrumb {
+                        background-color: transparent;
+                        padding: 0;
+                    }
+
+                    .breadcrumb-item a {
+                        color: var(--text-color);
+                    }
+
+                    .breadcrumb-item.active {
+                        color: var(--accent-color);
                     }
                 </style>
             </head>

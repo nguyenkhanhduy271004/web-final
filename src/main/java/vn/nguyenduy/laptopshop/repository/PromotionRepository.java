@@ -6,5 +6,8 @@ import vn.nguyenduy.laptopshop.domain.Shop;
 import java.util.List;
 
 public interface PromotionRepository extends JpaRepository<Promotion, Long> {
+
+    List<Promotion> findAll();
+
     List<Promotion> findByShop(Shop shop);
 }

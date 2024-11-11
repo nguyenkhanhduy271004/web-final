@@ -74,7 +74,8 @@
                                                 <ul class="star-rating">
                                                     <c:forEach begin="1" end="5" var="star">
                                                         <li>
-                                                            <a href="#" data-value="${star}">
+                                                            <a href="#" data-value="${star}"
+                                                                class="${star <= product.star ? 'filled' : ''}">
                                                                 <c:choose>
                                                                     <c:when test="${star <= product.star}">
                                                                         &#9733;
@@ -87,6 +88,7 @@
                                                         </li>
                                                     </c:forEach>
                                                 </ul>
+
 
                                             </div>
                                             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />

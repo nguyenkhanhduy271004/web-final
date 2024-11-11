@@ -1,4 +1,4 @@
-package vn.nguyenduy.laptopshop.controller.vendor;
+package vn.nguyenduy.laptopshop.controller.admin;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,7 +15,7 @@ import jakarta.servlet.http.HttpSession;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("/vendor/promotion")
+@RequestMapping("/admin/promotion")
 public class PromotionController {
 
     @Autowired
@@ -34,30 +34,14 @@ public class PromotionController {
             return "redirect:/login";
         }
 
-        Long userId = (Long) session.getAttribute("id");
-        Optional<User> user = this.userService.getUserById(userId);
-        if (!user.isPresent()) {
-            return "redirect:/login";
-        }
-
-        Shop shop = this.shopService.findByOwner(user.get());
-        if (shop == null) {
-            model.addAttribute("error", "No shop associated with this user.");
-            return "vendor/product/show";
-        }
-
-        if (shop != null) {
-            model.addAttribute("promotions", this.promotionService.getPromotionsByShop(shop));
-        } else {
-            model.addAttribute("error", "Shop không tồn tại.");
-        }
-        return "vendor/promotion/show";
+        model.addAttribute("promotions", this.promotionService.findAll());
+        return "admin/promotion/show";
     }
 
     @GetMapping("/add")
     public String showAddPromotionForm(Model model) {
         model.addAttribute("promotion", new Promotion());
-        return "vendor/promotion/create";
+        return "admin/promotion/create";
     }
 
     @PostMapping("/add")
@@ -78,9 +62,9 @@ public class PromotionController {
         if (shop != null) {
             promotion.setShop(shop);
             promotionService.savePromotion(promotion);
-            return "redirect:/vendor/promotion";
+            return "redirect:/admin/promotion";
         }
-        return "vendor/promotion/create";
+        return "admin/promotion/create";
     }
 
     @GetMapping("/edit/{id}")
@@ -88,9 +72,9 @@ public class PromotionController {
         Optional<Promotion> promotion = this.promotionService.getPromotionById(id);
         if (promotion.isPresent()) {
             model.addAttribute("promotion", promotion.get());
-            return "vendor/promotion/create";
+            return "admin/promotion/create";
         }
-        return "redirect:/vendor/promotion";
+        return "redirect:/admin/promotion";
     }
 
     @PostMapping("/edit")
@@ -108,12 +92,12 @@ public class PromotionController {
             this.promotionService.savePromotion(existingPromotion);
         }
 
-        return "redirect:/vendor/promotion";
+        return "redirect:/admin/promotion";
     }
 
     @GetMapping("/delete/{id}")
     public String deletePromotion(@PathVariable Long id) {
         this.promotionService.deletePromotion(id);
-        return "redirect:/vendor/promotion";
+        return "redirect:/admin/promotion";
     }
 }

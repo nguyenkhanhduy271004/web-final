@@ -15,6 +15,10 @@ public class PromotionService {
     @Autowired
     private PromotionRepository promotionRepository;
 
+    public List<Promotion> findAll() {
+        return promotionRepository.findAll();
+    }
+
     public List<Promotion> getPromotionsByShop(Shop shop) {
         return promotionRepository.findByShop(shop);
     }
