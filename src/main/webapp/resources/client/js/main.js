@@ -375,7 +375,7 @@
 
             },
             error: function (response) {
-                alert("có lỗi xảy ra, check code đi ba :v")
+                // alert("có lỗi xảy ra, check code đi ba :v")
                 console.log("error: ", response);
             }
 

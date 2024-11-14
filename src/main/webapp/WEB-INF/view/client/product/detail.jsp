@@ -144,6 +144,9 @@
                                     </form>
                                 </div>
 
+                                <button onclick="openChat('${product.id}')">Nhắn với Shop</button>
+
+
 
                             </div>
 
@@ -317,6 +320,12 @@
 
                 <!-- Template Javascript -->
                 <script src="/client/js/main.js"></script>
+
+                <script>
+                    function openChat(productId) {
+                        window.location.href = "/chat?productId=" + productId;
+                    }
+                </script>
             </body>
 
             </html>

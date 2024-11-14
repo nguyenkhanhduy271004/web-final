@@ -6,6 +6,10 @@ import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.Payload;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -68,6 +72,11 @@ public class UserController {
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", prs.getTotalPages());
         return "admin/user/show";
+    }
+
+    @GetMapping("/api/users")
+    public List<User> getAllUsers() {
+        return this.userService.getAllUsers();
     }
 
     @RequestMapping("/admin/user/{id}")
@@ -195,6 +204,25 @@ public class UserController {
         }
 
         return "redirect:/login";
+    }
+
+    @MessageMapping("/user.addUser")
+    @SendTo("/user/public")
+    public User addUser(
+            @Payload User user) {
+        userService.saveUser(user);
+        return user;
+    }
+
+    @MessageMapping("/user.disconnectUser")
+    public User disconnect(@Payload User user) {
+        this.userService.disconnect(user);
+        return user;
+    }
+
+    @GetMapping("/users")
+    public ResponseEntity<List<User>> findConnectedUsers() {
+        return ResponseEntity.ok(this.userService.findConnectedUsers());
     }
 
 }

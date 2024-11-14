@@ -41,6 +41,10 @@ public class Order implements Serializable {
     @JoinColumn(name = "shop_id")
     private Shop shop;
 
+    @ManyToOne
+    @JoinColumn(name = "shipper_id")
+    private Shipper shipper;
+
     public long getId() {
         return id;
     }

@@ -65,4 +65,20 @@ public class OrderService {
         return orderRepository.findByShop(shop, pageable);
     }
 
+    public List<Order> getOrdersByShipperId(Long shipperId) {
+        return orderRepository.findByShipperId(shipperId);
+    }
+
+    public List<Order> getDeliveredOrdersByShipper(Long shipperId) {
+        return orderRepository.findByShipperIdAndStatus(shipperId, "delivered");
+    }
+
+    public long countDeliveredOrdersByShipper(Long shipperId) {
+        return orderRepository.countByShipperIdAndStatus(shipperId, "delivered");
+    }
+
+    public long countPendingOrdersByShipper(Long shipperId) {
+        return orderRepository.countByShipperIdAndStatus(shipperId, "pending");
+    }
+
 }

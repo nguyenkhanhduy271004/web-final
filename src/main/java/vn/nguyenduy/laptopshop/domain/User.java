@@ -29,16 +29,18 @@ public class User implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @NotNull()
+    private String nickName;
+
+    // @NotNull()
     @Email(message = "Email is not valid", regexp = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$")
     private String email;
 
-    @NotNull()
+    // @NotNull()
     // @StrongPassword(message = "Password phải có tối thiểu 8 ký tự")
     @Size(min = 2, message = "Password khẩu phải có tối thiểu 2 ký tự")
     private String password;
 
-    @NotNull()
+    // @NotNull()
     @Size(min = 2, message = "Fullname phải có tối thiểu 2 ký tự")
     private String fullName;
     private String address;
@@ -61,6 +63,24 @@ public class User implements Serializable {
     @ManyToMany
     @JoinTable(name = "user_favorites", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "product_id"))
     private Set<Product> favorites = new HashSet<>();
+
+    private Status status;
+
+    public String getNickName() {
+        return nickName;
+    }
+
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
 
     public Role getRole() {
         return role;

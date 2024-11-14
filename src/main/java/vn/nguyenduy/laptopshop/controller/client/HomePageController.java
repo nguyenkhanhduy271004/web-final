@@ -203,4 +203,19 @@ public class HomePageController {
 
     }
 
+    @GetMapping("/payment")
+    public String handlePaymentResponse(HttpServletRequest request, Model model) {
+        String vnp_ResponseCode = request.getParameter("vnp_ResponseCode");
+        String message = "00".equals(vnp_ResponseCode) ? "Thanh toán thành công!" : "Thanh toán thất bại!";
+
+        model.addAttribute("message", message);
+        model.addAttribute("vnp_Amount", request.getParameter("vnp_Amount"));
+        model.addAttribute("vnp_OrderInfo", request.getParameter("vnp_OrderInfo"));
+        model.addAttribute("vnp_TxnRef", request.getParameter("vnp_TxnRef"));
+        model.addAttribute("vnp_TransactionNo", request.getParameter("vnp_TransactionNo"));
+        model.addAttribute("vnp_ResponseCode", vnp_ResponseCode);
+
+        return "client/payment/payment-result";
+    }
+
 }

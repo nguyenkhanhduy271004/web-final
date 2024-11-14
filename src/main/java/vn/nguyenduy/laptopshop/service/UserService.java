@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import vn.nguyenduy.laptopshop.domain.Product;
 import vn.nguyenduy.laptopshop.domain.Role;
+import vn.nguyenduy.laptopshop.domain.Status;
 import vn.nguyenduy.laptopshop.domain.User;
 import vn.nguyenduy.laptopshop.domain.dto.RegisterDTO;
 import vn.nguyenduy.laptopshop.repository.OrderRepository;
@@ -44,6 +45,10 @@ public class UserService {
         return String.valueOf(otp);
     }
 
+    public List<User> getAllUsers() {
+        return this.userRepository.findAll();
+    }
+
     public Page<User> getAllUsers(Pageable pageable) {
         return this.userRepository.findAll(pageable);
     }
@@ -53,9 +58,8 @@ public class UserService {
     }
 
     public User handleSaveUser(User user) {
-        User eric = this.userRepository.save(user);
-        System.out.println(eric);
-        return eric;
+        User newUser = this.userRepository.save(user);
+        return newUser;
     }
 
     public Optional<User> getUserById(long id) {
@@ -136,6 +140,23 @@ public class UserService {
         String hashedPassword = this.passwordEncoder.encode(newPassword);
         user.setPassword(hashedPassword);
         userRepository.save(user);
+    }
+
+    public void disconnect(User user) {
+        var storedUser = this.userRepository.findById(user.getId()).orElse(null);
+        if (storedUser != null) {
+            storedUser.setStatus(Status.OFFLINE);
+            this.userRepository.save(user);
+        }
+    }
+
+    public List<User> findConnectedUsers() {
+        return this.userRepository.findAllByStatus(Status.ONLINE);
+    }
+
+    public void saveUser(User user) {
+        user.setStatus(Status.ONLINE);
+        this.userRepository.save(user);
     }
 
 }
