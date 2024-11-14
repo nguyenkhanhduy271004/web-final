@@ -121,6 +121,7 @@ public class ItemController {
         if (session == null || session.getAttribute("id") == null) {
             return "redirect:/login";
         }
+
         long id = (long) session.getAttribute("id");
         currentUser.setId(id);
 
@@ -155,14 +156,27 @@ public class ItemController {
             HttpServletRequest request,
             @RequestParam("receiverName") String receiverName,
             @RequestParam("receiverAddress") String receiverAddress,
-            @RequestParam("receiverPhone") String receiverPhone) {
-        User currentUser = new User();// null
+            @RequestParam("receiverPhone") String receiverPhone,
+            @RequestParam(value = "paymentMethod", required = false) String paymentMethod) {
+        User currentUser = new User();
         HttpSession session = request.getSession(false);
         long id = (long) session.getAttribute("id");
         currentUser.setId(id);
 
-        this.productService.handlePlaceOrder(currentUser, session, receiverName, receiverAddress, receiverPhone);
+        Cart cart = this.productService.fetchByUser(currentUser);
+        double totalPrice = 0;
+        if (cart != null && cart.getCartDetails() != null) {
+            for (CartDetail cd : cart.getCartDetails()) {
+                totalPrice += cd.getPrice() * cd.getQuantity();
+            }
+        }
 
+        session.setAttribute("totalPrice", totalPrice);
+
+        this.productService.handlePlaceOrder(currentUser, session, receiverName, receiverAddress, receiverPhone);
+        if ("VNPay".equalsIgnoreCase(paymentMethod)) {
+            return "redirect:/pay";
+        }
         return "redirect:/thanks";
     }
 

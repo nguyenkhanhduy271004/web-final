@@ -1,4 +1,4 @@
-package vn.nguyenduy.laptopshop.config;
+package vn.nguyenduy.laptopshop.config.websocket;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.context.annotation.Configuration;

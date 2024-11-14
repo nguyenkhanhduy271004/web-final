@@ -13,21 +13,29 @@ import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
 
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import vn.nguyenduy.laptopshop.config.payment.VNPAYConfig;
 
-@RestController
+@Controller
 public class PaymentController {
 
     @GetMapping("/pay")
-    public String getPay() throws UnsupportedEncodingException {
+    public String getPay(HttpServletRequest request) throws UnsupportedEncodingException {
+        HttpSession session = request.getSession(false);
 
         String vnp_Version = "2.1.0";
         String vnp_Command = "pay";
         String orderType = "other";
-        long amount = 10000 * 100;
+        long amount;
+        double totalPrice = (double) session.getAttribute("totalPrice");
+        if (session == null || session.getAttribute("totalPrice") == null) {
+            amount = 100000;
+        }
+        amount = (long) (totalPrice * 10000);
         String bankCode = "NCB";
 
         String vnp_TxnRef = VNPAYConfig.getRandomNumber(8);
@@ -88,7 +96,7 @@ public class PaymentController {
         queryUrl += "&vnp_SecureHash=" + vnp_SecureHash;
         String paymentUrl = VNPAYConfig.vnp_PayUrl + "?" + queryUrl;
 
-        return paymentUrl;
+        return "redirect:" + paymentUrl;
     }
 
 }

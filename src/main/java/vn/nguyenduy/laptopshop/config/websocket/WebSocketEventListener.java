@@ -1,3 +1,4 @@
+package vn.nguyenduy.laptopshop.config.websocket;
 // package vn.nguyenduy.laptopshop.config;
 
 // import org.springframework.context.event.EventListener;

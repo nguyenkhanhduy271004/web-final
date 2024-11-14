@@ -1,4 +1,4 @@
-package vn.nguyenduy.laptopshop.config;
+package vn.nguyenduy.laptopshop.config.security;
 
 import java.io.IOException;
 import java.util.Collection;
