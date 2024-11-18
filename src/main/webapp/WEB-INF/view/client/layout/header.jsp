@@ -21,10 +21,69 @@
                             style="width: 70px;" />
                         <!-- <h1 class="text-primary display-6">Cosmetic Shop</h1> -->
                     </a>
-                    <button class="navbar-toggler py-2 px-3" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#navbarCollapse">
-                        <span class="fa fa-bars text-primary"></span>
-                    </button>
+                    <!-- Search Box -->
+                    <form class="search-form-mobile d-flex mx-3" action="/search" method="get">
+                        <input type="text" name="query" class="form-control search-test"
+                               placeholder="Top 3 kem chống nắng HOT nhất" />
+                        <button type="submit" class="btn search-button">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </form>
+                    <input
+                            type="checkbox"
+                            name="menu-checkbox"
+                            id="menu-checkbox"
+                            class="menu-checkbox"
+                            hidden
+                    />
+                    <label for="menu-checkbox">
+                        <svg
+                                class="menu-mobile-icon"
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 448 512"
+                        >
+                            <path
+                                    d="M0 96C0 78.3 14.3 64 32 64l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 128C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 288c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32L32 448c-17.7 0-32-14.3-32-32s14.3-32 32-32l384 0c17.7 0 32 14.3 32 32z"
+                            />
+                        </svg>
+                    </label>
+                    <!-- overlay -->
+                    <label for="menu-checkbox" class="menu-overlay"> </label>
+                    <!-- menu content -->
+                    <div class="menu-drawer">
+                        <!-- menu top -->
+                        <div class="menu-drawer__top">
+                            <!-- logo -->
+                            <a href="http://127.0.0.1:5501/index.html" class="logo__mobile">
+                                <img src="../client/img/imgThuonghieu/4.png" class="img_logo" />
+                            </a>
+                            <!-- icon close -->
+                            <label for="menu-checkbox">
+                                <svg
+                                        class="close__menu"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 384 512"
+                                >
+                                    <path
+                                            fill="currentConlor"
+                                            d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z"
+                                    />
+                                </svg>
+                            </label>
+                        </div>
+                        <!-- navigation mobile -->
+                        <ul id="navbar__list--mobile">
+                            <li class="navbar__item"><a href="#">Home</a></li>
+                            <li class="navbar__item"><a href="#">About</a></li>
+                            <li class="navbar__item"><a href="#">Specials</a></li>
+                            <li class="navbar__item"><a href="#">New</a></li>
+                            <li class="navbar__item"><a href="#">Contact</a></li>
+                        </ul>
+                    </div>
+<%--                    <button class="navbar-toggler py-2 px-3" type="button" data-bs-toggle="collapse"--%>
+<%--                        data-bs-target="#navbarCollapse">--%>
+<%--                        <span class="fa fa-bars text-primary"></span>--%>
+<%--                    </button>--%>
                     <div class="collapse navbar-collapse bg-white justify-content-between mx-5" id="navbarCollapse">
 
                         <!-- Navigation Links -->
