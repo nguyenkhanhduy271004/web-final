@@ -116,24 +116,26 @@
                                                 <div class="mb-3 col-12 col-md-6">
                                                     <label class="form-label">Factory:</label>
                                                     <form:select class="form-select" path="factory">
-                                                        <form:option value="APPLE">Apple (MacBook)</form:option>
-                                                        <form:option value="ASUS">Asus</form:option>
-                                                        <form:option value="LENOVO">Lenovo</form:option>
-                                                        <form:option value="DELL">Dell</form:option>
-                                                        <form:option value="LG">LG</form:option>
-                                                        <form:option value="ACER">Acer</form:option>
+                                                        <form:option value="ESSENCE">Essence</form:option>
+                                                        <form:option value="VELVET_TOUCH">Velvet Touch</form:option>
+                                                        <form:option value="CHIC_COSMETICS">Chic Cosmetics</form:option>
+                                                        <form:option value="NAIL_COUTURE">Nail Couture</form:option>
+                                                        <form:option value="CALVIN_KLEIN">Calvin Klein</form:option>
+                                                        <form:option value="CHANEL">Chanel</form:option>
+                                                        <form:option value="DIOR">Dior</form:option>
+                                                        <form:option value="DOLCE_GABBANA">Dolce & Gabbana</form:option>
+                                                        <form:option value="GUCCI">Gucci</form:option>
                                                     </form:select>
                                                 </div>
                                                 <div class="mb-3 col-12 col-md-6">
                                                     <label class="form-label">Target:</label>
                                                     <form:select class="form-select" path="target">
-                                                        <form:option value="GAMING">Gaming</form:option>
-                                                        <form:option value="SINHVIEN-VANPHONG">Sinh viên - Văn phòng
-                                                        </form:option>
-                                                        <form:option value="THIET-KE-DO-HOA">Thiết kế đồ họa
-                                                        </form:option>
-                                                        <form:option value="MONG-NHE">Mỏng nhẹ</form:option>
-                                                        <form:option value="DOANH-NHAN">Doanh nhân</form:option>
+                                                        <form:option value="MASCARA">Mascara</form:option>
+                                                        <form:option value="EYESHADOW">Eyeshadow</form:option>
+                                                        <form:option value="SETTING_POWDER">Setting Powder</form:option>
+                                                        <form:option value="LIPSTICK">Lipstick</form:option>
+                                                        <form:option value="NAIL_POLISH">Nail Polish</form:option>
+                                                        <form:option value="FRAGRANCE">Fragrance</form:option>
                                                     </form:select>
                                                 </div>
                                                 <div class="mb-3 col-12 col-md-6">

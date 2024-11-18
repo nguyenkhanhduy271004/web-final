@@ -6,21 +6,20 @@
             <html lang="en">
 
             <head>
-                <meta charset="utf-8">
-                <title>Lịch sử mua hàng - BeautyShop</title>
-                <meta content="width=device-width, initial-scale=1.0" name="viewport">
-                <link rel="preconnect" href="https://fonts.googleapis.com">
-                <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-                <link
-                    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400&display=swap"
-                    rel="stylesheet">
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>Lịch sử mua hàng - Cosmetic Shop</title>
+
+                <link rel="icon" href="<c:url value='/client/img/imgThuonghieu/4.png' />" type="image/png">
+
                 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" />
                 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css"
                     rel="stylesheet">
-                <link href="/client/lib/lightbox/css/lightbox.min.css" rel="stylesheet">
-                <link href="/client/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-                <link href="/client/css/bootstrap.min.css" rel="stylesheet">
-                <link href="/client/css/style.css" rel="stylesheet">
+
+                <link href="<c:url value='/client/lib/lightbox/css/lightbox.min.css' />" rel="stylesheet">
+                <link href="<c:url value='/client/lib/owlcarousel/assets/owl.carousel.min.css' />" rel="stylesheet">
+                <link href="<c:url value='/client/css/bootstrap.min.css' />" rel="stylesheet">
+                <link href="<c:url value='/client/css/style.css' />" rel="stylesheet">
                 <link href="<c:url value='/client/css/carousel-product.css' />" rel="stylesheet">
                 <link href="<c:url value='/client/css/header.css' />" rel="stylesheet">
                 <link href="<c:url value='/client/css/footer.css' />" rel="stylesheet">
@@ -28,26 +27,30 @@
                 <link href="<c:url value='/client/css/product.css' />" rel="stylesheet">
                 <link href="<c:url value='/client/css/hot-product.css' />" rel="stylesheet">
                 <link href="<c:url value='/client/css/sale-product.css' />" rel="stylesheet">
+
+                <meta name="_csrf" content="${_csrf.token}" />
+                <meta name="_csrf_header" content="${_csrf.headerName}" />
+
                 <style>
                     :root {
                         --primary-color: #FFC0CB;
                         --accent-color: #B76E79;
-                        --text-color: #333333;
+                        --background-light: #FAFAFA;
                         --background-color: #F8E1E7;
                         --gold-color: #FFD700;
+                        --text-color: #333;
                     }
 
                     body {
                         font-family: 'Poppins', sans-serif;
-                        color: var(--text-color);
                         background-color: var(--background-color);
+                        color: var(--text-color);
                     }
 
                     h1,
                     h2,
                     h3,
                     .breadcrumb-item,
-                    .btn,
                     .table th,
                     .table td {
                         font-family: 'Playfair Display', serif;
@@ -66,32 +69,27 @@
                         color: white;
                     }
 
-                    .header-bar {
-                        background-color: white;
-                        border-bottom: 1px solid var(--gold-color);
+                    .table-container {
+                        background-color: var(--background-light);
+                        padding: 20px;
+                        border-radius: 10px;
+                        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
                     }
 
-                    .product-list {
-                        display: flex;
-                        flex-wrap: wrap;
-                        gap: 15px;
-                    }
-
-                    .product-card {
-                        width: 100%;
-                        max-width: 200px;
-                        margin: 0 auto;
-                        text-align: center;
-                        background-color: white;
-                        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-                        border-radius: 8px;
-                        overflow: hidden;
-                    }
-
-                    .table th,
-                    .table td {
+                    .table thead th {
+                        background-color: var(--primary-color);
+                        color: white;
                         text-align: center;
                         vertical-align: middle;
+                    }
+
+                    .table tbody tr {
+                        border-bottom: 1px solid #ddd;
+                        transition: background-color 0.3s;
+                    }
+
+                    .table tbody tr:hover {
+                        background-color: var(--background-light);
                     }
 
                     .breadcrumb {
@@ -105,6 +103,25 @@
 
                     .breadcrumb-item.active {
                         color: var(--accent-color);
+                    }
+
+                    .order-id-row {
+                        font-weight: bold;
+                        color: var(--accent-color);
+                    }
+
+                    .product-image {
+                        width: 80px !important;
+                        height: 80px !important;
+                        object-fit: cover;
+                        border-radius: 8px;
+                    }
+
+                    .no-orders {
+                        text-align: center;
+                        color: gray;
+                        padding: 20px;
+                        font-size: 1.2em;
                     }
                 </style>
             </head>
@@ -126,73 +143,74 @@
                             </ol>
                         </nav>
 
-                        <div class="table-responsive">
-                            <table class="table align-middle table-borderless">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">Sản phẩm</th>
-                                        <th scope="col">Tên</th>
-                                        <th scope="col">Giá cả</th>
-                                        <th scope="col">Số lượng</th>
-                                        <th scope="col">Thành tiền</th>
-                                        <th scope="col">Trạng thái</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <c:if test="${empty orders}">
+                        <div class="table-container">
+                            <div class="table-responsive">
+                                <table class="table align-middle table-borderless">
+                                    <thead>
                                         <tr>
-                                            <td colspan="6" class="text-center text-muted">Không có đơn hàng nào được
-                                                tạo</td>
+                                            <th scope="col">Sản phẩm</th>
+                                            <th scope="col">Tên</th>
+                                            <th scope="col">Giá cả</th>
+                                            <th scope="col">Số lượng</th>
+                                            <th scope="col">Thành tiền</th>
+                                            <th scope="col">Trạng thái</th>
                                         </tr>
-                                    </c:if>
-                                    <c:forEach var="order" items="${orders}">
-                                        <tr>
-                                            <td colspan="2"><strong>Order ID: ${order.id}</strong></td>
-                                            <td>
-                                                <fmt:formatNumber type="number" value="${order.totalPrice}" /> đ
-                                            </td>
-                                            <td></td>
-                                            <td>${order.status}</td>
-                                        </tr>
-                                        <c:forEach var="orderDetail" items="${order.orderDetails}">
+                                    </thead>
+                                    <tbody>
+                                        <c:if test="${empty orders}">
                                             <tr>
-                                                <td>
-                                                    <img src="/images/product/${orderDetail.product.image}"
-                                                        class="img-fluid rounded" style="width: 80px; height: 80px;">
-                                                </td>
-                                                <td><a href="/product/${orderDetail.product.id}"
-                                                        class="text-decoration-none">${orderDetail.product.name}</a>
-                                                </td>
-                                                <td>
-                                                    <fmt:formatNumber type="number" value="${orderDetail.price}" /> đ
-                                                </td>
-                                                <td>${orderDetail.quantity}</td>
-                                                <td>
-                                                    <fmt:formatNumber type="number"
-                                                        value="${orderDetail.price * orderDetail.quantity}" /> đ
-                                                </td>
-                                                <td>${order.status}</td>
+                                                <td colspan="6" class="no-orders">Không có đơn hàng nào được tạo</td>
                                             </tr>
+                                        </c:if>
+                                        <c:forEach var="order" items="${orders}">
+                                            <tr class="order-id-row">
+                                                <td colspan="6">Order ID: ${order.id} - <span class="text-muted">Trạng
+                                                        thái: ${order.status}</span> - Tổng tiền:
+                                                    <fmt:formatNumber type="number" value="${order.totalPrice}" /> đ
+                                                </td>
+                                            </tr>
+                                            <c:forEach var="orderDetail" items="${order.orderDetails}">
+                                                <tr>
+                                                    <td><img src="/images/product/${orderDetail.product.image}"
+                                                            class="img-fluid product-image"></td>
+                                                    <td><a href="/product/${orderDetail.product.id}"
+                                                            class="text-decoration-none">${orderDetail.product.name}</a>
+                                                    </td>
+                                                    <td>
+                                                        <fmt:formatNumber type="number" value="${orderDetail.price}" />
+                                                        đ
+                                                    </td>
+                                                    <td>${orderDetail.quantity}</td>
+                                                    <td>
+                                                        <fmt:formatNumber type="number"
+                                                            value="${orderDetail.price * orderDetail.quantity}" /> đ
+                                                    </td>
+                                                    <td>${order.status}</td>
+                                                </tr>
+                                            </c:forEach>
                                         </c:forEach>
-                                    </c:forEach>
-                                </tbody>
-                            </table>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
 
                 <jsp:include page="../layout/footer.jsp" />
 
+
                 <a href="#" class="btn btn-primary border-3 border-primary rounded-circle back-to-top"><i
                         class="fa fa-arrow-up"></i></a>
 
                 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
                 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-                <script src="/client/lib/easing/easing.min.js"></script>
-                <script src="/client/lib/waypoints/waypoints.min.js"></script>
-                <script src="/client/lib/lightbox/js/lightbox.min.js"></script>
-                <script src="/client/lib/owlcarousel/owl.carousel.min.js"></script>
-                <script src="/client/js/main.js?version=1"></script>
+                <script src="<c:url value='/client/lib/easing/easing.min.js' />"></script>
+                <script src="<c:url value='/client/lib/waypoints/waypoints.min.js' />"></script>
+                <script src="<c:url value='/client/lib/lightbox/js/lightbox.min.js' />"></script>
+                <script src="<c:url value='/client/lib/owlcarousel/owl.carousel.min.js' />"></script>
+                <script src="<c:url value='/client/js/main.js?version=4' />"></script>
+                <script
+                    src="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.js"></script>
             </body>
 
             </html>

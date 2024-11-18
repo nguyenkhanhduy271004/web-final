@@ -1,5 +1,8 @@
-package vn.nguyenduy.laptopshop.domain;
+package vn.nguyenduy.laptopshop.domain.chat;
 
+import java.time.LocalDateTime;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -16,14 +19,17 @@ import lombok.Setter;
 @NoArgsConstructor
 @Builder
 @Entity
-public class ChatRoom {
+public class ChatMessage {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
-    private String chatId;
-    private String senderId;
-    private String recipientId;
+    private Integer senderId;
+    private Integer receiverId;
+    private String message;
+
+    @Column(name = "timestamp", updatable = false)
+    private LocalDateTime timestamp = LocalDateTime.now();
 
 }

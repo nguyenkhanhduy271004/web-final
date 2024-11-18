@@ -164,13 +164,28 @@ public class HomePageController {
     @GetMapping("/search")
     public String searchProducts(
             @RequestParam("query") String query,
-            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "page", defaultValue = "1") int page,
+            @RequestParam(value = "criteria", required = false) String criteria,
+            @RequestParam(value = "factory", required = false) List<String> factories,
+            @RequestParam(value = "target", required = false) List<String> targets,
+            @RequestParam(value = "price", required = false) List<String> priceRange,
+            @RequestParam(value = "sort", defaultValue = "gia-nothing") String sort,
             Model model) {
 
         int size = 10;
-        List<Product> products = productService.searchProductsByName(query, page, size);
+
+        // Tìm kiếm sản phẩm theo tên và áp dụng các bộ lọc
+        List<Product> products = productService.searchProducts(query, page, size, criteria, factories, targets,
+                priceRange, sort);
+
+        // Đưa dữ liệu vào model
         model.addAttribute("products", products);
         model.addAttribute("query", query);
+        model.addAttribute("criteria", criteria);
+        model.addAttribute("factories", factories);
+        model.addAttribute("targets", targets);
+        model.addAttribute("priceRange", priceRange);
+        model.addAttribute("sort", sort);
 
         return "client/product/show";
     }

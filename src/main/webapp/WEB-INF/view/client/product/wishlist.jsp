@@ -10,6 +10,8 @@
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
                 <title>Danh sách yêu thích - Cosmetic Shop</title>
 
+                <link rel="icon" href="<c:url value='/client/img/imgThuonghieu/4.png' />" type="image/png">
+
                 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" />
                 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css"
                     rel="stylesheet">
@@ -70,8 +72,8 @@
                                         <input class="form-control d-none" type="text" name="quantity"
                                             id="cartDetails0.quantity" value="1" />
                                         <button data-product-id="${product.id}"
-                                            class="btnAddToCartDetail btn border border-secondary rounded-pill px-4 py-2 mb-4"
-                                            style="background-color: #a5678e; color: #fff;">
+                                            class="btnAddToCartDetail btn border border-secondary  px-4 py-2 mb-4 mt-4"
+                                            style="background-color: #000; color: #fff;">
                                             <i class="fa fa-shopping-bag me-2"></i>
                                             Add to cart
                                         </button>
@@ -89,7 +91,13 @@
 
                 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
                 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-                <script src="<c:url value='/client/js/main.js' />"></script>
+                <script src="<c:url value='/client/lib/easing/easing.min.js' />"></script>
+                <script src="<c:url value='/client/lib/waypoints/waypoints.min.js' />"></script>
+                <script src="<c:url value='/client/lib/lightbox/js/lightbox.min.js' />"></script>
+                <script src="<c:url value='/client/lib/owlcarousel/owl.carousel.min.js' />"></script>
+                <script src="<c:url value='/client/js/main.js?version=4' />"></script>
+                <script
+                    src="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.js"></script>
             </body>
 
             </html>

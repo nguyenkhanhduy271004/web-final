@@ -1,4 +1,4 @@
-package vn.nguyenduy.laptopshop.service;
+package vn.nguyenduy.laptopshop.service.chat;
 
 import vn.nguyenduy.laptopshop.domain.Carrier;
 import vn.nguyenduy.laptopshop.repository.CarrierRepository;

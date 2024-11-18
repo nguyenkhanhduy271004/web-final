@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -96,21 +97,21 @@ public class ProductService {
 
             // Set the appropriate min and max based on the price range string
             switch (p) {
-                case "duoi-10-trieu":
+                case "duoi-500":
                     min = 1;
-                    max = 10000000;
+                    max = 500000;
                     break;
-                case "10-15-trieu":
-                    min = 10000000;
-                    max = 15000000;
+                case "500-1-trieu":
+                    min = 500000;
+                    max = 1000000;
                     break;
-                case "15-20-trieu":
-                    min = 15000000;
-                    max = 20000000;
+                case "1-3-trieu":
+                    min = 1000000;
+                    max = 3000000;
                     break;
-                case "tren-20-trieu":
-                    min = 20000000;
-                    max = 200000000;
+                case "tren-3-trieu":
+                    min = 3000000;
+                    max = 100000000;
                     break;
             }
 
@@ -121,6 +122,87 @@ public class ProductService {
         }
 
         return combinedSpec;
+    }
+
+    public List<Product> searchProducts(String query, int page, int size, String criteria, List<String> factories,
+            List<String> targets, List<String> priceRange, String sort) {
+        Pageable pageable;
+
+        // Áp dụng sắp xếp theo tiêu chí
+        if ("best_seller".equals(criteria)) {
+            pageable = PageRequest.of(page - 1, size, Sort.by("quantitySold").descending());
+        } else if ("new".equals(criteria)) {
+            pageable = PageRequest.of(page - 1, size, Sort.by("createDate").descending());
+        } else if ("evaluate".equals(criteria)) {
+            pageable = PageRequest.of(page - 1, size, Sort.by("star").descending());
+        } else if ("favorite".equals(criteria)) {
+            pageable = PageRequest.of(page - 1, size, Sort.by("likes").descending());
+        } else {
+            pageable = PageRequest.of(page - 1, size);
+        }
+
+        // Tìm kiếm sản phẩm theo tên
+        Page<Product> filteredProducts = productRepository.findByNameContainingIgnoreCase(query, pageable);
+
+        // Áp dụng các bộ lọc khác
+        List<Product> products = filteredProducts.getContent();
+
+        // Lọc theo nhà máy (factories)
+        if (factories != null && !factories.isEmpty()) {
+            products = products.stream()
+                    .filter(product -> factories.contains(product.getFactory()))
+                    .toList();
+        }
+
+        // Lọc theo mục tiêu (targets)
+        if (targets != null && !targets.isEmpty()) {
+            products = products.stream()
+                    .filter(product -> targets.contains(product.getTarget()))
+                    .toList();
+        }
+
+        // Lọc theo khoảng giá
+        // Assuming priceRange is a List<String> representing selected price ranges
+        if (priceRange != null && !priceRange.isEmpty()) {
+            // Loop through all selected price ranges and apply the filters
+            for (String range : priceRange) {
+                double minPrice = 0;
+                double maxPrice = 0;
+
+                // Set the appropriate min and max based on the selected price range string
+                switch (range) {
+                    case "duoi-500":
+                        minPrice = 1; // Assuming price starts from 1
+                        maxPrice = 500000;
+                        break;
+                    case "500-1-trieu":
+                        minPrice = 500000;
+                        maxPrice = 1000000;
+                        break;
+                    case "1-3-trieu":
+                        minPrice = 1000000;
+                        maxPrice = 3000000;
+                        break;
+                    case "tren-3-trieu":
+                        minPrice = 3000000;
+                        maxPrice = 100000000; // You can set a high enough value for "above 3 million"
+                        break;
+                    default:
+                        // Handle invalid range or do nothing
+                        continue;
+                }
+
+                // Filter products based on price range
+                final double min = minPrice;
+                final double max = maxPrice;
+
+                products = products.stream()
+                        .filter(product -> product.getPrice() >= min && product.getPrice() <= max)
+                        .toList();
+            }
+        }
+
+        return products;
     }
 
     public Optional<Product> fetchProductById(long id) {

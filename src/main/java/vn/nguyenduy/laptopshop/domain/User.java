@@ -8,6 +8,7 @@ import java.util.Set;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -31,16 +32,16 @@ public class User implements Serializable {
 
     private String nickName;
 
-    // @NotNull()
+    @NotNull()
     @Email(message = "Email is not valid", regexp = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$")
     private String email;
 
-    // @NotNull()
+    @NotNull()
     // @StrongPassword(message = "Password phải có tối thiểu 8 ký tự")
     @Size(min = 2, message = "Password khẩu phải có tối thiểu 2 ký tự")
     private String password;
 
-    // @NotNull()
+    @NotNull()
     @Size(min = 2, message = "Fullname phải có tối thiểu 2 ký tự")
     private String fullName;
     private String address;

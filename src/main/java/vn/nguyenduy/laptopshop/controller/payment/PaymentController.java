@@ -35,7 +35,7 @@ public class PaymentController {
         if (session == null || session.getAttribute("totalPrice") == null) {
             amount = 100000;
         }
-        amount = (long) (totalPrice * 10000);
+        amount = (long) (totalPrice * 100);
         String bankCode = "NCB";
 
         String vnp_TxnRef = VNPAYConfig.getRandomNumber(8);

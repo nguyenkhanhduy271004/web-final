@@ -10,6 +10,8 @@
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
                 <title>Trang chủ - Cosmetic Shop</title>
 
+                <link rel="icon" href="<c:url value='/client/img/imgThuonghieu/4.png' />" type="image/png">
+
                 <link rel="preconnect" href="https://fonts.googleapis.com">
                 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
                 <link
@@ -66,11 +68,6 @@
                                             </div>
                                             <div class="detail-product">
                                                 <h6>${product.factory}</h6>
-                                                <span class="product-name">${product.name}</span>
-                                                <div class="price">
-                                                    <fmt:formatNumber value="${product.price}" type="number" />
-                                                    <sup>đ</sup>
-                                                </div>
                                                 <ul class="star-rating">
                                                     <c:forEach begin="1" end="5" var="star">
                                                         <li>
@@ -88,6 +85,12 @@
                                                         </li>
                                                     </c:forEach>
                                                 </ul>
+                                                <span class="product-name">${product.name}</span>
+                                                <div class="price">
+                                                    <fmt:formatNumber value="${product.price}" type="number" />
+                                                    <sup>đ</sup>
+                                                </div>
+
 
 
                                             </div>
@@ -98,8 +101,8 @@
                                             <input class="form-control d-none" type="text" name="quantity"
                                                 id="cartDetails0.quantity" value="1" />
                                             <button data-product-id="${product.id}"
-                                                class="btnAddToCartDetail btn border border-secondary  px-4 py-2 mb-4"
-                                                style="background-color: #a5678e; color: #fff;">
+                                                class="btnAddToCartDetail btn border border-secondary  px-4 py-2 mb-4 mt-4"
+                                                style="background-color: #000; color: #fff;">
                                                 <i class="fa fa-shopping-bag me-2"></i>
                                                 Add to cart
                                             </button>
@@ -139,6 +142,23 @@
                                             </div>
                                             <div class="detail-product">
                                                 <h6>${product.factory}</h6>
+                                                <ul class="star-rating">
+                                                    <c:forEach begin="1" end="5" var="star">
+                                                        <li>
+                                                            <a href="#" data-value="${star}"
+                                                                class="${star <= product.star ? 'filled' : ''}">
+                                                                <c:choose>
+                                                                    <c:when test="${star <= product.star}">
+                                                                        &#9733;
+                                                                    </c:when>
+                                                                    <c:otherwise>
+                                                                        &#9734;
+                                                                    </c:otherwise>
+                                                                </c:choose>
+                                                            </a>
+                                                        </li>
+                                                    </c:forEach>
+                                                </ul>
                                                 <span class="product-name">${product.name}</span>
                                                 <div class="price">
                                                     <span class="old-price" style="text-decoration: line-through;">
@@ -151,11 +171,7 @@
                                                             type="number" /> <sup>đ</sup>
                                                     </span>
                                                 </div>
-                                                <ul class="star-rating">
-                                                    <c:forEach begin="1" end="5" var="star">
-                                                        <li><a href="#" data-value="${star}">&#9733;</a></li>
-                                                    </c:forEach>
-                                                </ul>
+
                                             </div>
                                             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
                                             <input class="form-control d-none" type="text" value="${product.id}"
@@ -164,8 +180,8 @@
                                             <input class="form-control d-none" type="text" name="quantity"
                                                 id="cartDetails0.quantity" value="1" />
                                             <button data-product-id="${product.id}"
-                                                class="btnAddToCartDetail btn border border-secondary  px-4 py-2 mb-4"
-                                                style="background-color: #a5678e; color: #fff;">
+                                                class="btnAddToCartDetail btn border border-secondary  px-4 py-2 mb-4 mt-4"
+                                                style="background-color: #000; color: #fff;">
                                                 <i class="fa fa-shopping-bag me-2"></i>
                                                 Add to cart
                                             </button>

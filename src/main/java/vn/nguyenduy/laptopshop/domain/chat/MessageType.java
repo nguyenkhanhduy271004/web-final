@@ -1,4 +1,4 @@
-package vn.nguyenduy.laptopshop.domain;
+package vn.nguyenduy.laptopshop.domain.chat;
 
 public enum MessageType {
 

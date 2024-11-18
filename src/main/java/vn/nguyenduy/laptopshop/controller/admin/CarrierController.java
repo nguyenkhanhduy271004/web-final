@@ -1,7 +1,8 @@
 package vn.nguyenduy.laptopshop.controller.admin;
 
 import vn.nguyenduy.laptopshop.domain.Carrier;
-import vn.nguyenduy.laptopshop.service.CarrierService;
+import vn.nguyenduy.laptopshop.service.chat.CarrierService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

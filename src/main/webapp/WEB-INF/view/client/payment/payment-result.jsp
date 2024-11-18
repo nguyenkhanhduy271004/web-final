@@ -7,6 +7,7 @@
         <head>
             <meta charset="UTF-8">
             <title>Kết quả thanh toán</title>
+            <link rel="icon" href="<c:url value='/client/img/imgThuonghieu/4.png' />" type="image/png">
             <style>
                 body {
                     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;

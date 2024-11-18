@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,13 +28,15 @@ public class ReviewController {
     private final ProductService productService;
     private final UserService userService;
     private final UploadService uploadService;
+    private final SimpMessagingTemplate messagingTemplate;
 
     public ReviewController(ReviewService reviewService, ProductService productService, UserService userService,
-            UploadService uploadService) {
+            UploadService uploadService, SimpMessagingTemplate messagingTemplate) {
         this.reviewService = reviewService;
         this.productService = productService;
         this.userService = userService;
         this.uploadService = uploadService;
+        this.messagingTemplate = messagingTemplate;
     }
 
     @PostMapping("/create-review")
@@ -72,6 +75,8 @@ public class ReviewController {
         }
 
         reviewService.createReview(review);
+
+        messagingTemplate.convertAndSend("/topic/reviews", review);
 
         return "redirect:/product/" + productId;
     }

@@ -17,27 +17,32 @@
     max-height: 150px;
 }
 
-.parallax-waves > use {
-    animation: move-forever 10s cubic-bezier(0.55, 0.5, 0.45, 0.5) infinite; /* Tăng tốc độ chính */
+.parallax-waves>use {
+    animation: move-forever 10s cubic-bezier(0.55, 0.5, 0.45, 0.5) infinite;
+    /* Tăng tốc độ chính */
 }
 
-.parallax-waves > use:nth-child(1) {
-    animation-duration: 8s; /* Nhanh hơn */
+.parallax-waves>use:nth-child(1) {
+    animation-duration: 8s;
+    /* Nhanh hơn */
     animation-delay: -2s;
 }
 
-.parallax-waves > use:nth-child(2) {
-    animation-duration: 6s; /* Nhanh hơn */
+.parallax-waves>use:nth-child(2) {
+    animation-duration: 6s;
+    /* Nhanh hơn */
     animation-delay: -1s;
 }
 
-.parallax-waves > use:nth-child(3) {
-    animation-duration: 4s; /* Nhanh hơn */
+.parallax-waves>use:nth-child(3) {
+    animation-duration: 4s;
+    /* Nhanh hơn */
     animation-delay: 0s;
 }
 
-.parallax-waves > use:nth-child(4) {
-    animation-duration: 12s; /* Nhanh hơn */
+.parallax-waves>use:nth-child(4) {
+    animation-duration: 12s;
+    /* Nhanh hơn */
     animation-delay: -3s;
 }
 
@@ -45,6 +50,7 @@
     0% {
         transform: translate3d(-90px, 0, 0);
     }
+
     100% {
         transform: translate3d(85px, 0, 0);
     }
@@ -77,6 +83,10 @@
 .footer-section ul {
     font-size: 14px;
     line-height: 1.6;
+}
+
+.footer-section p {
+    color: #000;
 }
 
 .footer-section ul {

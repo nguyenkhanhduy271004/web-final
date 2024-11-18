@@ -1,5 +1,4 @@
-package vn.nguyenduy.laptopshop.config.websocket;
-// package vn.nguyenduy.laptopshop.config;
+// package vn.nguyenduy.laptopshop.config.websocket;
 
 // import org.springframework.context.event.EventListener;
 // import org.springframework.messaging.simp.SimpMessageSendingOperations;
@@ -9,8 +8,8 @@ package vn.nguyenduy.laptopshop.config.websocket;
 
 // import lombok.RequiredArgsConstructor;
 // import lombok.extern.slf4j.Slf4j;
-// import vn.nguyenduy.laptopshop.domain.ChatMessage;
-// import vn.nguyenduy.laptopshop.domain.MessageType;
+// import vn.nguyenduy.laptopshop.domain.chat.ChatMessage;
+// import vn.nguyenduy.laptopshop.domain.chat.MessageType;
 
 // @Component
 // @RequiredArgsConstructor

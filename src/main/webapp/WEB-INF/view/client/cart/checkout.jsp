@@ -13,6 +13,9 @@
                     <meta content="" name="keywords">
                     <meta content="" name="description">
 
+                    <link rel="icon" href="<c:url value='/client/img/imgThuonghieu/4.png' />" type="image/png">
+
+
                     <!-- Google Web Fonts -->
                     <link rel="preconnect" href="https://fonts.googleapis.com">
                     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

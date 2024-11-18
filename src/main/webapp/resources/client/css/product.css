@@ -142,9 +142,14 @@
 }
 
 .star-rating li a {
-    color: gold;
+    color: #FFD700;
     text-decoration: none;
     font-size: 24px;
+
+}
+
+.star-rating li a.filled {
+    color: #FFD700;
 }
 
 

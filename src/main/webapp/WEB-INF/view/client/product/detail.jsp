@@ -8,6 +8,7 @@
             <head>
                 <meta charset="utf-8">
                 <title>${product.name} - Cosmetic Shop</title>
+                <link rel="icon" href="<c:url value='/client/img/imgThuonghieu/4.png' />" type="image/png">
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
                 <link rel="preconnect" href="https://fonts.googleapis.com">
                 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -126,7 +127,7 @@
                                 <div>
                                     <button data-product-id="${product.id}"
                                         class="btnAddToCartDetail btn border border-secondary px-4 py-2 mb-4"
-                                        style="background-color: #a5678e; color: #fff;">
+                                        style="background-color: #000; color: #fff;">
                                         <i class="fa fa-shopping-bag me-2"></i>
                                         Add to cart
                                     </button>
@@ -143,8 +144,7 @@
                                         </button>
                                     </form>
                                 </div>
-
-                                <button onclick="openChat('${product.id}')">Nhắn với Shop</button>
+                                <!-- <button onclick="openChat('${product.id}')">Nhắn với Shop</button> -->
 
 
 
@@ -325,7 +325,10 @@
                     function openChat(productId) {
                         window.location.href = "/chat?productId=" + productId;
                     }
+
                 </script>
+
+
             </body>
 
             </html>

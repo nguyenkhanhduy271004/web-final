@@ -13,6 +13,8 @@
                     <meta content="" name="keywords">
                     <meta content="" name="description">
 
+                    <link rel="icon" href="<c:url value='/client/img/imgThuonghieu/4.png' />" type="image/png">
+
                     <!-- Google Web Fonts -->
                     <link rel="preconnect" href="https://fonts.googleapis.com">
                     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -199,28 +201,28 @@
 
                                                 <div class="form-check form-check-inline">
                                                     <input class="form-check-input" type="checkbox" id="price-2"
-                                                        value="duoi-10-trieu">
-                                                    <label class="form-check-label" for="price-2">Dưới 10 triệu</label>
+                                                        value="duoi-500">
+                                                    <label class="form-check-label" for="price-2">Dưới 500.000</label>
                                                 </div>
 
                                                 <div class="form-check form-check-inline">
                                                     <input class="form-check-input" type="checkbox" id="price-3"
-                                                        value="10-15-trieu">
-                                                    <label class="form-check-label" for="price-3">Từ 10 - 15
+                                                        value="500-1-trieu">
+                                                    <label class="form-check-label" for="price-3">Từ 500.000 - 1
                                                         triệu</label>
                                                 </div>
 
                                                 <div class="form-check form-check-inline">
                                                     <input class="form-check-input" type="checkbox" id="price-4"
-                                                        value="15-20-trieu">
-                                                    <label class="form-check-label" for="price-4">Từ 15 - 20
+                                                        value="1-3-trieu">
+                                                    <label class="form-check-label" for="price-4">Từ 1 triệu - 3
                                                         triệu</label>
                                                 </div>
 
                                                 <div class="form-check form-check-inline">
                                                     <input class="form-check-input" type="checkbox" id="price-5"
-                                                        value="tren-20-trieu">
-                                                    <label class="form-check-label" for="price-5">Trên 20 triệu</label>
+                                                        value="tren-3-trieu">
+                                                    <label class="form-check-label" for="price-5">Trên 3 triệu</label>
                                                 </div>
                                             </div>
                                             <div class="col-12">
@@ -256,7 +258,7 @@
                                     </div>
                                     <div class="col-12 col-md-8 text-center">
                                         <div class="row g-4">
-                                            <c:if test="${totalPages ==  0}">
+                                            <c:if test="${products.size() ==  0}">
                                                 <div>Không tìm thấy sản phẩm</div>
                                             </c:if>
                                             <c:forEach var="product" items="${products}">

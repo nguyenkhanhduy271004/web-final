@@ -110,8 +110,6 @@
                                                         <form:option value="DIOR">Dior</form:option>
                                                         <form:option value="DOLCE_GABBANA">Dolce & Gabbana</form:option>
                                                         <form:option value="GUCCI">Gucci</form:option>
-
-
                                                     </form:select>
                                                 </div>
                                                 <div class="mb-3 col-12 col-md-6">
