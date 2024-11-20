@@ -42,6 +42,7 @@
                     <link href="<c:url value='/client/css/product.css' />" rel="stylesheet">
                     <link href="<c:url value='/client/css/hot-product.css' />" rel="stylesheet">
                     <link href="<c:url value='/client/css/sale-product.css' />" rel="stylesheet">
+                    <link href="<c:url value='/client/css/responsive-home.css' />" rel="stylesheet">
                 </head>
 
                 <body>

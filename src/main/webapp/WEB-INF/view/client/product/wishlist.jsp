@@ -25,6 +25,7 @@
                 <link href="<c:url value='/client/css/product.css' />" rel="stylesheet">
                 <link href="<c:url value='/client/css/hot-product.css' />" rel="stylesheet">
                 <link href="<c:url value='/client/css/sale-product.css' />" rel="stylesheet">
+                <link href="<c:url value='/client/css/responsive-home.css' />" rel="stylesheet">
 
                 <meta name="_csrf" content="${_csrf.token}" />
                 <meta name="_csrf_header" content="${_csrf.headerName}" />
