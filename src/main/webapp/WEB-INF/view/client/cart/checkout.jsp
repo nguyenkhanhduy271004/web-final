@@ -24,10 +24,24 @@
                             href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Raleway:wght@600;800&display=swap"
                             rel="stylesheet">
 
+<<<<<<< HEAD
                         <!-- Icon Font Stylesheet -->
                         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" />
                         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css"
                             rel="stylesheet">
+=======
+                    <!-- Template Stylesheet -->
+                    <link href="/client/css/style.css" rel="stylesheet">
+                    <link href="<c:url value='/client/css/carousel-product.css' />" rel="stylesheet">
+                    <link href="<c:url value='/client/css/header.css' />" rel="stylesheet">
+                    <link href="<c:url value='/client/css/footer.css' />" rel="stylesheet">
+                    <link href="<c:url value='/client/css/common.css' />" rel="stylesheet">
+                    <link href="<c:url value='/client/css/product.css' />" rel="stylesheet">
+                    <link href="<c:url value='/client/css/hot-product.css' />" rel="stylesheet">
+                    <link href="<c:url value='/client/css/sale-product.css' />" rel="stylesheet">
+                    <link href="<c:url value='/client/css/responsive-home.css' />" rel="stylesheet">
+                </head>
+>>>>>>> bc9ccb327a05dca192bcc5169d1442f805bd54b4
 
                         <!-- Libraries Stylesheet -->
                         <link href="/client/lib/lightbox/css/lightbox.min.css" rel="stylesheet">
