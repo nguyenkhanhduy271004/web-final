@@ -114,6 +114,13 @@
                                                 </div>
 
                                                 <div class="mb-3 col-12 col-md-6">
+                                                    <label class="form-label">Discount percentage:</label>
+                                                    <form:input type="number"
+                                                        class="form-control ${not empty errorQuantity ? 'is-invalid' : ''}"
+                                                        path="discountPercentage" />
+                                                    ${errorQuantity}
+                                                </div>
+                                                <div class="mb-3 col-12 col-md-6">
                                                     <label class="form-label">Factory:</label>
                                                     <form:select class="form-select" path="factory">
                                                         <form:option value="ESSENCE">Essence</form:option>

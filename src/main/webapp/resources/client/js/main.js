@@ -222,6 +222,85 @@
         }
     });
 
+    $(document).off('click', '.btn-minus, .btn-plus').on('click', '.btn-minus, .btn-plus', function (e) {
+        e.preventDefault(); // Ngăn chặn hành động mặc định (nếu có)
+
+        console.log('Button clicked'); // Kiểm tra xem sự kiện có bị gọi nhiều lần không
+
+        const input = $(this).closest('.input-group').find('input');
+        let quantity = parseInt(input.val());
+
+        // Kiểm tra loại nút (cộng hoặc trừ)
+        if ($(this).hasClass('btn-plus')) {
+            quantity += 0;
+        } else if ($(this).hasClass('btn-minus') && quantity > 1) {
+            quantity -= 0;
+        }
+
+        // Cập nhật giá trị input
+        input.val(quantity);
+
+        // Lấy cartDetailId từ input
+        const cartDetailId = input.data('cart-detail-id');
+        if (!cartDetailId) {
+            console.error('cartDetailId is undefined for this input element');
+            return;
+        }
+
+        // Gửi AJAX để cập nhật số lượng lên server
+        $.ajax({
+            type: 'POST',
+            url: `/update-cart/${cartDetailId}`,
+            data: {
+                quantity: quantity,
+                _csrf: $('input[name=_csrf]').val()
+            },
+            success: function (response) {
+                console.log('Updated successfully:', response);
+            },
+            error: function (xhr) {
+                console.error('Failed to update cart:', xhr.responseText);
+            }
+        });
+
+        $.ajax({
+            type: 'POST',
+            url: `/update-cart/${cartDetailId}`,
+            data: {
+                quantity: quantity,
+                _csrf: $('input[name=_csrf]').val()
+            },
+            success: function (response) {
+                console.log('Updated successfully:', response);
+
+                // Lấy shopId của sản phẩm
+                const shopId = $(input).closest('tbody').find('[data-shop-id]').data('shop-id');
+
+                // Gửi AJAX để cập nhật tổng tiền của shop
+                $.ajax({
+                    type: 'POST',
+                    url: `/update-cart-total/${shopId}`,
+                    success: function (shopTotal) {
+                        // Cập nhật DOM của Tổng tiền shop
+                        const totalElement = $(`[data-shop-total="${shopId}"]`);
+                        totalElement.text(shopTotal.toLocaleString('vi-VN') + ' đ'); // Định dạng tiền tệ
+                    },
+                    error: function (xhr) {
+                        console.error('Failed to update shop total:', xhr.responseText);
+                    }
+                });
+            },
+            error: function (xhr) {
+                console.error('Failed to update cart:', xhr.responseText);
+            }
+        });
+
+    });
+
+
+
+
+
     function formatCurrency(value) {
         // Use the 'vi-VN' locale to format the number according to Vietnamese currency format
         // and 'VND' as the currency type for Vietnamese đồng

@@ -27,15 +27,23 @@
                             Carrier
                         </a>
 
+
                         <a class="nav-link" href="/admin/order">
                             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                             Order
+                        </a>
+
+                        <a class="nav-link" href="/admin/shops">
+                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                            Shop
                         </a>
 
                         <a class="nav-link" href="/admin/user">
                             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                             User
                         </a>
+
+
                     </div>
                 </div>
                 <div class="sb-sidenav-footer">

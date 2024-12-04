@@ -76,85 +76,125 @@
                                 <table class="table">
                                     <thead>
                                         <tr>
-                                            <th scope="col">Sản phẩm</th>
-                                            <th scope="col">Tên</th>
-                                            <th scope="col">Giá cả</th>
-                                            <th scope="col">Số lượng</th>
-                                            <th scope="col">Thành tiền</th>
-                                            <th scope="col">Xử lý</th>
+                                            <th scope="col"></th>
+                                            <th scope="col"></th>
+                                            <th scope="col"></th>
+                                            <th scope="col" style="vertical-align: middle;">Số lượng
+                                            </th>
+                                            <th scope="col" style="text-align: center; vertical-align: middle;">Thành
+                                                tiền</th>
+                                            <th scope="col" style="text-align: center; vertical-align: middle;">Xử lý
+                                            </th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <c:if test="${ empty cartDetails}">
+                                        <c:if test="${empty shopCartDetailsMap}">
                                             <tr>
-                                                <td colspan="6">
-                                                    Không có sản phẩm trong giỏ hàng
-                                                </td>
+                                                <td colspan="6">Không có sản phẩm trong giỏ hàng</td>
                                             </tr>
                                         </c:if>
-                                        <c:forEach var="cartDetail" items="${cartDetails}" varStatus="status">
-
+                                        <c:forEach var="entry" items="${shopCartDetailsMap}">
+                                            <c:set var="shop" value="${entry.key}" />
+                                            <c:set var="cartDetails" value="${entry.value}" />
                                             <tr>
-                                                <th scope="row">
-                                                    <div class="d-flex align-items-center">
-                                                        <img src="/images/product/${cartDetail.product.image}"
-                                                            class="img-fluid me-5 rounded-circle"
-                                                            style="width: 80px; height: 80px;" alt="">
-                                                    </div>
-                                                </th>
-                                                <td>
-                                                    <p class="mb-0 mt-4">
-                                                        <a href="/product/${cartDetail.product.id}" target="_blank">
-                                                            ${cartDetail.product.name}
-                                                        </a>
-                                                    </p>
-                                                </td>
-                                                <td>
-                                                    <p class="mb-0 mt-4">
-                                                        <fmt:formatNumber type="number" value="${cartDetail.price}" /> đ
-                                                    </p>
-                                                </td>
-                                                <td>
-                                                    <div class="input-group quantity mt-4" style="width: 100px;">
-                                                        <div class="input-group-btn">
-                                                            <button
-                                                                class="btn btn-sm btn-minus rounded-circle bg-light border">
-                                                                <i class="fa fa-minus"></i>
-                                                            </button>
-                                                        </div>
-                                                        <input type="text"
-                                                            class="form-control form-control-sm text-center border-0"
-                                                            value="${cartDetail.quantity}"
-                                                            data-cart-detail-id="${cartDetail.id}"
-                                                            data-cart-detail-price="${cartDetail.price}"
-                                                            data-cart-detail-index="${status.index}">
-                                                        <div class="input-group-btn">
-                                                            <button
-                                                                class="btn btn-sm btn-plus rounded-circle bg-light border">
-                                                                <i class="fa fa-plus"></i>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <p class="mb-0 mt-4" data-cart-detail-id="${cartDetail.id}">
-                                                        <fmt:formatNumber type="number"
-                                                            value="${cartDetail.price * cartDetail.quantity}" /> đ
-                                                    </p>
-                                                </td>
-                                                <td>
-                                                    <form method="post" action="/delete-cart-product/${cartDetail.id}">
-                                                        <input type="hidden" name="${_csrf.parameterName}"
-                                                            value="${_csrf.token}" />
-                                                        <button class="btn btn-md rounded-circle bg-light border mt-4">
-                                                            <i class="fa fa-times text-danger"></i>
-                                                        </button>
-                                                    </form>
+                                                <td colspan="6">
+                                                    <h5 style="font-size: 1rem;">Shop: ${shop.name}</h5>
                                                 </td>
                                             </tr>
-                                        </c:forEach>
+                                            <c:forEach var="cartDetail" items="${cartDetails}">
+                                                <tr>
+                                                    <td style="vertical-align: middle;">
+                                                        <img src="/images/product/${cartDetail.product.image}"
+                                                            class="img-fluid rounded-circle"
+                                                            style="width: 80px; height: 80px;" alt="">
+                                                    </td>
+                                                    <td style="vertical-align: middle;">
+                                                        <p>
+                                                            <a href="/product/${cartDetail.product.id}" target="_blank">
+                                                                ${cartDetail.product.name}
+                                                            </a>
+                                                        </p>
+                                                    </td>
+                                                    <td style="vertical-align: middle;">
+                                                        <!-- <c:choose>
+                                                            <c:when test="${cartDetail.product.discountPercentage > 0}">
+                                                                <fmt:formatNumber
+                                                                    value="${cartDetail.price * (1 - cartDetail.product.discountPercentage / 100)}"
+                                                                    type="number" /> đ
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                                <fmt:formatNumber value="${cartDetail.price}"
+                                                                    type="number" /> đ
+                                                            </c:otherwise>
+                                                        </c:choose> -->
+                                                    </td>
+                                                    <td style="text-align: center; vertical-align: middle;">
+                                                        <div class="input-group quantity mt-4" style="width: 100px;">
+                                                            <div class="input-group-btn">
+                                                                <button
+                                                                    class="btn btn-sm btn-minus rounded-circle bg-light border">
+                                                                    <i class="fa fa-minus"></i>
+                                                                </button>
+                                                            </div>
+                                                            <input type="text"
+                                                                class="form-control form-control-sm text-center border-0"
+                                                                value="${cartDetail.quantity}"
+                                                                data-cart-detail-id="${cartDetail.id}"
+                                                                data-cart-detail-price="${cartDetail.price}"
+                                                                data-cart-detail-index="${status.index}">
+                                                            <div class="input-group-btn">
+                                                                <button
+                                                                    class="btn btn-sm btn-plus rounded-circle bg-light border">
+                                                                    <i class="fa fa-plus"></i>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </td>
 
+                                                    <td style="text-align: center; vertical-align: middle;">
+                                                        <c:choose>
+                                                            <c:when test="${cartDetail.product.discountPercentage > 0}">
+                                                                <p class="mb-0 mt-4"
+                                                                    data-cart-detail-id="${cartDetail.id}">
+                                                                    <fmt:formatNumber
+                                                                        value="${(cartDetail.price * (1 - cartDetail.product.discountPercentage / 100)) * cartDetail.quantity}"
+                                                                        type="number" /> đ
+                                                                </p>
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                                <p class="mb-0 mt-4"
+                                                                    data-cart-detail-id="${cartDetail.id}">
+                                                                    <fmt:formatNumber
+                                                                        value="${cartDetail.price * cartDetail.quantity}"
+                                                                        type="number" /> đ
+                                                                </p>
+                                                            </c:otherwise>
+                                                        </c:choose>
+                                                    </td>
+                                                    <td style="text-align: center; vertical-align: middle;">
+                                                        <form method="post"
+                                                            action="/delete-cart-product/${cartDetail.id}">
+                                                            <input type="hidden" name="${_csrf.parameterName}"
+                                                                value="${_csrf.token}" />
+                                                            <button class="btn btn-danger btn-sm">
+                                                                <i class="fa fa-times"></i>
+                                                            </button>
+                                                        </form>
+                                                    </td>
+                                                </tr>
+                                            </c:forEach>
+                                            <tr>
+                                                <td colspan="4"></td>
+                                                <td>
+                                                    <strong>Tổng tiền shop: </strong>
+                                                    <fmt:formatNumber value="${shopTotalPrices[shop]}" type="number" />
+                                                    đ
+                                                </td>
+                                                <td></td>
+                                            </tr>
+                                        </c:forEach>
                                     </tbody>
+
                                 </table>
                             </div>
                             <c:if test="${not empty cartDetails}">
@@ -174,15 +214,16 @@
                                                 <div class="d-flex justify-content-between">
                                                     <h5 class="mb-0 me-4">Phí vận chuyển</h5>
                                                     <div class="">
-                                                        <p class="mb-0">0 đ</p>
+                                                        <fmt:formatNumber value="${totalShippingFee}" type="number" />
+                                                        đ
                                                     </div>
                                                 </div>
                                             </div>
                                             <div
                                                 class="py-4 mb-4 border-top border-bottom d-flex justify-content-between">
                                                 <h5 class="mb-0 ps-4 me-4">Tổng số tiền</h5>
-                                                <p class="mb-0 pe-4" data-cart-total-price="${totalPrice}">
-                                                    <fmt:formatNumber type="number" value="${totalPrice}" /> đ
+                                                <p class="mb-0 pe-4" data-cart-total-price="${totalAmount}">
+                                                    <fmt:formatNumber type="number" value="${totalAmount}" /> đ
                                                 </p>
                                             </div>
                                             <form:form action="/confirm-checkout" method="post" modelAttribute="cart">
@@ -238,7 +279,10 @@
                     <script src="/client/lib/owlcarousel/owl.carousel.min.js"></script>
 
                     <!-- Template Javascript -->
-                    <script src="/client/js/main.js?version=1?"></script>
+                    <script src="/client/js/main.js?version=11?"></script>
+
+
+
                 </body>
 
                 </html>

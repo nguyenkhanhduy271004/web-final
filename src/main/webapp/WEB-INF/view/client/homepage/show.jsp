@@ -133,64 +133,78 @@
                             <button class="carousel-button nextSale"><i class="fas fa-chevron-right"></i></button>
                             <div class="list-sale-product">
                                 <c:forEach var="product" items="${products}">
-                                    <div class="product">
-                                        <a href="<c:url value='/product/${product.id}' />">
-                                            <div class="feature">100%</div>
-                                            <div class="img-product">
-                                                <img src="<c:url value='/images/product/${product.image}' />"
-                                                    alt="${product.name}">
-                                                <button class="show-now">Xem ngay</button>
+                                    <c:choose>
+                                        <c:when
+                                            test="${product.discountPercentage != null and product.discountPercentage > 0}">
+                                            <div class="product">
+                                                <a href="<c:url value='/product/${product.id}' />">
+                                                    <div class="feature">
+                                                        <fmt:formatNumber value="${product.discountPercentage}"
+                                                            type="number" pattern="0" />%
+                                                    </div>
+                                                    <div class="img-product">
+                                                        <img src="<c:url value='/images/product/${product.image}' />"
+                                                            alt="${product.name}">
+                                                        <button class="show-now">Xem ngay</button>
+                                                    </div>
+                                                    <div class="detail-product">
+                                                        <h6>${product.factory}</h6>
+                                                        <ul class="star-rating">
+                                                            <c:forEach begin="1" end="5" var="star">
+                                                                <li>
+                                                                    <a href="#" data-value="${star}"
+                                                                        class="${star <= product.star ? 'filled' : ''}">
+                                                                        <c:choose>
+                                                                            <c:when test="${star <= product.star}">
+                                                                                &#9733;
+                                                                            </c:when>
+                                                                            <c:otherwise>
+                                                                                &#9734;
+                                                                            </c:otherwise>
+                                                                        </c:choose>
+                                                                    </a>
+                                                                </li>
+                                                            </c:forEach>
+                                                        </ul>
+                                                        <span class="product-name">${product.name}</span>
+                                                        <div class="price">
+                                                            <span class="old-price"
+                                                                style="text-decoration: line-through;">
+                                                                <fmt:formatNumber value="${product.price}"
+                                                                    type="number" />
+                                                                <sup>đ</sup>
+                                                            </span>
+                                                            <span class="official-price">
+                                                                <fmt:formatNumber
+                                                                    value="${product.price - (product.price * product.discountPercentage / 100)}"
+                                                                    type="number" />
+                                                                <sup>đ</sup>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <input type="hidden" name="${_csrf.parameterName}"
+                                                        value="${_csrf.token}" />
+                                                    <input class="form-control d-none" type="text" value="${product.id}"
+                                                        name="id" />
+                                                    <input class="form-control d-none" type="text" name="quantity"
+                                                        id="cartDetails0.quantity" value="1" />
+                                                    <button data-product-id="${product.id}"
+                                                        class="btnAddToCartDetail btn border border-secondary  px-4 py-2 mb-4 mt-4"
+                                                        style="background-color: #000; color: #fff;">
+                                                        <i class="fa fa-shopping-bag me-2"></i>
+                                                        Add to cart
+                                                    </button>
+                                                </a>
                                             </div>
-                                            <div class="detail-product">
-                                                <h6>${product.factory}</h6>
-                                                <ul class="star-rating">
-                                                    <c:forEach begin="1" end="5" var="star">
-                                                        <li>
-                                                            <a href="#" data-value="${star}"
-                                                                class="${star <= product.star ? 'filled' : ''}">
-                                                                <c:choose>
-                                                                    <c:when test="${star <= product.star}">
-                                                                        &#9733;
-                                                                    </c:when>
-                                                                    <c:otherwise>
-                                                                        &#9734;
-                                                                    </c:otherwise>
-                                                                </c:choose>
-                                                            </a>
-                                                        </li>
-                                                    </c:forEach>
-                                                </ul>
-                                                <span class="product-name">${product.name}</span>
-                                                <div class="price">
-                                                    <span class="old-price" style="text-decoration: line-through;">
-                                                        <fmt:formatNumber value="${product.price}" type="number" />
-                                                        <sup>đ</sup>
-                                                    </span>
-                                                    <span class="official-price">
-                                                        <fmt:formatNumber
-                                                            value="${product.price - (product.price * 10 / 100)}"
-                                                            type="number" /> <sup>đ</sup>
-                                                    </span>
-                                                </div>
-
-                                            </div>
-                                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-                                            <input class="form-control d-none" type="text" value="${product.id}"
-                                                name="id" />
-
-                                            <input class="form-control d-none" type="text" name="quantity"
-                                                id="cartDetails0.quantity" value="1" />
-                                            <button data-product-id="${product.id}"
-                                                class="btnAddToCartDetail btn border border-secondary  px-4 py-2 mb-4 mt-4"
-                                                style="background-color: #000; color: #fff;">
-                                                <i class="fa fa-shopping-bag me-2"></i>
-                                                Add to cart
-                                            </button>
-                                        </a>
-                                    </div>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <!-- Do nothing for products without a valid discountPercentage -->
+                                        </c:otherwise>
+                                    </c:choose>
                                 </c:forEach>
                             </div>
                         </div>
+
                     </div>
                 </div>
 

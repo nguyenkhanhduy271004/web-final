@@ -10,9 +10,19 @@
                             Dashboard
                         </a>
 
+                        <a class="nav-link" href="/vendor/promotion">
+                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                            Promotion
+                        </a>
+
                         <a class="nav-link" href="/vendor/product">
                             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                             Product
+                        </a>
+
+                        <a class="nav-link" href="/vendor/carriers">
+                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                            Carrier
                         </a>
 
                         <a class="nav-link" href="/vendor/order">
@@ -20,10 +30,7 @@
                             Order
                         </a>
 
-                        <a class="nav-link" href="/vendor/promotion">
-                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                            Promotion
-                        </a>
+
                     </div>
                 </div>
                 <div class="sb-sidenav-footer">
