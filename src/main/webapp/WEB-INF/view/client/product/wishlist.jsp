@@ -76,7 +76,7 @@
                                             class="btnAddToCartDetail btn border border-secondary  px-4 py-2 mb-4 mt-4"
                                             style="background-color: #000; color: #fff;">
                                             <i class="fa fa-shopping-bag me-2"></i>
-                                            Add to cart
+                                            Thêm vào giỏ
                                         </button>
                                     </a>
                                 </div>

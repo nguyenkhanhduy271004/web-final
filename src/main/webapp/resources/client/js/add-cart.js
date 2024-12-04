@@ -8,10 +8,10 @@ function updateCartCount() {
     cartCountBadge.textContent = totalCount;
 }
 
-// Khi nhấn vào nút "Thêm vào giỏ hàng"
+// Khi nhấn vào nút "Thêm vào giỏ"
 document.addEventListener("click", function (e) {
     if (e.target.classList.contains("addcart")) {
-        const productId = e.target.dataset.id; // Lấy productId từ nút "Thêm vào giỏ hàng"
+        const productId = e.target.dataset.id; // Lấy productId từ nút "Thêm vào giỏ"
         const product = products.find((p) => p.id == productId); // Tìm sản phẩm từ danh sách sản phẩm bằng id
 
         // Kiểm tra xem sản phẩm đã có trong giỏ hàng chưa

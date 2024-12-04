@@ -4,7 +4,7 @@ A Spring MVC-based e-commerce web application for a cosmetics store.
 Features
 Customer
 Product Catalog: Browse products by category, filter by brand, price, rating.
-Shopping Cart & Checkout: Add to cart, adjust items, and place orders.
+Shopping Cart & Checkout: Thêm vào giỏ, adjust items, and place orders.
 User Management: Register, log in, view order history.
 Admin
 Product Management: Add, edit, and delete products.

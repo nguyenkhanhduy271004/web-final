@@ -18,12 +18,17 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import vn.nguyenduy.comesticshop.domain.User;
+import vn.nguyenduy.comesticshop.service.EmailService;
 import vn.nguyenduy.comesticshop.service.UserService;
 
 public class CustomSuccessHandler implements AuthenticationSuccessHandler {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private EmailService emailService;
+
     private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
     protected String determineTargetUrl(final Authentication authentication) {
@@ -71,6 +76,22 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler {
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
             Authentication authentication) throws IOException, ServletException {
+        String email = authentication.getName();
+        User user = this.userService.getUserByEmail(email);
+
+        if (user != null && !user.isActive()) {
+            String otp = this.userService.generateOTP();
+
+            this.emailService.sendOtpEmail(user.getEmail(), otp);
+
+            HttpSession session = request.getSession();
+            session.setAttribute("otp", otp);
+            session.setAttribute("user", user);
+
+            redirectStrategy.sendRedirect(request, response, "/verify-otp");
+            return;
+        }
+
         String targetUrl = determineTargetUrl(authentication);
 
         if (response.isCommitted()) {

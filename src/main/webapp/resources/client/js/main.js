@@ -411,7 +411,7 @@
 
 
     //////////////////////////
-    //handle add to cart with ajax
+    //handle Thêm vào giỏ with ajax
     $('.btnAddToCartHomepage').click(function (event) {
         event.preventDefault();
         console.log(123);

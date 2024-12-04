@@ -130,7 +130,7 @@
                                         class="btnAddToCartDetail btn border border-secondary px-4 py-2 mb-4"
                                         style="background-color: #000; color: #fff;">
                                         <i class="fa fa-shopping-bag me-2"></i>
-                                        Add to cart
+                                        Thêm vào giỏ
                                     </button>
                                 </div>
                                 <div class="ms-2">
@@ -154,7 +154,7 @@
                             <!-- </form> -->
                             <!-- <button class="btn btn-primary btnAddToCartDetail"
                                 style="background-color: #a5678e; color: #fff;">
-                                <i class="fa fa-shopping-bag me-2"></i> Add to cart
+                                <i class="fa fa-shopping-bag me-2"></i> Thêm vào giỏ
                             </button> -->
                         </div>
                     </div>
@@ -162,14 +162,14 @@
                     <div class="review-container mt-5">
                         <div class="review-header">ĐÁNH GIÁ SẢN PHẨM</div>
                         <!-- <div class="review-rating">5.0 trên 5</div> -->
-                        <div class="review-controls mt-3">
+                        <!-- <div class="review-controls mt-3">
                             <button class="btn btn-outline-primary">Tất Cả</button>
                             <button class="btn btn-outline-secondary">5 Sao (386)</button>
                             <button class="btn btn-outline-secondary">4 Sao (10)</button>
                             <button class="btn btn-outline-secondary">3 Sao (0)</button>
                             <button class="btn btn-outline-secondary">2 Sao (0)</button>
                             <button class="btn btn-outline-secondary">1 Sao (1)</button>
-                        </div>
+                        </div> -->
                         <div class="review-list mt-4">
                             <c:forEach var="review" items="${reviews.content}">
                                 <div class="review-item d-flex p-3 mb-3" style="border-radius: 8px;">

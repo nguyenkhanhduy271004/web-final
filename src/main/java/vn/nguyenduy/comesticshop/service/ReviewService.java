@@ -1,5 +1,6 @@
 package vn.nguyenduy.comesticshop.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -32,4 +33,18 @@ public class ReviewService {
     public Page<Review> getAllReviewsByProductId(long id, Pageable pageable) {
         return this.reviewRepository.findAllByProductId(id, pageable);
     }
+
+    public List<Review> getReviewsByProductId(Long productId) {
+        return reviewRepository.findByProductId(productId);
+    }
+
+    public List<Review> getReviewsByProductIdAndRating(Long productId, int rating) {
+        try {
+            return reviewRepository.findByProductIdAndRating(productId, rating);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Error fetching reviews", e);
+        }
+    }
+
 }

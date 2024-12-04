@@ -5,9 +5,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -16,6 +21,7 @@ import jakarta.servlet.http.HttpSession;
 import vn.nguyenduy.comesticshop.domain.Product;
 import vn.nguyenduy.comesticshop.domain.Review;
 import vn.nguyenduy.comesticshop.domain.User;
+import vn.nguyenduy.comesticshop.domain.dto.ReviewsResponse;
 import vn.nguyenduy.comesticshop.service.ProductService;
 import vn.nguyenduy.comesticshop.service.ReviewService;
 import vn.nguyenduy.comesticshop.service.UploadService;
@@ -97,6 +103,19 @@ public class ReviewController {
             }
         }
         return "redirect:/product/" + productId;
+    }
+
+    @GetMapping("/product/{id}/reviews")
+    public ResponseEntity<List<Review>> getReviews(@PathVariable Long id, @RequestParam int rating) {
+        List<Review> reviews = reviewService.getReviewsByProductIdAndRating(id, rating);
+        if (reviews == null || reviews.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        System.out.println("reviews: " + reviews.size());
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(reviews);
     }
 
 }
