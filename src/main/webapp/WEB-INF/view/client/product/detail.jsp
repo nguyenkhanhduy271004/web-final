@@ -262,7 +262,7 @@
 
                         <c:if test="${not empty pageContext.request.userPrincipal}">
                             <div class="border rounded p-4 mt-4" style="background-color: #f8f9fa;">
-                                <h4 class="mb-4 text-center" style="color: #a5678e; font-weight: bold;">Write a
+                                <h4 class="mb-4 text-center" style="color: #000; font-weight: bold;">Write a
                                     Review
                                 </h4>
                                 <form action="<c:url value='/create-review' />" method="post"
@@ -295,7 +295,7 @@
                                     </div>
 
                                     <button type="submit" class="btn btn-primary px-4 py-2 rounded-pill"
-                                        style="background-color: #a5678e; border: none;">
+                                        style="background-color: #ccc; border: none;">
                                         <i class="fa fa-paper-plane me-2"></i>Submit Review
                                     </button>
                                 </form>

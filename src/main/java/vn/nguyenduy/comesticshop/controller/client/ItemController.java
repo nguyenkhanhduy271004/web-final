@@ -86,7 +86,7 @@ public class ItemController {
 
         this.productService.handleAddProductToCart(email, productId, session, 1);
 
-        return "redirect:/";
+        return "redirect:/products";
     }
 
     private Carrier getFirstCarrierOfShop(Shop shop) {

@@ -23,88 +23,96 @@
                         <main>
                             <div class="container-fluid px-4">
                                 <h1 class="mt-4">Manage Products</h1>
-                                <ol class="breadcrumb mb-4">
+                                <!-- <ol class="breadcrumb mb-4">
                                     <li class="breadcrumb-item"><a href="/vendor">Dashboard</a></li>
                                     <li class="breadcrumb-item active">Product</li>
-                                </ol>
+                                </ol> -->
                                 <div class="mt-5">
                                     <div class="row">
                                         <div class="col-12 mx-auto">
-                                            <div class="d-flex justify-content-between">
-                                                <h3>Table products</h3>
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <h3 style="margin-right: 20px;">Table products</h3>
                                                 <a href="/vendor/product/create" class="btn btn-primary">Create a
                                                     product</a>
                                             </div>
-
                                             <hr />
-                                            <table class=" table table-bordered table-hover">
-                                                <thead>
-                                                    <tr>
-                                                        <th>ID</th>
-                                                        <th>Name</th>
-                                                        <th>Price</th>
-                                                        <th>Factory</th>
-                                                        <th>Action</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <c:forEach var="product" items="${products}">
-                                                        <tr>
-                                                            <th>${product.id}</th>
-                                                            <td>${product.name}</td>
-                                                            <td>
-                                                                <fmt:formatNumber type="number"
-                                                                    value="${product.price}" />
-                                                                đ
-                                                            </td>
-                                                            <td>${product.factory}</td>
-                                                            <td>
-                                                                <a href="/vendor/product/${product.id}"
-                                                                    class="btn btn-success">View</a>
-                                                                <a href="/vendor/product/update/${product.id}"
-                                                                    class="btn btn-warning  mx-2">Update</a>
-                                                                <a href="/vendor/product/delete/${product.id}"
-                                                                    class="btn btn-danger">Delete</a>
-                                                            </td>
-                                                        </tr>
 
-                                                    </c:forEach>
-
-                                                </tbody>
-                                            </table>
-                                            <nav aria-label="Page navigation example">
-                                                <ul class="pagination justify-content-center">
-                                                    <li class="page-item ${currentPage eq 1 ? 'disabled' : ''}">
-                                                        <a class="page-link"
-                                                            href="/vendor/product?page=${currentPage - 1}"
-                                                            aria-label="Previous">
-                                                            <span aria-hidden="true">&laquo;</span>
-                                                            <span class="sr-only">Previous</span>
-                                                        </a>
-                                                    </li>
-                                                    <c:forEach begin="1" end="${totalPages}" varStatus="loop">
-                                                        <li class="page-item">
-                                                            <a class="${loop.index eq currentPage ? 'active page-link' : 'page-link'}"
-                                                                href="/vendor/product?page=${loop.index}">${loop.index}
-                                                            </a>
-                                                        </li>
-                                                    </c:forEach>
-                                                    <li
-                                                        class="page-item ${currentPage eq totalPages ? 'disabled' : ''}">
-                                                        <a class="page-link"
-                                                            href="/vendor/product?page=${currentPage + 1}"
-                                                            aria-label="Next">
-                                                            <span aria-hidden="true">&raquo;</span>
-                                                            <span class="sr-only">Next</span>
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </nav>
+                                            <!-- Check if products exist -->
+                                            <c:choose>
+                                                <c:when test="${not empty products}">
+                                                    <!-- Table for products -->
+                                                    <table class="table table-bordered table-hover">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>ID</th>
+                                                                <th>Name</th>
+                                                                <th>Price</th>
+                                                                <th>Factory</th>
+                                                                <th>Action</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <c:forEach var="product" items="${products}">
+                                                                <tr>
+                                                                    <th>${product.id}</th>
+                                                                    <td>${product.name}</td>
+                                                                    <td>
+                                                                        <fmt:formatNumber type="number"
+                                                                            value="${product.price}" /> đ
+                                                                    </td>
+                                                                    <td>${product.factory}</td>
+                                                                    <td>
+                                                                        <a href="/vendor/product/${product.id}"
+                                                                            class="btn btn-success">View</a>
+                                                                        <a href="/vendor/product/update/${product.id}"
+                                                                            class="btn btn-warning mx-2">Update</a>
+                                                                        <a href="/vendor/product/delete/${product.id}"
+                                                                            class="btn btn-danger">Delete</a>
+                                                                    </td>
+                                                                </tr>
+                                                            </c:forEach>
+                                                        </tbody>
+                                                    </table>
+                                                    <nav aria-label="Page navigation example">
+                                                        <ul class="pagination justify-content-center">
+                                                            <li class="page-item ${currentPage eq 1 ? 'disabled' : ''}">
+                                                                <a class="page-link"
+                                                                    href="/vendor/product?page=${currentPage - 1}"
+                                                                    aria-label="Previous">
+                                                                    <span aria-hidden="true">&laquo;</span>
+                                                                    <span class="sr-only">Previous</span>
+                                                                </a>
+                                                            </li>
+                                                            <c:forEach begin="1" end="${totalPages}" varStatus="loop">
+                                                                <li class="page-item">
+                                                                    <a class="${loop.index eq currentPage ? 'active page-link' : 'page-link'}"
+                                                                        href="/vendor/product?page=${loop.index}">${loop.index}
+                                                                    </a>
+                                                                </li>
+                                                            </c:forEach>
+                                                            <li
+                                                                class="page-item ${currentPage eq totalPages ? 'disabled' : ''}">
+                                                                <a class="page-link"
+                                                                    href="/vendor/product?page=${currentPage + 1}"
+                                                                    aria-label="Next">
+                                                                    <span aria-hidden="true">&raquo;</span>
+                                                                    <span class="sr-only">Next</span>
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </nav>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <!-- Display message when no products are available -->
+                                                    <div class="alert alert-warning text-center mt-4">
+                                                        Hiện tại không có sản phẩm.
+                                                    </div>
+                                                </c:otherwise>
+                                            </c:choose>
                                         </div>
-
                                     </div>
-
                                 </div>
+
                             </div>
                         </main>
                         <jsp:include page="../layout/footer.jsp" />

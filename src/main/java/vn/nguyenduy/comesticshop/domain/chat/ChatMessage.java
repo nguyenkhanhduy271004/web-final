@@ -1,35 +1,16 @@
 package vn.nguyenduy.comesticshop.domain.chat;
 
-import java.time.LocalDateTime;
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Entity
 public class ChatMessage {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    private Integer senderId;
-    private Integer receiverId;
-    private String message;
-
-    @Column(name = "timestamp", updatable = false)
-    private LocalDateTime timestamp = LocalDateTime.now();
+    private MessageType type;
+    private String content;
+    private String sender;
 
 }

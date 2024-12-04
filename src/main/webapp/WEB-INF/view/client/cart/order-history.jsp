@@ -27,14 +27,12 @@
                 <link href="<c:url value='/client/css/product.css' />" rel="stylesheet">
                 <link href="<c:url value='/client/css/hot-product.css' />" rel="stylesheet">
                 <link href="<c:url value='/client/css/sale-product.css' />" rel="stylesheet">
-<<<<<<< HEAD
-
-                <meta name="_csrf" content="${_csrf.token}" />
+                <<<<<<< HEAD <meta name="_csrf" content="${_csrf.token}" />
                 <meta name="_csrf_header" content="${_csrf.headerName}" />
 
-=======
+                =======
                 <link href="<c:url value='/client/css/responsive-home.css' />" rel="stylesheet">
->>>>>>> bc9ccb327a05dca192bcc5169d1442f805bd54b4
+                >>>>>>> bc9ccb327a05dca192bcc5169d1442f805bd54b4
                 <style>
                     :root {
                         --primary-color: #FFC0CB;
@@ -138,7 +136,7 @@
 
                 <jsp:include page="../layout/header.jsp" />
 
-                <div class="container-fluid py-5">
+                <div class="container-fluid py-5 mt-4">
                     <div class="container py-5">
                         <nav aria-label="breadcrumb" class="mb-4">
                             <ol class="breadcrumb">

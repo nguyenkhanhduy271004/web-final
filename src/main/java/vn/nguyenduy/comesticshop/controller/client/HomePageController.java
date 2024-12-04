@@ -172,11 +172,9 @@ public class HomePageController {
 
         int size = 10;
 
-        // Tìm kiếm sản phẩm theo tên và áp dụng các bộ lọc
         List<Product> products = productService.searchProducts(query, page, size, criteria, factories, targets,
                 priceRange, sort);
 
-        // Đưa dữ liệu vào model
         model.addAttribute("products", products);
         model.addAttribute("query", query);
         model.addAttribute("criteria", criteria);

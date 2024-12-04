@@ -25,24 +25,24 @@
                     <div id="layoutSidenav_content">
                         <main>
                             <div class="container-fluid px-4">
-                                <h1 class="mt-4 mb-4">Quản lý Carriers</h1>
+                                <h1 class="mt-4 mb-4">Manage Carriers</h1>
                                 <div class="mt-4 mb-2">
                                     <a href="/vendor/add-carriers" class="btn btn-success">
-                                        <i class="fas fa-plus"></i> Thêm nhà vận chuyển
+                                        <i class="fas fa-plus"></i> Add Carrier
                                     </a>
                                 </div>
 
                                 <!-- Table Card -->
                                 <div class="card">
                                     <div class="card-header bg-primary text-white">
-                                        <h5 class="card-title mb-0">Danh sách nhà vận chuyển</h5>
+                                        <h5 class="card-title mb-0">List Carriers</h5>
                                     </div>
                                     <div class="card-body">
                                         <table class="table table-hover table-bordered">
                                             <thead class="table-primary">
                                                 <tr>
                                                     <th scope="col" style="width: 10%">ID</th>
-                                                    <th scope="col" style="width: 90%">Tên nhà vận chuyển</th>
+                                                    <th scope="col" style="width: 90%">Name carrier</th>
                                                 </tr>
                                             </thead>
                                             <tbody>

@@ -128,7 +128,6 @@ public class ProductService {
             List<String> targets, List<String> priceRange, String sort) {
         Pageable pageable;
 
-        // Áp dụng sắp xếp theo tiêu chí
         if ("best_seller".equals(criteria)) {
             pageable = PageRequest.of(page - 1, size, Sort.by("quantitySold").descending());
         } else if ("new".equals(criteria)) {
@@ -141,38 +140,30 @@ public class ProductService {
             pageable = PageRequest.of(page - 1, size);
         }
 
-        // Tìm kiếm sản phẩm theo tên
         Page<Product> filteredProducts = productRepository.findByNameContainingIgnoreCase(query, pageable);
 
-        // Áp dụng các bộ lọc khác
         List<Product> products = filteredProducts.getContent();
 
-        // Lọc theo nhà máy (factories)
         if (factories != null && !factories.isEmpty()) {
             products = products.stream()
                     .filter(product -> factories.contains(product.getFactory()))
                     .toList();
         }
 
-        // Lọc theo mục tiêu (targets)
         if (targets != null && !targets.isEmpty()) {
             products = products.stream()
                     .filter(product -> targets.contains(product.getTarget()))
                     .toList();
         }
 
-        // Lọc theo khoảng giá
-        // Assuming priceRange is a List<String> representing selected price ranges
         if (priceRange != null && !priceRange.isEmpty()) {
-            // Loop through all selected price ranges and apply the filters
             for (String range : priceRange) {
                 double minPrice = 0;
                 double maxPrice = 0;
 
-                // Set the appropriate min and max based on the selected price range string
                 switch (range) {
                     case "duoi-500":
-                        minPrice = 1; // Assuming price starts from 1
+                        minPrice = 1;
                         maxPrice = 500000;
                         break;
                     case "500-1-trieu":
@@ -185,7 +176,7 @@ public class ProductService {
                         break;
                     case "tren-3-trieu":
                         minPrice = 3000000;
-                        maxPrice = 100000000; // You can set a high enough value for "above 3 million"
+                        maxPrice = 100000000;
                         break;
                     default:
                         // Handle invalid range or do nothing
@@ -228,8 +219,6 @@ public class ProductService {
                 cart = this.cartRepository.save(otherCart);
             }
 
-            // Save cart_detail
-            // Tìm product by id
             Optional<Product> productOptional = this.productRepository.findById(productId);
             if (productOptional.isPresent()) {
                 Product realProduct = productOptional.get();
@@ -244,10 +233,10 @@ public class ProductService {
                     cd.setQuantity(quantity);
                     this.cartDetailRepository.save(cd);
 
-                    int s = cart.getSum() + 1;
-                    cart.setSum(s);
+                    int newSum = cart.getSum() + (int) quantity;
+                    cart.setSum(newSum);
                     this.cartRepository.save(cart);
-                    session.setAttribute("sum", s);
+                    session.setAttribute("sum", newSum);
                 } else {
                     oldDetail.setQuantity(oldDetail.getQuantity() + quantity);
                     this.cartDetailRepository.save(oldDetail);
@@ -304,14 +293,12 @@ public class ProductService {
             User user, HttpSession session,
             String receiverName, String receiverAddress, String receiverPhone) {
 
-        // step 1: get cart by user
         Cart cart = this.cartRepository.findByUser(user);
         if (cart != null) {
             List<CartDetail> cartDetails = cart.getCartDetails();
 
             if (cartDetails != null) {
 
-                // create order
                 Order order = new Order();
                 order.setUser(user);
                 order.setReceiverName(receiverName);
@@ -331,8 +318,6 @@ public class ProductService {
                 order.setTotalPrice(sum);
                 order = this.orderRepository.save(order);
 
-                // create orderDetail
-
                 for (CartDetail cd : cartDetails) {
                     OrderDetail orderDetail = new OrderDetail();
                     orderDetail.setOrder(order);
@@ -343,14 +328,12 @@ public class ProductService {
                     this.orderDetailRepository.save(orderDetail);
                 }
 
-                // step 2: delete cart_detail and cart
                 for (CartDetail cd : cartDetails) {
                     this.cartDetailRepository.deleteById(cd.getId());
                 }
 
                 this.cartRepository.deleteById(cart.getId());
 
-                // step 3 : update session
                 session.setAttribute("sum", 0);
             }
         }

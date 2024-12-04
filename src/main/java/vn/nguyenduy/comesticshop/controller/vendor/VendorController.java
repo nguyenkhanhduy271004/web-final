@@ -109,7 +109,8 @@ public class VendorController {
         Shop shop = shopService.findByOwner(user.get());
         if (shop == null) {
             model.addAttribute("error", "User không sở hữu shop nào.");
-            return "vendor/order/show";
+            // model.addAttribute("carriers", shop.getCarriers());
+            return "vendor/carrier/list";
         }
 
         model.addAttribute("carriers", shop.getCarriers());

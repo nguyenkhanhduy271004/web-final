@@ -164,7 +164,7 @@
                                                 <div class="mb-2"><b>Mục đích sử dụng</b></div>
                                                 <div class="form-check form-check-inline">
                                                     <input class="form-check-input" type="checkbox" id="target-1"
-                                                        value="Mascara">
+                                                        value="MASCARA">
                                                     <label class="form-check-label" for="target-1">Mascara</label>
                                                 </div>
 

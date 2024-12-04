@@ -67,7 +67,7 @@
                                                                         <div class="d-flex align-items-center">
                                                                             <img src="/images/product/${orderDetail.product.image}"
                                                                                 class="img-fluid me-5 rounded-circle"
-                                                                                style="width: 80px; height: 80px;"
+                                                                                style="width: 80px; height: 80px; object-fit: contain;"
                                                                                 alt="">
                                                                         </div>
                                                                     </th>

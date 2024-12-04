@@ -43,7 +43,7 @@ public class PromotionVendorController {
         Shop shop = this.shopService.findByOwner(user.get());
         if (shop == null) {
             model.addAttribute("error", "No shop associated with this user.");
-            return "vendor/product/show";
+            return "vendor/promotion/show";
         }
 
         if (shop != null) {
