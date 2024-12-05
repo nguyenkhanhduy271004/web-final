@@ -124,7 +124,7 @@
                     <div class="container">
                         <div class="header-sale">
                             <img src="<c:url value='/client/img/img-FlashSale/logo.webp' />" alt="Flash Sale Logo" />
-                            <a href="<c:url value='/products' />">
+                            <a href="<c:url value='/products-sell' />">
                                 <button class="btn-show-all">Xem tất cả</button>
                             </a>
                         </div>

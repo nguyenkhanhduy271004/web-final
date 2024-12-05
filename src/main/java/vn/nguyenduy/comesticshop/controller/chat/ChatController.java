@@ -10,8 +10,10 @@ import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
+import vn.nguyenduy.comesticshop.domain.Shop;
 import vn.nguyenduy.comesticshop.domain.User;
 import vn.nguyenduy.comesticshop.domain.chat.ChatMessage;
+import vn.nguyenduy.comesticshop.service.ShopService;
 import vn.nguyenduy.comesticshop.service.UserService;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,6 +27,9 @@ public class ChatController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private ShopService shopService;
+
     @GetMapping("/chat")
     public String getMethodName(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession(false);
@@ -36,7 +41,13 @@ public class ChatController {
         Optional<User> user = userService.getUserById(id);
 
         if (user.isPresent()) {
-            model.addAttribute("username", user.get().getEmail());
+            Shop shop = shopService.findByOwner(user.get());
+            if (shop != null) {
+                model.addAttribute("username", shop.getName());
+            } else {
+                model.addAttribute("username", "Admin");
+
+            }
         }
         return "client/chat/chat";
     }

@@ -27,6 +27,9 @@
                 <link href="<c:url value='/client/css/responsive-home.css' />" rel="stylesheet">
                 <meta name="_csrf" content="${_csrf.token}" />
                 <meta name="_csrf_header" content="${_csrf.headerName}" />
+
+                <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.css"
+                    rel="stylesheet">
                 <style>
                     .review-container {
                         background-color: #fff;
@@ -119,13 +122,12 @@
 
                             <!-- <form action="/add-product-from-view-detail" method="post"
                                 modelAttribute="product"> -->
-                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-                            <input class="form-control d-none" type="text" value="${product.id}" name="id" />
-
-                            <input class="form-control d-none" type="text" name="quantity" id="cartDetails0.quantity"
-                                value="1" />
                             <div class="d-flex">
                                 <div>
+                                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+                                    <input class="form-control d-none" type="text" value="${product.id}" name="id" />
+                                    <input class="form-control d-none" type="text" name="quantity"
+                                        id="cartDetails0.quantity" value="1" />
                                     <button data-product-id="${product.id}"
                                         class="btnAddToCartDetail btn border border-secondary px-4 py-2 mb-4"
                                         style="background-color: #000; color: #fff;">
@@ -314,13 +316,13 @@
 
                 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
                 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-                <script src="/client/lib/easing/easing.min.js"></script>
-                <script src="/client/lib/waypoints/waypoints.min.js"></script>
-                <script src="/client/lib/lightbox/js/lightbox.min.js"></script>
-                <script src="/client/lib/owlcarousel/owl.carousel.min.js"></script>
-
-                <!-- Template Javascript -->
-                <script src="/client/js/main.js"></script>
+                <script src="<c:url value='/client/lib/easing/easing.min.js' />"></script>
+                <script src="<c:url value='/client/lib/waypoints/waypoints.min.js' />"></script>
+                <script src="<c:url value='/client/lib/lightbox/js/lightbox.min.js' />"></script>
+                <script src="<c:url value='/client/lib/owlcarousel/owl.carousel.min.js' />"></script>
+                <script src="<c:url value='/client/js/main.js?version=4' />"></script>
+                <script
+                    src="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.js"></script>
 
                 <script>
                     function openChat(productId) {

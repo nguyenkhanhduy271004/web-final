@@ -1,5 +1,6 @@
 package vn.nguyenduy.comesticshop.controller.client;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -17,13 +18,11 @@ import vn.nguyenduy.comesticshop.service.UserService;
 
 @Controller
 public class ResetPasswordController {
-    private final UserService userService;
-    private final EmailService emailService;
 
-    public ResetPasswordController(UserService userService, EmailService emailService) {
-        this.userService = userService;
-        this.emailService = emailService;
-    }
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private EmailService emailService;
 
     @GetMapping("/forgot-password")
     public String showForgotPasswordPage(Model model) {

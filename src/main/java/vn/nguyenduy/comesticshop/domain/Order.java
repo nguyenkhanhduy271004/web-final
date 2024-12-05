@@ -44,4 +44,8 @@ public class Order implements Serializable {
     @ManyToOne
     @JoinColumn(name = "shipper_id")
     private Shipper shipper;
+
+    @ManyToOne
+    @JoinColumn(name = "promotion_id")
+    private Promotion promotion;
 }

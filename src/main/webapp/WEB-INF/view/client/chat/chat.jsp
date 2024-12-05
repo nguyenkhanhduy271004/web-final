@@ -335,7 +335,11 @@
         var connectingElement = document.querySelector('.connecting');
 
         var stompClient = null;
-        var username = "User_" + Math.floor(Math.random() * 1000);  // Tạo username ngẫu nhiên
+        var username = "${username}";
+        if (!username) {
+            console.log("username" + username)
+            username = "User_" + Math.floor(Math.random() * 1000);
+        }
 
         var colors = [
             '#2196F3', '#32c787', '#00BCD4', '#ff5652',

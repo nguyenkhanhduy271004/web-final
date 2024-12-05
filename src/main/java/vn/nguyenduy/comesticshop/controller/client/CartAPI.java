@@ -11,6 +11,7 @@ import vn.nguyenduy.comesticshop.service.ProductService;
 import java.math.BigDecimal;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -44,13 +45,10 @@ class CartRequest {
 @RestController
 public class CartAPI {
 
-    private final ProductService productService;
-    private final CartDetailService cartDetailService;
-
-    public CartAPI(ProductService productService, CartDetailService cartDetailService) {
-        this.productService = productService;
-        this.cartDetailService = cartDetailService;
-    }
+    @Autowired
+    private ProductService productService;
+    @Autowired
+    private CartDetailService cartDetailService;
 
     @PostMapping("/api/add-product-to-cart")
     public ResponseEntity<Integer> addProductToCart(

@@ -3,6 +3,7 @@ package vn.nguyenduy.comesticshop.controller.admin;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -30,18 +31,12 @@ import vn.nguyenduy.comesticshop.service.UserService;
 @Controller
 public class UserController {
 
-    private final UserService userService;
-    private final UploadService uploadService;
-    private final PasswordEncoder passwordEncoder;
-
-    public UserController(
-            UploadService uploadService,
-            UserService userService,
-            PasswordEncoder passwordEncoder) {
-        this.userService = userService;
-        this.uploadService = uploadService;
-        this.passwordEncoder = passwordEncoder;
-    }
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private UploadService uploadService;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @RequestMapping("/")
     public String getHomePage(Model model) {

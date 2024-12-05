@@ -3,6 +3,7 @@ package vn.nguyenduy.comesticshop.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -16,6 +17,7 @@ import vn.nguyenduy.comesticshop.domain.CartDetail;
 import vn.nguyenduy.comesticshop.domain.Order;
 import vn.nguyenduy.comesticshop.domain.OrderDetail;
 import vn.nguyenduy.comesticshop.domain.Product;
+import vn.nguyenduy.comesticshop.domain.Promotion;
 import vn.nguyenduy.comesticshop.domain.Shop;
 import vn.nguyenduy.comesticshop.domain.User;
 import vn.nguyenduy.comesticshop.domain.dto.ProductCriteriaDTO;
@@ -34,6 +36,9 @@ public class ProductService {
     private final UserService userService;
     private final OrderRepository orderRepository;
     private final OrderDetailsRepository orderDetailRepository;
+
+    @Autowired
+    private PromotionService promotionService;
 
     public ProductService(
             ProductRepository productRepository,
@@ -58,8 +63,8 @@ public class ProductService {
         return this.productRepository.findAll(page);
     }
 
-    public List<Product> fetchTopSellingProducts(int limit) {
-        return productRepository.findAllByOrderByQuantitySoldDesc(PageRequest.of(0, limit)).getContent();
+    public List<Product> fetchTopSellingProducts(int page, int limit) {
+        return productRepository.findAllByOrderByQuantitySoldDesc(PageRequest.of(page, limit)).getContent();
     }
 
     public Page<Product> fetchProductsWithSpec(Pageable page, ProductCriteriaDTO productCriteriaDTO) {
@@ -291,7 +296,7 @@ public class ProductService {
 
     public void handlePlaceOrder(
             User user, HttpSession session,
-            String receiverName, String receiverAddress, String receiverPhone) {
+            String receiverName, String receiverAddress, String receiverPhone, Long promotionId) {
 
         Cart cart = this.cartRepository.findByUser(user);
         if (cart != null) {
@@ -300,6 +305,10 @@ public class ProductService {
             if (cartDetails != null) {
 
                 Order order = new Order();
+                Optional<Promotion> promotion = promotionService.getPromotionById(promotionId);
+                if (promotion.isPresent()) {
+                    order.setPromotion(promotion.get());
+                }
                 order.setUser(user);
                 order.setReceiverName(receiverName);
                 order.setReceiverAddress(receiverAddress);
@@ -315,6 +324,7 @@ public class ProductService {
                         sum += cd.getPrice() * cd.getQuantity();
                     }
                 }
+                sum -= (sum * promotion.get().getDiscountRate()) / 100;
                 order.setTotalPrice(sum);
                 order = this.orderRepository.save(order);
 

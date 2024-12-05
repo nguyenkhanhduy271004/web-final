@@ -27,19 +27,49 @@
                 <meta name="_csrf" content="${_csrf.token}" />
                 <meta name="_csrf_header" content="${_csrf.headerName}" />
                 <style>
+                    body {
+                        background-color: #f7f4f3;
+                        font-family: 'Open Sans', sans-serif;
+                        color: #333;
+                        margin-top: 100px;
+                    }
+
                     .card {
                         border-radius: 15px;
                         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                        margin-top: 50px;
+                        padding: 40px 30px;
+                        background-color: #fff;
+                    }
+
+                    .header-title {
+                        font-size: 2rem;
+                        color: #007bff;
+                        font-weight: 600;
+                        margin-bottom: 20px;
+                        text-align: center;
                     }
 
                     .form-control {
                         border-radius: 8px;
+                        padding: 10px 15px;
+                        font-size: 1rem;
+                        border: 1px solid #ddd;
+                        transition: border-color 0.3s ease-in-out;
+                    }
+
+                    .form-control:focus {
+                        border-color: #007bff;
+                        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
                     }
 
                     .btn-primary {
                         border-radius: 8px;
                         background-color: #007bff;
                         border: none;
+                        padding: 12px 20px;
+                        font-size: 1.1rem;
+                        width: 100%;
                         transition: background-color 0.3s;
                     }
 
@@ -47,23 +77,51 @@
                         background-color: #0056b3;
                     }
 
-                    .header-title {
-                        font-size: 1.5rem;
-                        color: #007bff;
+                    .form-group {
+                        margin-bottom: 20px;
+                    }
+
+                    .alert {
+                        border-radius: 8px;
+                        font-size: 1rem;
+                    }
+
+                    .alert-danger {
+                        background-color: #f8d7da;
+                        color: #721c24;
+                    }
+
+                    .form-group label {
                         font-weight: 600;
-                        margin-bottom: 15px;
+                        margin-bottom: 10px;
+                    }
+
+                    .card-body {
+                        max-width: 500px;
+                        margin: 0 auto;
+                    }
+
+                    /* Styling for file input */
+                    .form-control-file {
+                        border-radius: 8px;
+                        padding: 10px;
+                    }
+
+                    /* Styling for the form */
+                    form {
+                        margin-top: 30px;
                     }
                 </style>
             </head>
 
-            <body
-                style="background-color: #f7f4f3; font-family: 'Open Sans', sans-serif; color: #333; margin-top: 100px;">
+            <body>
+
                 <jsp:include page="../layout/header.jsp" />
 
                 <div class="container py-5 mt-5">
                     <div class="card">
                         <div class="card-body">
-                            <h2 class="header-title text-center">Shop Registration</h2>
+                            <h2 class="header-title">Shop Registration</h2>
 
                             <c:if test="${not empty error}">
                                 <div class="alert alert-danger">${error}</div>
@@ -86,25 +144,24 @@
                                         placeholder="Enter your shop name" required>
                                 </div>
 
-                                <div class="form-group mt-2">
+                                <div class="form-group">
                                     <label for="description">Description</label>
                                     <textarea class="form-control" id="description" name="description" rows="3"
                                         placeholder="Describe your shop" required></textarea>
                                 </div>
 
-                                <div class="form-group mt-2">
+                                <div class="form-group">
                                     <label for="logo">Logo</label>
                                     <input type="file" class="form-control-file" id="logo" name="logo" required>
                                 </div>
 
-                                <button type="submit" class="btn btn-primary btn-block mt-4">Register Shop</button>
+                                <button type="submit" class="btn btn-primary">Register Shop</button>
                             </form>
                         </div>
                     </div>
                 </div>
+
                 <jsp:include page="../layout/footer.jsp" />
-
-
 
                 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
                 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -113,7 +170,6 @@
                 <script src="/client/lib/lightbox/js/lightbox.min.js"></script>
                 <script src="/client/lib/owlcarousel/owl.carousel.min.js"></script>
 
-                <!-- Template Javascript -->
                 <script src="/client/js/main.js"></script>
             </body>
 

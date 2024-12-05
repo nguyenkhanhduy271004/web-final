@@ -538,7 +538,7 @@ a {
 }
 
 .pagination a.active {
-    background-color: var(--bs-primary);
+    background-color: #000;
     color: var(--bs-light);
     border: 1px solid var(--bs-secondary);
 }

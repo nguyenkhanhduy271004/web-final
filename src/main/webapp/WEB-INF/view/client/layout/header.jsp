@@ -77,8 +77,6 @@
                                             <a href="/specials" class="nav-item nav-link"
                                                 style="color: #000;">Specials</a>
                                             <a href="/new" class="nav-item nav-link" style="color: #000;">New</a>
-                                            <a href="/contact" class="nav-item nav-link"
-                                                style="color: #000;">Contact</a>
                                         </div>
 
                                         <!-- Search Box -->
@@ -121,6 +119,7 @@
                                                             </div>
                                                         </li>
 
+
                                                         <li><a class="dropdown-item" href="/profile">Quản lý tài
                                                                 khoản</a></li>
 
@@ -129,7 +128,15 @@
                                                         <li><a class="dropdown-item" href="/user/wishlist">Sản phẩm yêu
                                                                 thích</a></li>
                                                         <li>
-                                                            <hr class="dropdown-divider">
+                                                        <li>
+                                                            <c:if
+                                                                test="${sessionScope.role == 'ADMIN' or sessionScope.role == 'VENDOR'}">
+                                                                <a href="/chat" class="nav-item nav-link"
+                                                                    style="color: #000;">Hỗ trợ người bán</a>
+                                                            </c:if>
+                                                        </li>
+
+                                                        <hr class="dropdown-divider">
                                                         </li>
                                                         <li>
                                                             <form method="post" action="/logout">
