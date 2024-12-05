@@ -22,20 +22,20 @@
                         <!-- <h1 class="text-primary display-6">Cosmetic Shop</h1> -->
                     </a>
                     <!-- Search Box -->
-                    <!-- <form class="search-form-mobile d-flex mx-3" action="/search" method="get">
+                     <form class="search-form-mobile d-flex mx-3" action="/search" method="get">
                         <input type="text" name="query" class="form-control search-test"
                             placeholder="Top 3 kem chống nắng HOT nhất" />
                         <button type="submit" class="btn search-button">
                             <i class="fas fa-search"></i>
                         </button>
-                    </form> -->
-                    <!-- <input type="checkbox" name="menu-checkbox" id="menu-checkbox" class="menu-checkbox" hidden />
+                    </form>
+                    <input type="checkbox" name="menu-checkbox" id="menu-checkbox" class="menu-checkbox" hidden />
                     <label for="menu-checkbox">
                         <svg class="menu-mobile-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
                             <path
                                 d="M0 96C0 78.3 14.3 64 32 64l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 128C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 288c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32L32 448c-17.7 0-32-14.3-32-32s14.3-32 32-32l384 0c17.7 0 32 14.3 32 32z" />
                         </svg>
-                    </label> -->
+                    </label>
                     <!-- overlay -->
                     <label for="menu-checkbox" class="menu-overlay"> </label>
                     <!-- menu content -->
@@ -43,9 +43,9 @@
                         <!-- menu top -->
                         <div class="menu-drawer__top">
                             <!-- logo -->
-                            <!-- <a href="http://127.0.0.1:5501/index.html" class="logo__mobile">
+                             <a href="http://127.0.0.1:5501/index.html" class="logo__mobile">
                                 <img src="../client/img/imgThuonghieu/4.png" class="img_logo" />
-                            </a> -->
+                            </a>
                             <!-- icon close -->
                             <label for="menu-checkbox">
                                 <svg class="close__menu" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
@@ -55,13 +55,13 @@
                             </label>
                         </div>
                         <!-- navigation mobile -->
-                        <!-- <ul id="navbar__list--mobile">
+                         <ul id="navbar__list--mobile">
                             <li class="navbar__item"><a href="#">Home</a></li>
                             <li class="navbar__item"><a href="#">About</a></li>
                             <li class="navbar__item"><a href="#">Specials</a></li>
                             <li class="navbar__item"><a href="#">New</a></li>
                             <li class="navbar__item"><a href="#">Contact</a></li>
-                        </ul> -->
+                        </ul>
                     </div>
                     <%-- <button class="navbar-toggler py-2 px-3" type="button" data-bs-toggle="collapse" --%>
                         <%-- data-bs-target="#navbarCollapse">--%>

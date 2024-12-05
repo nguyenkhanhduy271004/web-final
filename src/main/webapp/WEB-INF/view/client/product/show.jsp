@@ -52,6 +52,7 @@
                             pointer-events: none;
                             background-color: var(--bs-pagination-disabled-bg);
                         }
+
                     </style>
                 </head>
 
