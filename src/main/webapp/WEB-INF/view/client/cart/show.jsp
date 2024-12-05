@@ -129,7 +129,7 @@
                                                             </c:otherwise>
                                                         </c:choose> -->
                                                     </td>
-                                                    <td style="text-align: center; vertical-align: middle;">
+                                                    <td style="text-align: center; ">
                                                         <div class="input-group quantity mt-4" style="width: 100px;">
                                                             <div class="input-group-btn">
                                                                 <button
@@ -152,7 +152,7 @@
                                                         </div>
                                                     </td>
 
-                                                    <td style="text-align: center; vertical-align: middle;">
+                                                    <td style="text-align: center; ">
                                                         <c:choose>
                                                             <c:when test="${cartDetail.product.discountPercentage > 0}">
                                                                 <p class="mb-0 mt-4"
