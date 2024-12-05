@@ -1,66 +1,77 @@
-README for CosmeticShop Web Application (Spring MVC, JPA, JSP, Bootstrap)
-Overview
-The CosmeticShop is an e-commerce platform for cosmetics, built with Spring MVC, Spring JPA, JSP, and Bootstrap. It supports multiple roles such as Guest, User, Vendor (Seller), Admin, and Shipper. The application offers functionality for product search and filtering, user registration with email OTP verification, login, password recovery, product management, order tracking, payment integration, and more.
+# README for CosmeticShop Web Application (Spring MVC, JPA, JSP, Bootstrap)
 
-Tech Stack
-Backend: Spring MVC, Spring JPA, Spring Security (for Spring Boot)
-Frontend: JSP, Bootstrap
-Database: MySQL (or any JPA-compatible database)
-Authentication: Spring Security (for Spring Boot), OTP via Email
-Payment Gateway: VNPAY, MOMO, COD
-Others: JavaMailSender (for OTP email)
-Features
-Common Features:
-Product Search & Filter: Users can search for products by name, price, category, and rating. Filters include categories, price range, and ratings.
-User Registration & OTP Verification: Users can register an account. After registration, an OTP is sent via email for account activation.
-Login/Logout: Users can log in using their registered email and password. The password is securely hashed.
-Password Recovery with OTP: Users can reset their password via email OTP verification.
-Guest Features:
-Home Page: Displays the top 10 products from various shops, sorted from highest to lowest in price or rating.
-Product Browsing: Visitors can browse product categories and view detailed information about each product.
-User Features:
-Homepage: Displays featured products, including new arrivals, bestsellers, highly rated, and favorites.
-Pagination/Lazy Loading: Products are displayed with pagination or lazy loading (20 per page).
-Profile Management: Users can manage their profile and shipping addresses.
-Product Details Page: Detailed information about products, including reviews, ratings, and availability.
-Shopping Cart: Cart is saved to the database. Users can add, remove, or update the quantity of items.
-Order Management: Users can place orders, track order statuses (new, confirmed, in transit, delivered, canceled, or returned).
-Discount Codes: Users can apply discount codes during checkout.
-Wishlist & Recently Viewed Products: Users can add products to their wishlist and view recently viewed products.
-Review & Rating: After purchase, users can leave product reviews and ratings, including text and images (minimum 50 characters for text).
-Vendor (Seller) Features:
-Shop Registration: Vendors can register a shop to sell products.
-Shop Dashboard: Manage the shop’s homepage, including featured products, banners, and promotions.
-Product Management: Add, edit, and delete products. Manage inventory, pricing, and product details.
-Order Management: View and manage orders for the shop, including statuses like new, confirmed, shipped, delivered, canceled, or returned.
-Promotions & Discounts: Vendors can create and manage promotional campaigns, including product discounts and free shipping.
-Sales Analytics: Track shop sales, revenue, and product performance.
-Admin Features:
-User Management: Admins can search and manage users (suspend, delete, or edit user details).
-Product Management: Admins can manage products across all vendors and assign categories.
-Category Management: Admins can manage product categories.
-Discount & Commission Management: Admins can manage the app's discount and commission structure for vendors.
-Shipping Management: Admins can manage shipping partners, shipping fees, and integrations.
-Shipper (Additional Role):
-Order Assignment: Shippers can view and manage orders assigned to them for delivery.
-Order Statistics: Shippers can track the delivery status and performance of assigned orders.
-Requirements
-JDK: Java 8 or higher
-Maven: For dependency management and project build.
-MySQL Database (or any compatible database)
-Spring Framework (Spring MVC, Spring JPA, Spring Security)
-MailSender: For OTP email sending functionality
-Payment Integration: VNPAY, MOMO (for online payment methods)
-Setting Up the Project
-Step 1: Clone the Repository
+## Overview
+The **CosmeticShop** is an e-commerce platform for cosmetics, built with Spring MVC, Spring JPA, JSP, and Bootstrap. It supports multiple roles such as **Guest**, **User**, **Vendor (Seller)**, **Admin**, and **Shipper**. The application offers functionality for product search and filtering, user registration with email OTP verification, login, password recovery, product management, order tracking, payment integration, and more.
+
+## Tech Stack
+- **Backend**: Spring MVC, Spring JPA, Spring Security (for Spring Boot)
+- **Frontend**: JSP, Bootstrap
+- **Database**: MySQL (or any JPA-compatible database)
+- **Authentication**: Spring Security (for Spring Boot), OTP via Email
+- **Payment Gateway**: VNPAY, MOMO, COD
+- **Others**: JavaMailSender (for OTP email)
+
+## Features
+
+### Common Features:
+- **Product Search & Filter**: Users can search for products by name, price, category, and rating. Filters include categories, price range, and ratings.
+- **User Registration & OTP Verification**: Users can register an account. After registration, an OTP is sent via email for account activation.
+- **Login/Logout**: Users can log in using their registered email and password. The password is securely hashed.
+- **Password Recovery with OTP**: Users can reset their password via email OTP verification.
+
+### Guest Features:
+- **Home Page**: Displays the top 10 products from various shops, sorted from highest to lowest in price or rating.
+- **Product Browsing**: Visitors can browse product categories and view detailed information about each product.
+
+### User Features:
+- **Homepage**: Displays featured products, including new arrivals, bestsellers, highly rated, and favorites.
+- **Pagination/Lazy Loading**: Products are displayed with pagination or lazy loading (20 per page).
+- **Profile Management**: Users can manage their profile and shipping addresses.
+- **Product Details Page**: Detailed information about products, including reviews, ratings, and availability.
+- **Shopping Cart**: Cart is saved to the database. Users can add, remove, or update the quantity of items.
+- **Order Management**: Users can place orders, track order statuses (new, confirmed, in transit, delivered, canceled, or returned).
+- **Discount Codes**: Users can apply discount codes during checkout.
+- **Wishlist & Recently Viewed Products**: Users can add products to their wishlist and view recently viewed products.
+- **Review & Rating**: After purchase, users can leave product reviews and ratings, including text and images (minimum 50 characters for text).
+
+### Vendor (Seller) Features:
+- **Shop Registration**: Vendors can register a shop to sell products.
+- **Shop Dashboard**: Manage the shop’s homepage, including featured products, banners, and promotions.
+- **Product Management**: Add, edit, and delete products. Manage inventory, pricing, and product details.
+- **Order Management**: View and manage orders for the shop, including statuses like new, confirmed, shipped, delivered, canceled, or returned.
+- **Promotions & Discounts**: Vendors can create and manage promotional campaigns, including product discounts and free shipping.
+- **Sales Analytics**: Track shop sales, revenue, and product performance.
+
+### Admin Features:
+- **User Management**: Admins can search and manage users (suspend, delete, or edit user details).
+- **Product Management**: Admins can manage products across all vendors and assign categories.
+- **Category Management**: Admins can manage product categories.
+- **Discount & Commission Management**: Admins can manage the app's discount and commission structure for vendors.
+- **Shipping Management**: Admins can manage shipping partners, shipping fees, and integrations.
+
+### Shipper (Additional Role):
+- **Order Assignment**: Shippers can view and manage orders assigned to them for delivery.
+- **Order Statistics**: Shippers can track the delivery status and performance of assigned orders.
+
+## Requirements
+- **JDK**: Java 8 or higher
+- **Maven**: For dependency management and project build.
+- **MySQL Database** (or any compatible database)
+- **Spring Framework** (Spring MVC, Spring JPA, Spring Security)
+- **MailSender**: For OTP email sending functionality
+- **Payment Integration**: VNPAY, MOMO (for online payment methods)
+
+## Setting Up the Project
+
+### Step 1: Clone the Repository
 Clone the repository from GitHub to your local machine.
 
-bash
-Sao chép mã
+```bash
 git clone https://github.com/nguyenkhanhduy271004/web-final
 Step 2: Configure Database
 Create a MySQL database for the project.
 Configure the application.properties or application.yml file with your database credentials.
+
 properties
 Sao chép mã
 spring.datasource.url=jdbc:mysql://localhost:3306/cosmeticshop
@@ -150,3 +161,13 @@ Conclusion
 This CosmeticShop platform is a full-fledged e-commerce solution built using modern Java technologies. It provides a rich set of features for both users and vendors, with an intuitive interface for easy management of products, orders, and payments. If you have any questions or need help setting up the project, feel free to open an issue on GitHub.
 
 Happy coding!
+
+less
+Sao chép mã
+
+### Những thay đổi tôi đã thực hiện:
+1. Đảm bảo các tiêu đề (`##`) được sử dụng đúng để phân tách các mục chính.
+2. Sử dụng dấu ba gạch chéo (```bash```) cho các ví dụ mã lệnh, giúp dễ nhìn và phân biệt với phần văn bản.
+3. Đảm bảo có khoảng cách giữa các mục để dễ đọc.
+
+Hy vọng rằng với những thay đổi này, `README.md` của bạn sẽ hiển thị đúng trên GitHub.
