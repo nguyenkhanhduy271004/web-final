@@ -215,8 +215,9 @@
                                                 <div class="d-flex justify-content-between">
                                                     <h5 class="mb-0 me-4">Phí vận chuyển</h5>
                                                     <div class="">
-                                                        <fmt:formatNumber value="${totalShippingFee}" type="number" />
-                                                        đ
+                                                        <fmt:formatNumber value="${totalShippingFee}" type="number"
+                                                            pattern="#,##0" />
+                                                        <span>₫</span>
                                                     </div>
                                                 </div>
                                             </div>

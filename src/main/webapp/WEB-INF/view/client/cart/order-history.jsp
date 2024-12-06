@@ -179,13 +179,34 @@
                                                             class="text-decoration-none">${orderDetail.product.name}</a>
                                                     </td>
                                                     <td>
-                                                        <fmt:formatNumber type="number" value="${orderDetail.price}" />
+                                                        <c:choose>
+                                                            <c:when
+                                                                test="${orderDetail.product.discountPercentage != null}">
+                                                                <fmt:formatNumber type="number"
+                                                                    value="${orderDetail.price * (1 - orderDetail.product.discountPercentage / 100)}" />
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                                <fmt:formatNumber type="number"
+                                                                    value="${orderDetail.price}" />
+                                                            </c:otherwise>
+                                                        </c:choose>
                                                         đ
                                                     </td>
+
                                                     <td>${orderDetail.quantity}</td>
                                                     <td>
-                                                        <fmt:formatNumber type="number"
-                                                            value="${orderDetail.price * orderDetail.quantity}" /> đ
+                                                        <c:choose>
+                                                            <c:when
+                                                                test="${orderDetail.product.discountPercentage != null}">
+                                                                <fmt:formatNumber type="number"
+                                                                    value="${orderDetail.price * orderDetail.quantity * (1 - orderDetail.product.discountPercentage / 100)}" />
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                                <fmt:formatNumber type="number"
+                                                                    value="${orderDetail.price * orderDetail.quantity}" />
+                                                            </c:otherwise>
+                                                        </c:choose>
+                                                        đ
                                                     </td>
                                                     <td>${orderDetail.status}</td>
                                                 </tr>

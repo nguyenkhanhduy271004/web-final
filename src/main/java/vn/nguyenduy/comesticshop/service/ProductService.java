@@ -296,7 +296,8 @@ public class ProductService {
 
     public void handlePlaceOrder(
             User user, HttpSession session,
-            String receiverName, String receiverAddress, String receiverPhone, Long promotionId) {
+            String receiverName, String receiverAddress, String receiverPhone, String paymentMethod,
+            double totalShippingFee, Long promotionId) {
 
         Cart cart = this.cartRepository.findByUser(user);
         if (cart != null) {
@@ -320,6 +321,7 @@ public class ProductService {
                 order.setReceiverAddress(receiverAddress);
                 order.setReceiverPhone(receiverPhone);
                 order.setStatus("PENDING");
+                order.setPaymentMethod(paymentMethod);
 
                 double sum = 0;
                 for (CartDetail cd : cartDetails) {
@@ -334,7 +336,7 @@ public class ProductService {
                 if (promotion.isPresent()) {
                     sum -= (sum * promotion.get().getDiscountRate()) / 100;
                 }
-
+                sum += totalShippingFee;
                 order.setTotalPrice(sum);
                 order = this.orderRepository.save(order);
 
@@ -344,6 +346,7 @@ public class ProductService {
                     orderDetail.setProduct(cd.getProduct());
                     orderDetail.setPrice(cd.getPrice());
                     orderDetail.setQuantity(cd.getQuantity());
+                    orderDetail.setStatus("PENDING");
 
                     this.orderDetailRepository.save(orderDetail);
                 }

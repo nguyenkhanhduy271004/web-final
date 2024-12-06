@@ -31,6 +31,8 @@ public class Order implements Serializable {
 
     private String status;
 
+    private String paymentMethod;
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;

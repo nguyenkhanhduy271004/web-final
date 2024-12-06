@@ -162,6 +162,8 @@
                                     <form:form action="/place-order" method="post" modelAttribute="cart">
                                         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
                                         <input type="hidden" name="promotionId" id="promotionId" value="0" />
+                                        <input type="hidden" name="totalShippingFee" id="totalShippingFee"
+                                            value="${totalShippingFee}" />
                                         <div class="mt-5 row g-4 justify-content-start">
                                             <div class="col-12 col-md-6">
                                                 <div class="p-4 ">
@@ -200,7 +202,9 @@
                                                         <div class="d-flex justify-content-between">
                                                             <h5 class="mb-0 me-4">Phí vận chuyển</h5>
                                                             <div class="">
-                                                                <p class="mb-0">0 đ</p>
+                                                                <fmt:formatNumber value="${totalShippingFee}"
+                                                                    type="number" pattern="#,##0" />
+                                                                <span>₫</span>
                                                             </div>
                                                         </div>
 
