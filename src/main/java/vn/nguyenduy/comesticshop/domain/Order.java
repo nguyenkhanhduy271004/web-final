@@ -1,6 +1,7 @@
 package vn.nguyenduy.comesticshop.domain;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import jakarta.persistence.*;
@@ -48,4 +49,7 @@ public class Order implements Serializable {
     @ManyToOne
     @JoinColumn(name = "promotion_id")
     private Promotion promotion;
+
+    @Column(name = "order_date")
+    private LocalDateTime orderDate;
 }

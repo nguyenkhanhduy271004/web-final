@@ -3,6 +3,7 @@ package vn.nguyenduy.comesticshop.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -16,15 +17,11 @@ import vn.nguyenduy.comesticshop.repository.OrderRepository;
 
 @Service
 public class OrderService {
-    private final OrderRepository orderRepository;
-    private final OrderDetailsRepository orderDetailRepository;
 
-    public OrderService(
-            OrderRepository orderRepository,
-            OrderDetailsRepository orderDetailRepository) {
-        this.orderDetailRepository = orderDetailRepository;
-        this.orderRepository = orderRepository;
-    }
+    @Autowired
+    private OrderRepository orderRepository;
+    @Autowired
+    private OrderDetailsRepository orderDetailRepository;
 
     public Page<Order> fetchAllOrders(Pageable pageable) {
         return this.orderRepository.findAll(pageable);
@@ -79,6 +76,10 @@ public class OrderService {
 
     public long countPendingOrdersByShipper(Long shipperId) {
         return orderRepository.countByShipperIdAndStatus(shipperId, "pending");
+    }
+
+    public List<Object[]> getMonthlyRevenue(long shopId, int year) {
+        return orderRepository.findMonthlyRevenueByShopId(shopId, year);
     }
 
 }

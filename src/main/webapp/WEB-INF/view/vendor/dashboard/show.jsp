@@ -13,6 +13,10 @@
             <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
             <link href="css/styles.css" rel="stylesheet" />
             <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+
+            <!-- Thêm Chart.js -->
+            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
             <style>
                 body {
                     font-family: Arial, sans-serif;
@@ -36,7 +40,8 @@
                     display: flex;
                     align-items: center;
                     justify-content: center;
-                    height: 100px;
+                    height: 500px;
+                    /* Tăng chiều cao của khung chứa biểu đồ */
                 }
 
                 .card-footer {
@@ -65,6 +70,16 @@
                 .breadcrumb-item.active {
                     color: #6c757d;
                 }
+
+                /* Custom style for chart */
+                .chart-container {
+                    margin-top: 30px;
+                }
+
+                #revenueChart {
+                    width: 100% !important;
+                    height: 100% !important;
+                }
             </style>
         </head>
 
@@ -74,16 +89,13 @@
                 <jsp:include page="../layout/sidebar.jsp" />
                 <div id="layoutSidenav_content">
                     <main>
-                        <div class="container-fluid px-4">
-                            <h1 class="mt-4">Dashboard - Quản lý doanh thu</h1>
-                            <ol class="breadcrumb mb-4">
-                                <li class="breadcrumb-item active">Thống kê doanh thu</li>
-                            </ol>
+                        <div class="container-fluid px-4" style="margin-top: 300px;">
+                            <h1 class="mt-4" style="margin-bottom: 100px;">Dashboard - Quản lý doanh thu</h1>
                             <div class="row">
                                 <div class="col-xl-3 col-md-6">
                                     <div class="card bg-info text-white mb-4">
-                                        <div class="card-body">
-                                            Tổng Doanh Thu: ${totalRevenue ? totalRevenue : 0} VND
+                                        <div class="card-body" style="height: 100px;">
+                                            Tổng Doanh Thu: ${totalRevenue != null ? totalRevenue : 0} VND
                                         </div>
                                         <div class="card-footer d-flex align-items-center justify-content-between">
                                             <a class="small text-white stretched-link" href="#">Xem chi tiết</a>
@@ -93,7 +105,9 @@
                                 </div>
                                 <div class="col-xl-3 col-md-6">
                                     <div class="card bg-primary text-white mb-4">
-                                        <div class="card-body">Số lượng khách hàng: ${countUsers}</div>
+                                        <div class="card-body" style="height: 100px;">Số lượng khách hàng: ${countUsers
+                                            != null ? countUsers :
+                                            0}</div>
                                         <div class="card-footer d-flex align-items-center justify-content-between">
                                             <a class="small text-white stretched-link" href="/vendor/user">Xem chi
                                                 tiết</a>
@@ -103,7 +117,9 @@
                                 </div>
                                 <div class="col-xl-3 col-md-6">
                                     <div class="card bg-danger text-white mb-4">
-                                        <div class="card-body">Số lượng sản phẩm: ${countProducts}</div>
+                                        <div class="card-body" style="height: 100px;">Số lượng sản phẩm: ${countProducts
+                                            != null ?
+                                            countProducts : 0}</div>
                                         <div class="card-footer d-flex align-items-center justify-content-between">
                                             <a class="small text-white stretched-link" href="/vendor/product">Xem chi
                                                 tiết</a>
@@ -113,7 +129,9 @@
                                 </div>
                                 <div class="col-xl-3 col-md-6">
                                     <div class="card bg-success text-white mb-4">
-                                        <div class="card-body">Số lượng đơn hàng: ${countOrders}</div>
+                                        <div class="card-body" style="height: 100px;">Số lượng đơn hàng: ${countOrders
+                                            != null ? countOrders :
+                                            0}</div>
                                         <div class="card-footer d-flex align-items-center justify-content-between">
                                             <a class="small text-white stretched-link" href="/vendor/order">Xem chi
                                                 tiết</a>
@@ -122,14 +140,76 @@
                                     </div>
                                 </div>
                             </div>
+                            <ol class="breadcrumb mb-4">
+                                <li class="breadcrumb-item active">Thống kê doanh thu</li>
+                            </ol>
+
+                            <!-- Biểu đồ thống kê doanh thu hàng tháng -->
+                            <div class="row chart-container">
+                                <div class="col-xl-12">
+                                    <div class="card mb-4">
+                                        <div class="card-header">
+                                            <i class="fas fa-chart-line"></i>
+                                            Doanh Thu Hàng Tháng
+                                        </div>
+                                        <div class="card-body">
+                                            <canvas id="revenueChart" width="1000" height="500"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
                         </div>
                     </main>
                     <jsp:include page="../layout/footer.jsp" />
                 </div>
             </div>
+
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
                 crossorigin="anonymous"></script>
             <script src="js/scripts.js"></script>
+
+            <script>
+                var months = ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'];
+
+                var revenueData = JSON.parse('${monthlyRevenue != null ? monthlyRevenue : "[]"}');
+
+                // Giả sử dữ liệu revenueData là dạng [month, revenue], như [1, 1000000], [2, 2000000]...
+                var data = revenueData.map(function (item) {
+                    return item[1];
+                });
+
+                var ctx = document.getElementById('revenueChart').getContext('2d');
+                var revenueChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: months,
+                        datasets: [{
+                            label: 'Doanh Thu (VND)',
+                            data: data,
+                            borderColor: 'rgb(75, 192, 192)',
+                            fill: false,
+                            tension: 0.1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    callback: function (value) {
+                                        return (value / 1000000).toLocaleString() + 'M';
+                                    },
+                                    stepSize: 1000000
+                                }
+                            }
+                        }
+                    }
+                });
+
+            </script>
         </body>
 
         </html>
