@@ -89,6 +89,7 @@ public class ShopController {
         }
 
         shop.setOwner(currentUser.get());
+        shop.setActive(false);
 
         if (logoFile.isEmpty()) {
             model.addAttribute("error", "Logo file is required.");

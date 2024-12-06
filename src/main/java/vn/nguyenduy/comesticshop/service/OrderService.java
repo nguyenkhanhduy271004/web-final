@@ -124,4 +124,14 @@ public class OrderService {
         return orderDetailRepository.findByOrderId(orderId);
     }
 
+    // public void updateOrderDetails(List<OrderDetail> orderDetails) {
+    // for (OrderDetail orderDetail : orderDetails) {
+    // orderDetailRepository.save(orderDetail);
+    // }
+    // }
+
+    public void updateOrderDetail(OrderDetail orderDetail) {
+        this.orderDetailRepository.save(orderDetail);
+    }
+
 }

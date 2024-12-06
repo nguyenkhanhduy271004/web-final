@@ -247,29 +247,29 @@ public class ItemController {
         currentUser.setId(id);
 
         Cart cart = this.productService.fetchByUser(currentUser);
+        if (cart == null || cart.getCartDetails() == null || cart.getCartDetails().isEmpty()) {
+            return "redirect:/cart";
+        }
+
         Optional<Promotion> promotion = Optional.empty();
-        if (promotionId != null) {
+        if (promotionId != null && promotionId != 0) {
             promotion = promotionService.getPromotionById(promotionId);
         }
 
         double totalPrice = 0;
 
-        if (cart != null && cart.getCartDetails() != null) {
-            for (CartDetail cd : cart.getCartDetails()) {
-                Double discountPercentage = cd.getProduct().getDiscountPercentage();
-                double productPrice = cd.getPrice() * cd.getQuantity();
+        for (CartDetail cd : cart.getCartDetails()) {
+            Double discountPercentage = cd.getProduct().getDiscountPercentage();
+            double productPrice = cd.getPrice() * cd.getQuantity();
 
-                if (promotion.isPresent()) {
-                    if (promotion.get().getShop() == null) {
-                        totalPrice += (productPrice * (1 - discountPercentage / 100));
-                    } else if (promotion.get().getShop().equals(cd.getProduct().getShop())) {
-                        totalPrice += (productPrice * (1 - discountPercentage / 100));
-                    } else {
-                        totalPrice += productPrice;
-                    }
+            if (promotion.isPresent()) {
+                if (promotion.get().getShop() == null || promotion.get().getShop().equals(cd.getProduct().getShop())) {
+                    totalPrice += (productPrice * (1 - discountPercentage / 100));
                 } else {
                     totalPrice += productPrice;
                 }
+            } else {
+                totalPrice += productPrice;
             }
         }
 
@@ -285,6 +285,7 @@ public class ItemController {
         if ("VNPay".equalsIgnoreCase(paymentMethod)) {
             return "redirect:/pay";
         }
+
         return "redirect:/thanks";
     }
 

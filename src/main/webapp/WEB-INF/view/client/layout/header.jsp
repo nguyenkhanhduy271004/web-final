@@ -22,7 +22,7 @@
                         <!-- <h1 class="text-primary display-6">Cosmetic Shop</h1> -->
                     </a>
                     <!-- Search Box -->
-                     <form class="search-form-mobile d-flex mx-3" action="/search" method="get">
+                    <form class="search-form-mobile d-flex mx-3" action="/search" method="get">
                         <input type="text" name="query" class="form-control search-test"
                             placeholder="Top 3 kem chống nắng HOT nhất" />
                         <button type="submit" class="btn search-button">
@@ -43,7 +43,7 @@
                         <!-- menu top -->
                         <div class="menu-drawer__top">
                             <!-- logo -->
-                             <a href="http://127.0.0.1:5501/index.html" class="logo__mobile">
+                            <a href="http://127.0.0.1:5501/index.html" class="logo__mobile">
                                 <img src="../client/img/imgThuonghieu/4.png" class="img_logo" />
                             </a>
                             <!-- icon close -->
@@ -55,7 +55,7 @@
                             </label>
                         </div>
                         <!-- navigation mobile -->
-                         <ul id="navbar__list--mobile">
+                        <ul id="navbar__list--mobile">
                             <li class="navbar__item"><a href="#">Home</a></li>
                             <li class="navbar__item"><a href="#">About</a></li>
                             <li class="navbar__item"><a href="#">Specials</a></li>

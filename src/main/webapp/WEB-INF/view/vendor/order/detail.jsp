@@ -26,12 +26,6 @@
                             <main>
                                 <div class="container-fluid px-4">
                                     <h1 class="mt-4">Order Detail</h1>
-                                    <!-- <ol class="breadcrumb mb-4">
-                                        <li class="breadcrumb-item"><a href="/vendor">Dashboard</a></li>
-                                        <li class="breadcrumb-item"><a href="/vendor/order">Orders</a></li>
-                                        <li class="breadcrumb-item active">View Detail</li>
-                                    </ol> -->
-
                                     <div class="mt-5">
                                         <div class="row">
                                             <div class="col-md-10 mx-auto">
@@ -40,7 +34,6 @@
                                                     <a href="/vendor/order" class="btn btn-secondary">Back</a>
                                                 </div>
                                                 <hr />
-
                                                 <div class="table-responsive">
                                                     <table class="table table-striped">
                                                         <thead>
@@ -59,32 +52,36 @@
                                                                         this order</td>
                                                                 </tr>
                                                             </c:if>
+
                                                             <c:forEach items="${orderDetails}" var="orderDetail">
-                                                                <tr>
-                                                                    <td>
-                                                                        <img src="/images/product/${orderDetail.product.image}"
-                                                                            class="img-fluid"
-                                                                            style="width: 100px; height: 100px; object-fit: cover;"
-                                                                            alt="">
-                                                                    </td>
-                                                                    <td>
-                                                                        ${orderDetail.product.name}
-                                                                    </td>
-                                                                    <td>
-                                                                        <fmt:formatNumber value="${orderDetail.price}"
-                                                                            type="number" /> đ
-                                                                    </td>
-                                                                    <td>
-                                                                        <div class="input-group">
-                                                                            ${orderDetail.quantity}
-                                                                        </div>
-                                                                    </td>
-                                                                    <td>
-                                                                        <fmt:formatNumber
-                                                                            value="${orderDetail.price * orderDetail.quantity}"
-                                                                            type="number" /> đ
-                                                                    </td>
-                                                                </tr>
+                                                                <c:if test="${orderDetail.product.shop.id == shopId}">
+                                                                    <tr>
+                                                                        <td>
+                                                                            <img src="/images/product/${orderDetail.product.image}"
+                                                                                class="img-fluid"
+                                                                                style="width: 100px; height: 100px; object-fit: cover;"
+                                                                                alt="">
+                                                                        </td>
+                                                                        <td>
+                                                                            ${orderDetail.product.name}
+                                                                        </td>
+                                                                        <td>
+                                                                            <fmt:formatNumber
+                                                                                value="${orderDetail.price}"
+                                                                                type="number" /> đ
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="input-group">
+                                                                                ${orderDetail.quantity}
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <fmt:formatNumber
+                                                                                value="${orderDetail.price * orderDetail.quantity}"
+                                                                                type="number" /> đ
+                                                                        </td>
+                                                                    </tr>
+                                                                </c:if>
                                                             </c:forEach>
                                                         </tbody>
                                                     </table>

@@ -58,43 +58,63 @@
                                                     <tr>
                                                         <th scope="col">Order ID</th>
                                                         <th scope="col">Tên khách hàng</th>
-                                                        <!-- <th scope="col">Quantity</th> -->
-                                                        <th scope="col">Price</th>
+                                                        <th scope="col">Số lượng</th>
+                                                        <th scope="col">Giá</th>
                                                         <!-- <th scope="col">Total</th> -->
-                                                        <th scope="col">Action</th>
+                                                        <th scope="col">Hành động</th>
 
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <c:forEach var="orderDetail" items="${orderDetails}">
+                                                    <c:forEach var="order" items="${orders}">
                                                         <tr>
-                                                            <td>${orderDetail.order.id}</td>
-                                                            <td>
-                                                                ${orderDetail.order.user.fullName}
-                                                            </td>
-                                                            <!-- <td>${orderDetail.quantity}</td> -->
+                                                            <td>${order.id}</td>
+                                                            <td>${order.user.fullName}</td>
+
+                                                            <c:set var="totalQuantity" value="0" />
+
+                                                            <c:forEach var="orderDetail" items="${order.orderDetails}">
+                                                                <c:if test="${orderDetail.product.shop.id == shopId}">
+                                                                    <c:set var="totalQuantity"
+                                                                        value="${totalQuantity + orderDetail.quantity}" />
+                                                                </c:if>
+                                                            </c:forEach>
+
+                                                            <td>${totalQuantity}</td>
+
+
+                                                            <c:set var="totalOrderPrice" value="0" />
+
+                                                            <c:forEach var="orderDetail" items="${order.orderDetails}">
+                                                                <c:if test="${orderDetail.product.shop.id == shopId}">
+                                                                    <c:set var="totalOrderPrice"
+                                                                        value="${totalOrderPrice + (orderDetail.price * orderDetail.quantity)}" />
+                                                                </c:if>
+                                                            </c:forEach>
+
                                                             <td>
                                                                 <fmt:formatNumber type="number"
-                                                                    value="${orderDetail.order.totalPrice}" /> đ
+                                                                    value="${totalOrderPrice}" /> đ
                                                             </td>
-                                                            <!-- <td>
-                                                                <fmt:formatNumber type="number"
-                                                                    value="${orderDetail.price * orderDetail.quantity}" />
-                                                                đ
-                                                            </td> -->
+
                                                             <td>
-                                                                <a href="/vendor/order/${orderDetail.order.id}"
-                                                                    class="btn btn-success"><i class="bi bi-eye"></i>
+                                                                <a href="/vendor/order/${order.id}"
+                                                                    class="btn btn-success">
+                                                                    <i class="bi bi-eye"></i>
                                                                 </a>
-                                                                <a href="/vendor/order/update/${orderDetail.order.id}"
-                                                                    class="btn btn-warning mx-2"><i
-                                                                        class="bi bi-pencil"></i> </a>
-                                                                <a href="/vendor/order/delete/${orderDetail.order.id}"
-                                                                    class="btn btn-danger"><i class="bi bi-trash"></i>
+                                                                <a href="/vendor/order/update/${order.id}"
+                                                                    class="btn btn-warning mx-2">
+                                                                    <i class="bi bi-pencil"></i>
+                                                                </a>
+                                                                <a href="/vendor/order/delete/${order.id}"
+                                                                    class="btn btn-danger">
+                                                                    <i class="bi bi-trash"></i>
                                                                 </a>
                                                             </td>
                                                         </tr>
                                                     </c:forEach>
+
+
                                                 </tbody>
                                             </table>
 

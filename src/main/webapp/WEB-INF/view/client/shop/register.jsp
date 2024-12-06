@@ -8,22 +8,42 @@
             <head>
                 <meta charset="utf-8">
                 <title>Register - Cosmetic Shop</title>
-                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <meta content="width=device-width, initial-scale=1.0" name="viewport">
+                <meta content="" name="keywords">
+                <meta content="" name="description">
                 <link rel="icon" href="<c:url value='/client/img/imgThuonghieu/4.png' />" type="image/png">
+
+
+                <!-- Google Web Fonts -->
                 <link rel="preconnect" href="https://fonts.googleapis.com">
                 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
                 <link
                     href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Raleway:wght@600;800&display=swap"
                     rel="stylesheet">
-                <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
+
+                <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" />
+                <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css"
+                    rel="stylesheet">
+
+                <link href="/client/lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+                <link href="/client/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+
+
+                <link href="/client/css/bootstrap.min.css" rel="stylesheet">
+
+                <link href="/client/css/style.css" rel="stylesheet">
+                <link href="<c:url value='/client/lib/lightbox/css/lightbox.min.css' />" rel="stylesheet">
+                <link href="<c:url value='/client/lib/owlcarousel/assets/owl.carousel.min.css' />" rel="stylesheet">
                 <link href="<c:url value='/client/css/bootstrap.min.css' />" rel="stylesheet">
                 <link href="<c:url value='/client/css/style.css' />" rel="stylesheet">
-                <link href="<c:url value='/client/css/product.css' />" rel="stylesheet">
+                <link href="<c:url value='/client/css/carousel-product.css' />" rel="stylesheet">
                 <link href="<c:url value='/client/css/header.css' />" rel="stylesheet">
                 <link href="<c:url value='/client/css/footer.css' />" rel="stylesheet">
                 <link href="<c:url value='/client/css/common.css' />" rel="stylesheet">
+                <link href="<c:url value='/client/css/product.css' />" rel="stylesheet">
                 <link href="<c:url value='/client/css/hot-product.css' />" rel="stylesheet">
                 <link href="<c:url value='/client/css/sale-product.css' />" rel="stylesheet">
+                <link href="<c:url value='/client/css/responsive-home.css' />" rel="stylesheet">
                 <meta name="_csrf" content="${_csrf.token}" />
                 <meta name="_csrf_header" content="${_csrf.headerName}" />
                 <style>
@@ -109,7 +129,7 @@
 
                     /* Styling for the form */
                     form {
-                        margin-top: 30px;
+                        /* margin-top: 30px; */
                     }
                 </style>
             </head>
@@ -154,6 +174,8 @@
                                     <label for="logo">Logo</label>
                                     <input type="file" class="form-control-file" id="logo" name="logo" required>
                                 </div>
+
+
 
                                 <button type="submit" class="btn btn-primary">Register Shop</button>
                             </form>

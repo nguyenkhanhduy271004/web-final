@@ -47,8 +47,8 @@
                                                 <div class="col-md-6">
                                                     <h6 class="fw-bold">Total Price:</h6>
                                                     <p class="fs-5 mb-0 text-muted">
-                                                        <fmt:formatNumber value="${newOrder.totalPrice}"
-                                                            type="number" /> đ
+                                                        <fmt:formatNumber value="${totalValueForShop}" type="number" />
+                                                        đ
                                                     </p>
                                                 </div>
                                             </div>

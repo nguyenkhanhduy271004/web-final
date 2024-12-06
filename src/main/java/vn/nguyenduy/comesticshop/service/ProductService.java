@@ -305,10 +305,16 @@ public class ProductService {
             if (cartDetails != null) {
 
                 Order order = new Order();
-                Optional<Promotion> promotion = promotionService.getPromotionById(promotionId);
+
+                Optional<Promotion> promotion = Optional.empty();
+                if (promotionId != null && promotionId != 0) {
+                    promotion = promotionService.getPromotionById(promotionId);
+                }
+
                 if (promotion.isPresent()) {
                     order.setPromotion(promotion.get());
                 }
+
                 order.setUser(user);
                 order.setReceiverName(receiverName);
                 order.setReceiverAddress(receiverAddress);
@@ -324,7 +330,11 @@ public class ProductService {
                         sum += cd.getPrice() * cd.getQuantity();
                     }
                 }
-                sum -= (sum * promotion.get().getDiscountRate()) / 100;
+
+                if (promotion.isPresent()) {
+                    sum -= (sum * promotion.get().getDiscountRate()) / 100;
+                }
+
                 order.setTotalPrice(sum);
                 order = this.orderRepository.save(order);
 
@@ -347,7 +357,6 @@ public class ProductService {
                 session.setAttribute("sum", 0);
             }
         }
-
     }
 
     public List<Product> searchProductsByName(String name, int page, int size) {

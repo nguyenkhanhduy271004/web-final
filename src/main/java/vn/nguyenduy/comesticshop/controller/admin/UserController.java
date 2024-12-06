@@ -24,7 +24,9 @@ import org.springframework.web.multipart.MultipartFile;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+import vn.nguyenduy.comesticshop.domain.Role;
 import vn.nguyenduy.comesticshop.domain.User;
+import vn.nguyenduy.comesticshop.repository.RoleRepository;
 import vn.nguyenduy.comesticshop.service.UploadService;
 import vn.nguyenduy.comesticshop.service.UserService;
 
@@ -37,6 +39,8 @@ public class UserController {
     private UploadService uploadService;
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private RoleRepository roleRepository;
 
     @RequestMapping("/")
     public String getHomePage(Model model) {
@@ -60,7 +64,7 @@ public class UserController {
         } catch (Exception e) {
             page = 1;
         }
-        Pageable pageable = PageRequest.of(page - 1, 2);
+        Pageable pageable = PageRequest.of(page - 1, 10);
         Page<User> prs = this.userService.getAllUsers(pageable);
         List<User> users = prs.getContent();
         model.addAttribute("users", users);
@@ -77,7 +81,7 @@ public class UserController {
     @RequestMapping("/admin/user/{id}")
     public String getUserDetailPage(Model model, @PathVariable long id) {
         Optional<User> user = this.userService.getUserById(id);
-        model.addAttribute("user", user);
+        model.addAttribute("user", user.get());
         model.addAttribute("id", id);
         return "admin/user/detail";
     }
@@ -116,6 +120,8 @@ public class UserController {
     @RequestMapping("/admin/user/update/{id}") // GET
     public String getUpdateUserPage(Model model, @PathVariable long id) {
         Optional<User> currentUser = this.userService.getUserById(id);
+        List<Role> roles = this.roleRepository.findAll();
+        model.addAttribute("roles", roles);
         model.addAttribute("newUser", currentUser);
         return "admin/user/update";
     }
@@ -129,7 +135,8 @@ public class UserController {
             currentUser.setAddress(nguyenduy.getAddress());
             currentUser.setFullName(nguyenduy.getFullName());
             currentUser.setPhone(nguyenduy.getPhone());
-
+            Role role = this.roleRepository.findById(nguyenduy.getRole().getId()).get();
+            currentUser.setRole(role);
             this.userService.handleSaveUser(currentUser);
         }
 

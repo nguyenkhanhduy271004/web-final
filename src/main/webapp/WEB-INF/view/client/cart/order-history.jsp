@@ -187,7 +187,7 @@
                                                         <fmt:formatNumber type="number"
                                                             value="${orderDetail.price * orderDetail.quantity}" /> đ
                                                     </td>
-                                                    <td>${order.status}</td>
+                                                    <td>${orderDetail.status}</td>
                                                 </tr>
                                             </c:forEach>
                                         </c:forEach>
