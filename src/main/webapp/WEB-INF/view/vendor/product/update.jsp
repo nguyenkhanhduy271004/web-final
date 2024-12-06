@@ -42,7 +42,7 @@
                     <jsp:include page="../layout/sidebar.jsp" />
                     <div id="layoutSidenav_content">
                         <main>
-                            <div class="container-fluid px-4">
+                            <div class="container-fluid px-4" style="margin-top: 100px;">
                                 <h1 class="mt-4">Products</h1>
                                 <ol class="breadcrumb mb-4">
                                     <li class="breadcrumb-item"><a href="/vendor">Dashboard</a></li>

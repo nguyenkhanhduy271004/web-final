@@ -1,10 +1,13 @@
 package vn.nguyenduy.comesticshop.service;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -17,14 +20,22 @@ import vn.nguyenduy.comesticshop.repository.OrderRepository;
 
 @Service
 public class OrderService {
+    private final OrderRepository orderRepository;
+    private final OrderDetailsRepository orderDetailRepository;
 
-    @Autowired
-    private OrderRepository orderRepository;
-    @Autowired
-    private OrderDetailsRepository orderDetailRepository;
+    public OrderService(
+            OrderRepository orderRepository,
+            OrderDetailsRepository orderDetailRepository) {
+        this.orderDetailRepository = orderDetailRepository;
+        this.orderRepository = orderRepository;
+    }
 
     public Page<Order> fetchAllOrders(Pageable pageable) {
         return this.orderRepository.findAll(pageable);
+    }
+
+    public Page<OrderDetail> fetchAllOrdersDetail(Pageable pageable) {
+        return this.orderDetailRepository.findAll(pageable);
     }
 
     public Optional<Order> fetchOrderById(long id) {
@@ -48,6 +59,7 @@ public class OrderService {
     public void updateOrder(Order order) {
         Optional<Order> orderOptional = this.fetchOrderById(order.getId());
         if (orderOptional.isPresent()) {
+            System.out.println("12321321312");
             Order currentOrder = orderOptional.get();
             currentOrder.setStatus(order.getStatus());
             this.orderRepository.save(currentOrder);
@@ -80,6 +92,36 @@ public class OrderService {
 
     public List<Object[]> getMonthlyRevenue(long shopId, int year) {
         return orderRepository.findMonthlyRevenueByShopId(shopId, year);
+    }
+
+    // public Page<OrderDetail> fetchOrdersByShopId(Long shopId, Pageable pageable)
+    // {
+    // return orderDetailRepository.findByProductShopId(shopId, pageable);
+    // }
+
+    public Optional<OrderDetail> findById(Long id) {
+        return orderDetailRepository.findById(id);
+    }
+
+    public Page<OrderDetail> fetchOrdersByShopId(Long shopId, Pageable pageable) {
+        // Lấy ra các OrderDetail theo shopId
+        Page<OrderDetail> orderDetails = orderDetailRepository.findByProductShopId(shopId, pageable);
+
+        Set<Long> seenOrderIds = new HashSet<>();
+        List<OrderDetail> uniqueOrderDetails = new ArrayList<>();
+
+        for (OrderDetail orderDetail : orderDetails) {
+            if (!seenOrderIds.contains(orderDetail.getOrder().getId())) {
+                seenOrderIds.add(orderDetail.getOrder().getId());
+                uniqueOrderDetails.add(orderDetail);
+            }
+        }
+
+        return new PageImpl<>(uniqueOrderDetails, pageable, orderDetails.getTotalElements());
+    }
+
+    public List<OrderDetail> findByOrderId(long orderId) {
+        return orderDetailRepository.findByOrderId(orderId);
     }
 
 }

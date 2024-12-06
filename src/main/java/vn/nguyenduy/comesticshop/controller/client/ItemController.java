@@ -235,13 +235,23 @@ public class ItemController {
             @RequestParam("receiverPhone") String receiverPhone,
             @RequestParam(value = "promotionId", required = false) Long promotionId,
             @RequestParam(value = "paymentMethod", required = false) String paymentMethod) {
+
         User currentUser = new User();
         HttpSession session = request.getSession(false);
+
+        if (session == null || session.getAttribute("id") == null) {
+            return "redirect:/login";
+        }
+
         long id = (long) session.getAttribute("id");
         currentUser.setId(id);
 
         Cart cart = this.productService.fetchByUser(currentUser);
-        Optional<Promotion> promotion = promotionService.getPromotionById(promotionId);
+        Optional<Promotion> promotion = Optional.empty();
+        if (promotionId != null) {
+            promotion = promotionService.getPromotionById(promotionId);
+        }
+
         double totalPrice = 0;
 
         if (cart != null && cart.getCartDetails() != null) {

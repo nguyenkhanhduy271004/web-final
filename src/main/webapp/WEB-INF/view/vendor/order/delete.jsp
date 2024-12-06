@@ -25,8 +25,8 @@
                             <div class="container-fluid px-4">
                                 <h1 class="mt-4">Orders</h1>
                                 <ol class="breadcrumb mb-4">
-                                    <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
-                                    <li class="breadcrumb-item"><a href="/admin/order">Order</a></li>
+                                    <li class="breadcrumb-item"><a href="/vendor">Dashboard</a></li>
+                                    <li class="breadcrumb-item"><a href="/vendor/order">Order</a></li>
                                     <li class="breadcrumb-item active">Delete</li>
                                 </ol>
                                 <div class=" mt-5">
@@ -40,7 +40,7 @@
                                             <div class="alert alert-danger">
                                                 Are you sure to delete this order ?
                                             </div>
-                                            <form:form method="post" action="/admin/order/delete"
+                                            <form:form method="post" action="/vendor/order/delete"
                                                 modelAttribute="newOrder">
                                                 <div class="mb-3" style="display: none;">
                                                     <label class="form-label">Id:</label>

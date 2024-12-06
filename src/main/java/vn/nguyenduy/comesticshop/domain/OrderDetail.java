@@ -18,6 +18,7 @@ public class OrderDetail {
 
     private long quantity;
     private double price;
+    private String status;
 
     @ManyToOne
     @JoinColumn(name = "order_id")

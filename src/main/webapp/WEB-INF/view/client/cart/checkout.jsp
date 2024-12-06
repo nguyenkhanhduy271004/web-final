@@ -13,7 +13,6 @@
                         <meta content="width=device-width, initial-scale=1.0" name="viewport">
                         <meta content="" name="keywords">
                         <meta content="" name="description">
-
                         <link rel="icon" href="<c:url value='/client/img/imgThuonghieu/4.png' />" type="image/png">
 
 
@@ -24,41 +23,34 @@
                             href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Raleway:wght@600;800&display=swap"
                             rel="stylesheet">
 
-                        <<<<<<< HEAD <!-- Icon Font Stylesheet -->
-                            <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" />
-                            <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css"
-                                rel="stylesheet">
-                            =======
-                            <!-- Template Stylesheet -->
-                            <link href="/client/css/style.css" rel="stylesheet">
-                            <link href="<c:url value='/client/css/carousel-product.css' />" rel="stylesheet">
-                            <link href="<c:url value='/client/css/header.css' />" rel="stylesheet">
-                            <link href="<c:url value='/client/css/footer.css' />" rel="stylesheet">
-                            <link href="<c:url value='/client/css/common.css' />" rel="stylesheet">
-                            <link href="<c:url value='/client/css/product.css' />" rel="stylesheet">
-                            <link href="<c:url value='/client/css/hot-product.css' />" rel="stylesheet">
-                            <link href="<c:url value='/client/css/sale-product.css' />" rel="stylesheet">
-                            <link href="<c:url value='/client/css/responsive-home.css' />" rel="stylesheet">
-                    </head>
-                    >>>>>>> bc9ccb327a05dca192bcc5169d1442f805bd54b4
+                        <!-- Icon Font Stylesheet -->
+                        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" />
+                        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css"
+                            rel="stylesheet">
 
-                    <!-- Libraries Stylesheet -->
-                    <link href="/client/lib/lightbox/css/lightbox.min.css" rel="stylesheet">
-                    <link href="/client/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+                        <!-- Libraries Stylesheet -->
+                        <link href="/client/lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+                        <link href="/client/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
 
 
-                    <!-- Customized Bootstrap Stylesheet -->
-                    <link href="/client/css/bootstrap.min.css" rel="stylesheet">
+                        <!-- Customized Bootstrap Stylesheet -->
+                        <link href="/client/css/bootstrap.min.css" rel="stylesheet">
 
-                    <!-- Template Stylesheet -->
-                    <link href="/client/css/style.css" rel="stylesheet">
-                    <link href="<c:url value='/client/css/carousel-product.css' />" rel="stylesheet">
-                    <link href="<c:url value='/client/css/header.css' />" rel="stylesheet">
-                    <link href="<c:url value='/client/css/footer.css' />" rel="stylesheet">
-                    <link href="<c:url value='/client/css/common.css' />" rel="stylesheet">
-                    <link href="<c:url value='/client/css/product.css' />" rel="stylesheet">
-                    <link href="<c:url value='/client/css/hot-product.css' />" rel="stylesheet">
-                    <link href="<c:url value='/client/css/sale-product.css' />" rel="stylesheet">
+                        <!-- Template Stylesheet -->
+                        <link href="/client/css/style.css" rel="stylesheet">
+                        <link href="<c:url value='/client/lib/lightbox/css/lightbox.min.css' />" rel="stylesheet">
+                        <link href="<c:url value='/client/lib/owlcarousel/assets/owl.carousel.min.css' />"
+                            rel="stylesheet">
+                        <link href="<c:url value='/client/css/bootstrap.min.css' />" rel="stylesheet">
+                        <link href="<c:url value='/client/css/style.css' />" rel="stylesheet">
+                        <link href="<c:url value='/client/css/carousel-product.css' />" rel="stylesheet">
+                        <link href="<c:url value='/client/css/header.css' />" rel="stylesheet">
+                        <link href="<c:url value='/client/css/footer.css' />" rel="stylesheet">
+                        <link href="<c:url value='/client/css/common.css' />" rel="stylesheet">
+                        <link href="<c:url value='/client/css/product.css' />" rel="stylesheet">
+                        <link href="<c:url value='/client/css/hot-product.css' />" rel="stylesheet">
+                        <link href="<c:url value='/client/css/sale-product.css' />" rel="stylesheet">
+                        <link href="<c:url value='/client/css/responsive-home.css' />" rel="stylesheet">
                     </head>
 
                     <body>
@@ -356,7 +348,7 @@
 
                                     const originalPrice = parseFloat(document.querySelector('[data-cart-total-price]').getAttribute('data-cart-total-price'));
 
-                                    if (shopId === null) {
+                                    if (shopId === "" || shopId === null) {
                                         if (!isNaN(originalPrice) && !isNaN(discountRate)) {
                                             const discountedPrice = originalPrice - (originalPrice * (discountRate / 100));
                                             const formattedPrice = discountedPrice.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
@@ -384,12 +376,8 @@
                                     modal.hide();
                                 });
                             });
-
-
-
-
-
                         </script>
+
 
                     </body>
 

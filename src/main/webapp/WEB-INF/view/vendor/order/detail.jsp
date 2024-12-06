@@ -1,7 +1,7 @@
-<%@page contentType="text/html" pageEncoding="UTF-8" %>
+<%@page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-        <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-            <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+        <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+            <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
                 <!DOCTYPE html>
                 <html lang="en">
@@ -12,9 +12,8 @@
                     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
                     <meta name="description" content="Nguyễn Duy - Dự án laptopshop" />
                     <meta name="author" content="Nguyễn Duy" />
-                    <title>Detail Order - Nguyễn Duy</title>
+                    <title>Order Detail - Nguyễn Duy</title>
                     <link href="/css/styles.css" rel="stylesheet" />
-
                     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js"
                         crossorigin="anonymous"></script>
                 </head>
@@ -26,103 +25,82 @@
                         <div id="layoutSidenav_content">
                             <main>
                                 <div class="container-fluid px-4">
-                                    <h1 class="mt-4">Orders</h1>
-                                    <ol class="breadcrumb mb-4">
-                                        <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
-                                        <li class="breadcrumb-item"><a href="/admin/order">Order</a></li>
-                                        <li class="breadcrumb-item active">View detail</li>
-                                    </ol>
+                                    <h1 class="mt-4">Order Detail</h1>
+                                    <!-- <ol class="breadcrumb mb-4">
+                                        <li class="breadcrumb-item"><a href="/vendor">Dashboard</a></li>
+                                        <li class="breadcrumb-item"><a href="/vendor/order">Orders</a></li>
+                                        <li class="breadcrumb-item active">View Detail</li>
+                                    </ol> -->
+
                                     <div class="mt-5">
                                         <div class="row">
-                                            <div class="col-12 mx-auto">
-                                                <div class="d-flex justify-content-between">
-                                                    <h3>Order detail with id = ${id}</h3>
+                                            <div class="col-md-10 mx-auto">
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <h3>Order Detail for ID = ${orderDetails[0].order.id}</h3>
+                                                    <a href="/vendor/order" class="btn btn-secondary">Back</a>
                                                 </div>
-
                                                 <hr />
 
                                                 <div class="table-responsive">
-                                                    <table class="table">
+                                                    <table class="table table-striped">
                                                         <thead>
                                                             <tr>
-                                                                <th scope="col">Sản phẩm</th>
-                                                                <th scope="col">Tên</th>
-                                                                <th scope="col">Giá cả</th>
-                                                                <th scope="col">Số lượng</th>
-                                                                <th scope="col">Thành tiền</th>
+                                                                <th scope="col">Image</th>
+                                                                <th scope="col">Product Name</th>
+                                                                <th scope="col">Price</th>
+                                                                <th scope="col">Quantity</th>
+                                                                <th scope="col">Total</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            <c:if test="${ empty orderDetails}">
+                                                            <c:if test="${empty orderDetails}">
                                                                 <tr>
-                                                                    <td colspan="6">
-                                                                        Không có sản phẩm trong giỏ hàng
-                                                                    </td>
+                                                                    <td colspan="5" class="text-center">No products in
+                                                                        this order</td>
                                                                 </tr>
                                                             </c:if>
-                                                            <c:forEach var="orderDetail" items="${orderDetails}">
-
+                                                            <c:forEach items="${orderDetails}" var="orderDetail">
                                                                 <tr>
-                                                                    <th scope="row">
-                                                                        <div class="d-flex align-items-center">
-                                                                            <img src="/images/product/${orderDetail.product.image}"
-                                                                                class="img-fluid me-5 rounded-circle"
-                                                                                style="width: 80px; height: 80px;"
-                                                                                alt="">
-                                                                        </div>
-                                                                    </th>
                                                                     <td>
-                                                                        <p class="mb-0 mt-4">
-                                                                            <a href="/product/${orderDetail.product.id}"
-                                                                                target="_blank">
-                                                                                ${orderDetail.product.name}
-                                                                            </a>
-                                                                        </p>
+                                                                        <img src="/images/product/${orderDetail.product.image}"
+                                                                            class="img-fluid"
+                                                                            style="width: 100px; height: 100px; object-fit: cover;"
+                                                                            alt="">
                                                                     </td>
                                                                     <td>
-                                                                        <p class="mb-0 mt-4">
-                                                                            <fmt:formatNumber type="number"
-                                                                                value="${orderDetail.price}" /> đ
-                                                                        </p>
+                                                                        ${orderDetail.product.name}
                                                                     </td>
                                                                     <td>
-                                                                        <div class="input-group quantity mt-4"
-                                                                            style="width: 100px;">
-                                                                            <input type="text"
-                                                                                class="form-control form-control-sm text-center border-0"
-                                                                                value="${orderDetail.quantity}">
+                                                                        <fmt:formatNumber value="${orderDetail.price}"
+                                                                            type="number" /> đ
+                                                                    </td>
+                                                                    <td>
+                                                                        <div class="input-group">
+                                                                            ${orderDetail.quantity}
                                                                         </div>
                                                                     </td>
                                                                     <td>
-                                                                        <p class="mb-0 mt-4"
-                                                                            data-cart-detail-id="${orderDetail.id}">
-                                                                            <fmt:formatNumber type="number"
-                                                                                value="${orderDetail.price * orderDetail.quantity}" />
-                                                                            đ
-                                                                        </p>
+                                                                        <fmt:formatNumber
+                                                                            value="${orderDetail.price * orderDetail.quantity}"
+                                                                            type="number" /> đ
                                                                     </td>
                                                                 </tr>
                                                             </c:forEach>
-
                                                         </tbody>
                                                     </table>
                                                 </div>
-                                                <a href="/admin/order" class="btn btn-success mt-3">Back</a>
-
                                             </div>
-
                                         </div>
-
                                     </div>
                                 </div>
                             </main>
                             <jsp:include page="../layout/footer.jsp" />
                         </div>
                     </div>
+
                     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
                         crossorigin="anonymous"></script>
                     <script src="/js/scripts.js"></script>
-
                 </body>
 
                 </html>

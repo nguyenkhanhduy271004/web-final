@@ -14,6 +14,8 @@
                 <title>Manager Orders - Nguyễn Duy</title>
                 <link href="/css/styles.css" rel="stylesheet" />
                 <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+                <!-- Add Bootstrap Icons for extra visual elements -->
+                <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
             </head>
 
             <body class="sb-nav-fixed">
@@ -23,103 +25,124 @@
                     <div id="layoutSidenav_content">
                         <main>
                             <div class="container-fluid px-4">
-                                <h1 class="mt-4">Manage Orders</h1>
-                                <!-- <ol class="breadcrumb mb-4">
-                                    <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
-                                    <li class="breadcrumb-item active">Order</li>
-                                </ol> -->
+                                <h1 class="mt-4 mb-4">Manage Orders</h1>
 
+                                <!-- Filter Form -->
+                                <!-- <div class="row justify-content-center mb-4">
+                                    <form action="/vendor/search" method="get" class="form-inline"
+                                        style="display: flex; align-items: center; gap: 6px;">
+                                        <label for="status" class="mr-2" style="width: 100%;">Filter by Status:</label>
+                                        <select name="status" id="status" class="form-control mr-3">
+                                            <option value="">All</option>
+                                            <option value="PENDING" ${param.status eq 'PENDING' ? 'selected' : '' }>
+                                                PENDING</option>
+                                            <option value="SHIPPING" ${param.status eq 'SHIPPING' ? 'selected' : '' }>
+                                                SHIPPING</option>
+                                            <option value="COMPLETE" ${param.status eq 'COMPLETE' ? 'selected' : '' }>
+                                                COMPLETE</option>
+                                            <option value="CANCEL" ${param.status eq 'CANCEL' ? 'selected' : '' }>CANCEL
+                                            </option>
+                                            <option value="RETURN-REFUND" ${param.status eq 'RETURN-REFUND' ? 'selected'
+                                                : '' }>RETURN-REFUND</option>
+                                        </select>
+                                        <button type="submit" class="btn btn-primary">Filter</button>
+                                    </form>
+                                </div> -->
+
+                                <!-- Order Table -->
                                 <div class="mt-5">
-                                    <div class="row">
-                                        <div class="col-12 mx-auto">
-                                            <div class="d-flex">
-                                                <!-- <h3>Table Orders</h3> -->
-                                            </div>
+                                    <c:choose>
+                                        <c:when test="${not empty orderDetails}">
+                                            <table class="table table-striped table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">Order ID</th>
+                                                        <th scope="col">Tên khách hàng</th>
+                                                        <!-- <th scope="col">Quantity</th> -->
+                                                        <th scope="col">Price</th>
+                                                        <!-- <th scope="col">Total</th> -->
+                                                        <th scope="col">Action</th>
 
-                                            <hr />
-
-                                            <!-- Check if there are any orders -->
-                                            <c:choose>
-                                                <c:when test="${not empty orders}">
-                                                    <!-- If orders exist, display the table -->
-                                                    <table class="table table-bordered table-hover">
-                                                        <thead>
-                                                            <tr>
-                                                                <th>ID</th>
-                                                                <th>Total Price</th>
-                                                                <th>User</th>
-                                                                <th>Status</th>
-                                                                <th>Action</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <c:forEach var="order" items="${orders}">
-                                                                <tr>
-                                                                    <th>${order.id}</th>
-                                                                    <td>
-                                                                        <fmt:formatNumber type="number"
-                                                                            value="${order.totalPrice}" /> đ
-                                                                    </td>
-                                                                    <td>${order.user.fullName}</td>
-                                                                    <td>${order.status}</td>
-                                                                    <td>
-                                                                        <a href="/admin/order/${order.id}"
-                                                                            class="btn btn-success">View</a>
-                                                                        <a href="/admin/order/update/${order.id}"
-                                                                            class="btn btn-warning mx-2">Update</a>
-                                                                        <a href="/admin/order/delete/${order.id}"
-                                                                            class="btn btn-danger">Delete</a>
-                                                                    </td>
-                                                                </tr>
-                                                            </c:forEach>
-                                                        </tbody>
-                                                    </table>
-
-                                                    <!-- Pagination (if orders exist) -->
-                                                    <nav aria-label="Page navigation example">
-                                                        <ul class="pagination justify-content-center">
-                                                            <li class="page-item ${currentPage eq 1 ? 'disabled' : ''}">
-                                                                <a class="page-link"
-                                                                    href="/admin/order?page=${currentPage - 1}"
-                                                                    aria-label="Previous">
-                                                                    <span aria-hidden="true">&laquo;</span>
-                                                                    <span class="sr-only">Previous</span>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <c:forEach var="orderDetail" items="${orderDetails}">
+                                                        <tr>
+                                                            <td>${orderDetail.order.id}</td>
+                                                            <td>
+                                                                ${orderDetail.order.user.fullName}
+                                                            </td>
+                                                            <!-- <td>${orderDetail.quantity}</td> -->
+                                                            <td>
+                                                                <fmt:formatNumber type="number"
+                                                                    value="${orderDetail.order.totalPrice}" /> đ
+                                                            </td>
+                                                            <!-- <td>
+                                                                <fmt:formatNumber type="number"
+                                                                    value="${orderDetail.price * orderDetail.quantity}" />
+                                                                đ
+                                                            </td> -->
+                                                            <td>
+                                                                <a href="/vendor/order/${orderDetail.order.id}"
+                                                                    class="btn btn-success"><i class="bi bi-eye"></i>
                                                                 </a>
-                                                            </li>
-                                                            <c:forEach begin="1" end="${totalPages}" varStatus="loop">
-                                                                <li class="page-item">
-                                                                    <a class="${loop.index eq currentPage ? 'active page-link' : 'page-link'}"
-                                                                        href="/admin/order?page=${loop.index}">
-                                                                        ${loop.index}
-                                                                    </a>
-                                                                </li>
-                                                            </c:forEach>
-                                                            <li
-                                                                class="page-item ${currentPage eq totalPages ? 'disabled' : ''}">
-                                                                <a class="page-link"
-                                                                    href="/admin/order?page=${currentPage + 1}"
-                                                                    aria-label="Next">
-                                                                    <span aria-hidden="true">&raquo;</span>
-                                                                    <span class="sr-only">Next</span>
+                                                                <a href="/vendor/order/update/${orderDetail.order.id}"
+                                                                    class="btn btn-warning mx-2"><i
+                                                                        class="bi bi-pencil"></i> </a>
+                                                                <a href="/vendor/order/delete/${orderDetail.order.id}"
+                                                                    class="btn btn-danger"><i class="bi bi-trash"></i>
                                                                 </a>
-                                                            </li>
-                                                        </ul>
-                                                    </nav>
-                                                </c:when>
-                                                <c:otherwise>
-                                                    <div class="alert alert-warning text-center text-muted">
-                                                        Hiện tại chưa có order nào
-                                                    </div>
-                                                </c:otherwise>
-                                            </c:choose>
-                                        </div>
-                                    </div>
+                                                            </td>
+                                                        </tr>
+                                                    </c:forEach>
+                                                </tbody>
+                                            </table>
+
+                                            <nav aria-label="Page navigation example">
+                                                <ul class="pagination justify-content-center">
+                                                    <li class="page-item ${currentPage eq 1 ? 'disabled' : ''}">
+                                                        <a class="page-link"
+                                                            href="/vendor/order?page=${currentPage - 1}"
+                                                            aria-label="Previous">
+                                                            <span aria-hidden="true">&laquo;</span>
+                                                            <span class="sr-only">Previous</span>
+                                                        </a>
+                                                    </li>
+
+                                                    <c:forEach begin="1" end="${totalPages}" varStatus="loop">
+                                                        <li
+                                                            class="page-item ${loop.index eq currentPage ? 'active' : ''}">
+                                                            <a class="page-link"
+                                                                href="/vendor/order?page=${loop.index}">
+                                                                ${loop.index}
+                                                            </a>
+                                                        </li>
+                                                    </c:forEach>
+
+                                                    <li
+                                                        class="page-item ${currentPage eq totalPages ? 'disabled' : ''}">
+                                                        <a class="page-link"
+                                                            href="/vendor/order?page=${currentPage + 1}"
+                                                            aria-label="Next">
+                                                            <span aria-hidden="true">&raquo;</span>
+                                                            <span class="sr-only">Next</span>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </nav>
+
+                                        </c:when>
+                                        <c:otherwise>
+                                            <div class="alert alert-warning text-center">No orders available</div>
+                                        </c:otherwise>
+                                    </c:choose>
                                 </div>
                             </div>
                         </main>
                         <jsp:include page="../layout/footer.jsp" />
                     </div>
                 </div>
+
                 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
                     crossorigin="anonymous"></script>
                 <script src="/js/scripts.js"></script>
