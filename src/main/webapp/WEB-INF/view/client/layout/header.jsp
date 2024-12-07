@@ -58,7 +58,6 @@
                         <ul id="navbar__list--mobile">
                             <li class="navbar__item"><a href="#">Home</a></li>
                             <li class="navbar__item"><a href="#">About</a></li>
-                            <li class="navbar__item"><a href="#">Specials</a></li>
                             <li class="navbar__item"><a href="#">New</a></li>
                             <li class="navbar__item"><a href="#">Contact</a></li>
                         </ul>
@@ -74,9 +73,9 @@
                                         <div class="navbar-nav">
                                             <a href="/" class="nav-item nav-link active" style="color: #000;">Home</a>
                                             <a href="/about" class="nav-item nav-link" style="color: #000;">About</a>
-                                            <a href="/specials" class="nav-item nav-link"
-                                                style="color: #000;">Specials</a>
                                             <a href="/new" class="nav-item nav-link" style="color: #000;">New</a>
+                                            <a href="/contact" class="nav-item nav-link"
+                                                style="color: #000;">Contact</a>
                                         </div>
 
                                         <!-- Search Box -->
