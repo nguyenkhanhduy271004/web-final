@@ -57,14 +57,12 @@ public class PromotionController {
             return "redirect:/login";
         }
 
-        Shop shop = this.shopService.findByOwner(user.get());
+        // Shop shop = this.shopService.findByOwner(user.get());
+        promotion.setShop(null);
 
-        if (shop != null) {
-            promotion.setShop(shop);
-            promotionService.savePromotion(promotion);
-            return "redirect:/admin/promotion";
-        }
-        return "admin/promotion/create";
+        promotionService.savePromotion(promotion);
+
+        return "redirect:/admin/promotion";
     }
 
     @GetMapping("/edit/{id}")

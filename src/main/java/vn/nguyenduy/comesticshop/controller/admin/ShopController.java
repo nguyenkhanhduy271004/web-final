@@ -13,8 +13,10 @@ import org.springframework.web.multipart.MultipartFile;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+import vn.nguyenduy.comesticshop.domain.Role;
 import vn.nguyenduy.comesticshop.domain.Shop;
 import vn.nguyenduy.comesticshop.domain.User;
+import vn.nguyenduy.comesticshop.repository.RoleRepository;
 import vn.nguyenduy.comesticshop.service.ShopService;
 import vn.nguyenduy.comesticshop.service.UploadService;
 import vn.nguyenduy.comesticshop.service.UserService;
@@ -29,6 +31,8 @@ public class ShopController {
     private UploadService uploadService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private RoleRepository roleRepository;
 
     @GetMapping("/admin/shops")
     public String listShops(@RequestParam(defaultValue = "0") int page, Model model) {
@@ -89,6 +93,10 @@ public class ShopController {
         }
 
         shop.setOwner(currentUser.get());
+        shop.setActive(false);
+
+        Role role = this.roleRepository.findById(3L).get();
+        currentUser.get().setRole(role);
 
         if (logoFile.isEmpty()) {
             model.addAttribute("error", "Logo file is required.");
@@ -102,6 +110,7 @@ public class ShopController {
         }
         shop.setLogo(logoFileName);
 
+        this.userService.saveUser(currentUser.get());
         this.shopService.saveShop(shop);
 
         model.addAttribute("message", "Shop đã được đăng ký thành công!");

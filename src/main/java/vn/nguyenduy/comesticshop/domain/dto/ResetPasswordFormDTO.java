@@ -2,7 +2,11 @@ package vn.nguyenduy.comesticshop.domain.dto;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class ResetPasswordFormDTO {
 
     @NotEmpty(message = "OTP không được để trống")
@@ -14,6 +18,11 @@ public class ResetPasswordFormDTO {
 
     @NotEmpty(message = "Xác nhận mật khẩu không được để trống")
     private String confirmPassword;
+
+    private String otp1;
+    private String otp2;
+    private String otp3;
+    private String otp4;
 
     // Getter và Setter
     public String getOtp() {

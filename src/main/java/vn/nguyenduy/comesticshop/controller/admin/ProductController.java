@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -33,21 +34,14 @@ import vn.nguyenduy.comesticshop.service.UserService;
 @Controller
 public class ProductController {
 
-    private final UploadService uploadService;
-    private final ProductService productService;
-    private final UserService userService;
-    private final ShopService shopService;
-
-    public ProductController(
-            UploadService uploadService,
-            ProductService productService,
-            UserService userService,
-            ShopService shopService) {
-        this.uploadService = uploadService;
-        this.productService = productService;
-        this.userService = userService;
-        this.shopService = shopService;
-    }
+    @Autowired
+    private UploadService uploadService;
+    @Autowired
+    private ProductService productService;
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private ShopService shopService;
 
     @GetMapping("/admin/product")
     public String getProduct(Model model,

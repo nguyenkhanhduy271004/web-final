@@ -3,6 +3,7 @@ package vn.nguyenduy.comesticshop.controller.client;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -21,6 +22,7 @@ import jakarta.validation.Valid;
 import vn.nguyenduy.comesticshop.domain.Order;
 import vn.nguyenduy.comesticshop.domain.Product;
 import vn.nguyenduy.comesticshop.domain.User;
+import vn.nguyenduy.comesticshop.domain.dto.OtpForm;
 import vn.nguyenduy.comesticshop.domain.dto.RegisterDTO;
 import vn.nguyenduy.comesticshop.domain.dto.VerifyRegisterDTO;
 import vn.nguyenduy.comesticshop.service.EmailService;
@@ -31,114 +33,26 @@ import vn.nguyenduy.comesticshop.service.UserService;
 @Controller
 public class HomePageController {
 
-    private final ProductService productService;
-    private final UserService userService;
-    private final PasswordEncoder passwordEncoder;
-    private final OrderService orderService;
-    private final EmailService emailService;
-
-    public HomePageController(
-            ProductService productService,
-            UserService userService,
-            PasswordEncoder passwordEncoder,
-            OrderService orderService,
-            EmailService emailService) {
-        this.productService = productService;
-        this.userService = userService;
-        this.passwordEncoder = passwordEncoder;
-        this.orderService = orderService;
-        this.emailService = emailService;
-    }
+    @Autowired
+    private ProductService productService;
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+    @Autowired
+    private OrderService orderService;
+    @Autowired
+    private EmailService emailService;
 
     @GetMapping("/")
     public String getHomePage(Model model) {
         Pageable pageable = PageRequest.of(0, 10);
         Page<Product> prs = this.productService.fetchProducts(pageable);
         List<Product> products = prs.getContent();
-        List<Product> topSellingProducts = this.productService.fetchTopSellingProducts(10);
+        List<Product> topSellingProducts = this.productService.fetchTopSellingProducts(0, 10);
         model.addAttribute("topSellingProducts", topSellingProducts);
         model.addAttribute("products", products);
         return "client/homepage/show";
-    }
-
-    @GetMapping("/register")
-    public String getRegisterPage(Model model) {
-        model.addAttribute("registerUser", new RegisterDTO());
-        return "client/auth/register";
-    }
-
-    @PostMapping("/register")
-    public String handleRegister(
-            @ModelAttribute("registerUser") @Valid RegisterDTO registerDTO,
-            BindingResult bindingResult, Model model, HttpServletRequest request) {
-        System.out.println("Redirecting to /verify-otp");
-
-        if (bindingResult.hasErrors()) {
-            return "client/auth/register";
-        }
-
-        User user = this.userService.registerDTOtoUser(registerDTO);
-
-        String hashPassword = this.passwordEncoder.encode(user.getPassword());
-        user.setPassword(hashPassword);
-        user.setRole(this.userService.getRoleByName("USER"));
-
-        String otp = this.userService.generateOTP();
-        this.emailService.sendOtpEmail(user.getEmail(), otp);
-
-        HttpSession session = request.getSession();
-        session.setAttribute("otp", otp);
-        session.setAttribute("user", user);
-
-        this.userService.handleSaveUser(user);
-
-        System.out.println("Redirecting to /verify-otp");
-
-        return "redirect:/verify-otp";
-    }
-
-    @GetMapping("/verify-otp")
-    public String getVerifyPage(Model model) {
-        model.addAttribute("otpForm", new VerifyRegisterDTO());
-        return "client/auth/verify";
-    }
-
-    @PostMapping("/verify-otp")
-    public String verifyOtp(
-            @ModelAttribute("otpForm") @Valid VerifyRegisterDTO otpForm,
-            BindingResult bindingResult,
-            HttpServletRequest request) {
-
-        if (bindingResult.hasErrors()) {
-            return "client/auth/verify";
-        }
-
-        HttpSession session = request.getSession();
-        String sessionOtp = (String) session.getAttribute("otp");
-
-        if (sessionOtp != null && otpForm.getOtp().equals(sessionOtp)) {
-            User user = (User) session.getAttribute("user");
-            if (user != null) {
-                user.setActive(true);
-                this.userService.handleSaveUser(user);
-                session.removeAttribute("otp");
-                session.removeAttribute("user");
-
-                return "redirect:/login";
-            }
-        }
-
-        return "client/auth/verify-otp-error";
-    }
-
-    @GetMapping("/login")
-    public String getLoginPage(Model model) {
-        return "client/auth/login";
-    }
-
-    @GetMapping("/access-deny")
-    public String getDenyPage(Model model) {
-        return "client/auth/deny";
     }
 
     @GetMapping("/order-history")
@@ -227,6 +141,114 @@ public class HomePageController {
         model.addAttribute("vnp_ResponseCode", vnp_ResponseCode);
 
         return "client/payment/payment-result";
+    }
+
+    @GetMapping("/register")
+    public String getRegisterPage(Model model) {
+        model.addAttribute("registerUser", new RegisterDTO());
+        return "client/auth/register";
+    }
+
+    @PostMapping("/register")
+    public String handleRegister(
+            @ModelAttribute("registerUser") @Valid RegisterDTO registerDTO,
+            BindingResult bindingResult, Model model, HttpServletRequest request) {
+        System.out.println("Redirecting to /verify-otp");
+
+        if (bindingResult.hasErrors()) {
+            return "client/auth/register";
+        }
+
+        User user = this.userService.registerDTOtoUser(registerDTO);
+
+        String hashPassword = this.passwordEncoder.encode(user.getPassword());
+        user.setPassword(hashPassword);
+        user.setRole(this.userService.getRoleByName("USER"));
+
+        String otp = this.userService.generateOTP();
+        this.emailService.sendOtpEmail(user.getEmail(), otp);
+
+        HttpSession session = request.getSession();
+        session.setAttribute("otp", otp);
+        session.setAttribute("user", user);
+        session.setAttribute("otp_expiration_time", System.currentTimeMillis() + (3 * 60 * 1000));
+
+        this.userService.handleSaveUser(user);
+
+        System.out.println("Redirecting to /verify-otp");
+
+        return "redirect:/verify-otp";
+    }
+
+    @GetMapping("/verify-otp")
+    public String getVerifyPage(Model model) {
+        model.addAttribute("otpForm", new OtpForm());
+        // model.addAttribute("otpForm", new VerifyRegisterDTO());
+        return "client/auth/verify";
+    }
+
+    @PostMapping("/resend-otp")
+    public String resendOtp(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession(false);
+        User user = (User) session.getAttribute("user");
+
+        if (user != null) {
+            String newOtp = userService.generateOTP();
+
+            session.setAttribute("otp", newOtp);
+            session.setAttribute("otp_expiration_time", System.currentTimeMillis() + (3 * 60 * 1000));
+
+            emailService.sendOtpEmail(user.getEmail(), newOtp);
+
+            model.addAttribute("message", "OTP mới đã được gửi đến email của bạn.");
+        } else {
+            model.addAttribute("error", "Không tìm thấy email trong session.");
+        }
+
+        return "client/auth/verify";
+    }
+
+    @PostMapping("/verify-otp")
+    public String verifyOtp(
+            @ModelAttribute("otpForm") @Valid VerifyRegisterDTO otpForm,
+            BindingResult bindingResult,
+            HttpServletRequest request) {
+
+        if (bindingResult.hasErrors()) {
+            return "client/auth/verify";
+        }
+
+        HttpSession session = request.getSession();
+        String sessionOtp = (String) session.getAttribute("otp");
+        Long otpExpirationTime = (Long) session.getAttribute("otp_expiration_time");
+
+        if (otpExpirationTime != null && System.currentTimeMillis() > otpExpirationTime) {
+            return "client/auth/verify-otp-expired";
+        }
+
+        if (sessionOtp != null && otpForm.getOtp() != null && otpForm.getOtp().equals(sessionOtp)) {
+            User user = (User) session.getAttribute("user");
+            if (user != null) {
+                user.setActive(true);
+                this.userService.handleSaveUser(user);
+                session.removeAttribute("otp");
+                session.removeAttribute("user");
+                session.setAttribute("isLogin", true);
+                return "redirect:/login";
+            }
+        }
+
+        return "client/auth/verify-otp-error";
+    }
+
+    @GetMapping("/login")
+    public String getLoginPage(Model model) {
+        return "client/auth/login";
+    }
+
+    @GetMapping("/access-deny")
+    public String getDenyPage(Model model) {
+        return "client/auth/deny";
     }
 
 }

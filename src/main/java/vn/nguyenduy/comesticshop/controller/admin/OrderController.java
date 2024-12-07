@@ -3,6 +3,7 @@ package vn.nguyenduy.comesticshop.controller.admin;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -20,11 +21,8 @@ import vn.nguyenduy.comesticshop.service.OrderService;
 @Controller
 public class OrderController {
 
-    private final OrderService orderService;
-
-    public OrderController(OrderService orderService) {
-        this.orderService = orderService;
-    }
+    @Autowired
+    private OrderService orderService;
 
     @GetMapping("/admin/order")
     public String getDashboard(Model model, @RequestParam("page") Optional<String> pageOptional) {

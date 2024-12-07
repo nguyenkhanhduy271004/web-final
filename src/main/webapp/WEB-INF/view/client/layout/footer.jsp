@@ -41,6 +41,8 @@
                         <li><a href="<c:url value='/' />">Hướng dẫn đặt hàng</a></li>
                         <li><a href="<c:url value='/' />">Hướng dẫn thanh toán</a></li>
                         <li><a href="<c:url value='/' />">Câu hỏi thường gặp</a></li>
+                        <li><a href="<c:url value='/shop/register' />">Đăng ký shop bán hàng</a></li>
+
                     </ul>
                 </div>
 

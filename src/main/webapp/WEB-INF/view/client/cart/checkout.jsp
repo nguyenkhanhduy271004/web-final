@@ -13,7 +13,6 @@
                         <meta content="width=device-width, initial-scale=1.0" name="viewport">
                         <meta content="" name="keywords">
                         <meta content="" name="description">
-
                         <link rel="icon" href="<c:url value='/client/img/imgThuonghieu/4.png' />" type="image/png">
 
 
@@ -24,24 +23,10 @@
                             href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Raleway:wght@600;800&display=swap"
                             rel="stylesheet">
 
-<<<<<<< HEAD
                         <!-- Icon Font Stylesheet -->
                         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" />
                         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css"
                             rel="stylesheet">
-=======
-                    <!-- Template Stylesheet -->
-                    <link href="/client/css/style.css" rel="stylesheet">
-                    <link href="<c:url value='/client/css/carousel-product.css' />" rel="stylesheet">
-                    <link href="<c:url value='/client/css/header.css' />" rel="stylesheet">
-                    <link href="<c:url value='/client/css/footer.css' />" rel="stylesheet">
-                    <link href="<c:url value='/client/css/common.css' />" rel="stylesheet">
-                    <link href="<c:url value='/client/css/product.css' />" rel="stylesheet">
-                    <link href="<c:url value='/client/css/hot-product.css' />" rel="stylesheet">
-                    <link href="<c:url value='/client/css/sale-product.css' />" rel="stylesheet">
-                    <link href="<c:url value='/client/css/responsive-home.css' />" rel="stylesheet">
-                </head>
->>>>>>> bc9ccb327a05dca192bcc5169d1442f805bd54b4
 
                         <!-- Libraries Stylesheet -->
                         <link href="/client/lib/lightbox/css/lightbox.min.css" rel="stylesheet">
@@ -53,6 +38,11 @@
 
                         <!-- Template Stylesheet -->
                         <link href="/client/css/style.css" rel="stylesheet">
+                        <link href="<c:url value='/client/lib/lightbox/css/lightbox.min.css' />" rel="stylesheet">
+                        <link href="<c:url value='/client/lib/owlcarousel/assets/owl.carousel.min.css' />"
+                            rel="stylesheet">
+                        <link href="<c:url value='/client/css/bootstrap.min.css' />" rel="stylesheet">
+                        <link href="<c:url value='/client/css/style.css' />" rel="stylesheet">
                         <link href="<c:url value='/client/css/carousel-product.css' />" rel="stylesheet">
                         <link href="<c:url value='/client/css/header.css' />" rel="stylesheet">
                         <link href="<c:url value='/client/css/footer.css' />" rel="stylesheet">
@@ -60,6 +50,7 @@
                         <link href="<c:url value='/client/css/product.css' />" rel="stylesheet">
                         <link href="<c:url value='/client/css/hot-product.css' />" rel="stylesheet">
                         <link href="<c:url value='/client/css/sale-product.css' />" rel="stylesheet">
+                        <link href="<c:url value='/client/css/responsive-home.css' />" rel="stylesheet">
                     </head>
 
                     <body>
@@ -170,6 +161,9 @@
                                 <c:if test="${not empty cartDetails}">
                                     <form:form action="/place-order" method="post" modelAttribute="cart">
                                         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+                                        <input type="hidden" name="promotionId" id="promotionId" value="0" />
+                                        <input type="hidden" name="totalShippingFee" id="totalShippingFee"
+                                            value="${totalShippingFee}" />
                                         <div class="mt-5 row g-4 justify-content-start">
                                             <div class="col-12 col-md-6">
                                                 <div class="p-4 ">
@@ -208,7 +202,9 @@
                                                         <div class="d-flex justify-content-between">
                                                             <h5 class="mb-0 me-4">Phí vận chuyển</h5>
                                                             <div class="">
-                                                                <p class="mb-0">0 đ</p>
+                                                                <fmt:formatNumber value="${totalShippingFee}"
+                                                                    type="number" pattern="#,##0" />
+                                                                <span>₫</span>
                                                             </div>
                                                         </div>
 
@@ -237,6 +233,13 @@
                                                                     data-bs-target="#discountModal">
                                                                     Thêm mã giảm giá
                                                                 </button>
+                                                            </div>
+                                                            <div id="selectedDiscount" class="mt-3"
+                                                                style="display: none;">
+                                                                <p><strong>Đã chọn:</strong> <span
+                                                                        id="discountName"></span><span
+                                                                        id="discountRate"></span></p>
+
                                                             </div>
                                                         </div>
                                                     </div>
@@ -279,7 +282,7 @@
                                                     <li
                                                         class="list-group-item d-flex justify-content-between align-items-center">
                                                         <div>
-                                                            <h6>${promotion.name}</h6>
+                                                            <h6>${promotion.name} (${promotion.discountRate}%)</h6>
                                                             <small>${promotion.description}</small>
                                                         </div>
                                                         <button type="button"
@@ -322,6 +325,64 @@
 
                         <!-- Template Javascript -->
                         <script src="/client/js/main.js?version=1"></script>
+                        <script>
+                            let isDiscountApplied = false;
+
+                            document.querySelectorAll('.apply-discount').forEach(function (button) {
+                                button.addEventListener('click', function () {
+                                    if (isDiscountApplied) {
+                                        return;
+                                    }
+
+                                    var promotionId = this.getAttribute('data-promotion-id');
+                                    var discountRate = parseFloat(this.getAttribute('data-discount-rate'));
+                                    var promotionName = this.closest('li').querySelector('h6').textContent;
+                                    var shopId = this.getAttribute('data-shop-id');
+
+                                    document.getElementById('discountName').textContent = promotionName;
+                                    document.getElementById('selectedDiscount').style.display = 'block';
+
+                                    document.querySelector('input[name="promotionId"]').value = promotionId;
+
+                                    isDiscountApplied = true;
+
+                                    document.querySelectorAll('.apply-discount').forEach(function (button) {
+                                        button.disabled = true;
+                                    });
+
+                                    const originalPrice = parseFloat(document.querySelector('[data-cart-total-price]').getAttribute('data-cart-total-price'));
+
+                                    if (shopId === "" || shopId === null) {
+                                        if (!isNaN(originalPrice) && !isNaN(discountRate)) {
+                                            const discountedPrice = originalPrice - (originalPrice * (discountRate / 100));
+                                            const formattedPrice = discountedPrice.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+                                            document.querySelector('[data-cart-total-price]').innerText = formattedPrice;
+                                        }
+                                    } else {
+                                        var shopTotalPrice = 0;
+
+                                        document.querySelectorAll('.cart-item').forEach(function (item) {
+                                            var itemShopId = item.getAttribute('data-shop-id');
+                                            if (itemShopId == shopId) {
+                                                var itemPrice = parseFloat(item.querySelector('.item-price').innerText.replace('đ', '').replace(',', '').trim());
+                                                shopTotalPrice += itemPrice;
+                                            }
+                                        });
+
+                                        if (!isNaN(shopTotalPrice) && !isNaN(discountRate)) {
+                                            const discountedShopPrice = shopTotalPrice - (shopTotalPrice * (discountRate / 100));
+                                            const formattedShopPrice = discountedShopPrice.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+                                            document.querySelector('[data-cart-total-price]').innerText = formattedShopPrice;
+                                        }
+                                    }
+
+                                    var modal = bootstrap.Modal.getInstance(document.getElementById('discountModal'));
+                                    modal.hide();
+                                });
+                            });
+                        </script>
+
+
                     </body>
 
                     </html>

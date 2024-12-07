@@ -9,7 +9,6 @@
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
                 <title>Forgot Password</title>
                 <style>
-                    /* Reset CSS */
                     * {
                         margin: 0;
                         padding: 0;
@@ -17,7 +16,6 @@
                         font-family: Arial, sans-serif;
                     }
 
-                    /* Background and container styling */
                     body {
                         display: flex;
                         align-items: center;
@@ -37,7 +35,6 @@
                         width: 100%;
                     }
 
-                    /* Title styling */
                     h2 {
                         font-size: 2rem;
                         color: #333;
@@ -50,14 +47,12 @@
                         font-size: 1rem;
                     }
 
-                    /* Error message styling */
                     .error {
                         color: #d9534f;
                         margin-bottom: 1rem;
                         font-size: 0.9rem;
                     }
 
-                    /* Input field styling */
                     .input-group {
                         display: flex;
                         flex-direction: column;
@@ -77,7 +72,6 @@
                         border-color: #6a11cb;
                     }
 
-                    /* Button styling */
                     button {
                         background: linear-gradient(135deg, #6a11cb, #2575fc);
                         color: #fff;
@@ -101,7 +95,6 @@
                     <h2>Forgot Password</h2>
                     <p>Enter your email address to receive an OTP.</p>
 
-                    <!-- Hiển thị lỗi tùy chỉnh nếu có -->
                     <c:if test="${not empty error}">
                         <p class="error">${error}</p>
                     </c:if>

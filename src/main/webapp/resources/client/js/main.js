@@ -500,8 +500,12 @@
 
             },
             error: function (response) {
-                alert("có lỗi xảy ra, check code đi ba :v")
-                console.log("error: ", response);
+                $.toast({
+                    heading: 'Giỏ hàng',
+                    text: 'Thêm sản phẩm vào giỏ hàng không thành công',
+                    position: 'top-right',
+
+                })
             }
 
         });

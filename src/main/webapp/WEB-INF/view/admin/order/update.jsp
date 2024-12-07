@@ -71,6 +71,8 @@
                                                             <form:option value="SHIPPING">SHIPPING</form:option>
                                                             <form:option value="COMPLETE">COMPLETE</form:option>
                                                             <form:option value="CANCEL">CANCEL</form:option>
+                                                            <form:option value="RETURN-REFUND">RETURN-REFUND
+                                                            </form:option>
                                                         </form:select>
                                                     </div>
                                                     <div class="col-12 mb-5">

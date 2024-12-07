@@ -1,5 +1,6 @@
 package vn.nguyenduy.comesticshop.controller.admin;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,11 +10,8 @@ import vn.nguyenduy.comesticshop.service.UserService;
 @Controller
 public class DashboardController {
 
-    private final UserService userService;
-
-    public DashboardController(UserService userService) {
-        this.userService = userService;
-    }
+    @Autowired
+    private UserService userService;
 
     @GetMapping("/admin")
     public String getDashboard(Model model) {

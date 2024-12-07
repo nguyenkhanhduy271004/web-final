@@ -101,9 +101,9 @@
                         <p><strong>Mã giao dịch:</strong>
                             <%= vnpTxnRef !=null ? vnpTxnRef : "Không có" %>
                         </p>
-                        <p><strong>Số tiền:</strong>
+                        <!-- <p><strong>Số tiền:</strong>
                             <fmt:formatNumber value="${vnpAmount}" type="currency" currencySymbol="VND" />
-                        </p>
+                        </p> -->
 
                         <p><strong>Thông tin đơn hàng:</strong>
                             <%= vnpOrderInfo !=null ? vnpOrderInfo : "Không có" %>
@@ -111,9 +111,9 @@
                         <p><strong>Mã giao dịch VNPay:</strong>
                             <%= vnpTransactionNo !=null ? vnpTransactionNo : "Không có" %>
                         </p>
-                        <p><strong>Mã phản hồi:</strong>
+                        <!-- <p><strong>Mã phản hồi:</strong>
                             <%= vnpResponseCode !=null ? vnpResponseCode : "Không có" %>
-                        </p>
+                        </p> -->
                     </div>
 
                     <a href="/" class="back-button">Quay lại trang chủ</a>

@@ -22,8 +22,8 @@ public class Shop implements Serializable {
     private String description;
     private String logo;
     private String homepageContent;
+    @Column(name = "active", nullable = false)
     private boolean active;
-
     @OneToOne
     private User owner;
 

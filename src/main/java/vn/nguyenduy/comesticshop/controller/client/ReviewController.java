@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -21,7 +22,6 @@ import jakarta.servlet.http.HttpSession;
 import vn.nguyenduy.comesticshop.domain.Product;
 import vn.nguyenduy.comesticshop.domain.Review;
 import vn.nguyenduy.comesticshop.domain.User;
-import vn.nguyenduy.comesticshop.domain.dto.ReviewsResponse;
 import vn.nguyenduy.comesticshop.service.ProductService;
 import vn.nguyenduy.comesticshop.service.ReviewService;
 import vn.nguyenduy.comesticshop.service.UploadService;
@@ -30,20 +30,16 @@ import vn.nguyenduy.comesticshop.service.UserService;
 @Controller
 public class ReviewController {
 
-    private final ReviewService reviewService;
-    private final ProductService productService;
-    private final UserService userService;
-    private final UploadService uploadService;
-    private final SimpMessagingTemplate messagingTemplate;
-
-    public ReviewController(ReviewService reviewService, ProductService productService, UserService userService,
-            UploadService uploadService, SimpMessagingTemplate messagingTemplate) {
-        this.reviewService = reviewService;
-        this.productService = productService;
-        this.userService = userService;
-        this.uploadService = uploadService;
-        this.messagingTemplate = messagingTemplate;
-    }
+    @Autowired
+    private ReviewService reviewService;
+    @Autowired
+    private ProductService productService;
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private UploadService uploadService;
+    @Autowired
+    private SimpMessagingTemplate messagingTemplate;
 
     @PostMapping("/create-review")
     public String createReview(

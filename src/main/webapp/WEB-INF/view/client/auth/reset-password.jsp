@@ -58,16 +58,25 @@
                     margin-bottom: 1.5rem;
                 }
 
-                .input-group input {
-                    padding: 0.8rem;
-                    font-size: 1rem;
-                    border: 1px solid #ddd;
-                    border-radius: 5px;
-                    transition: border-color 0.3s;
-                    outline: none;
+                .otp-input-container {
+                    display: flex;
+                    justify-content: center;
+                    gap: 10px;
+                    margin-bottom: 1.5rem;
+                    margin-top: 1.5rem;
                 }
 
-                .input-group input:focus {
+                .otp-input-container input {
+                    width: 50px;
+                    height: 50px;
+                    font-size: 1.5rem;
+                    text-align: center;
+                    border: 1px solid #ddd;
+                    border-radius: 4px;
+                    transition: border-color 0.3s;
+                }
+
+                .otp-input-container input:focus {
                     border-color: #6a11cb;
                 }
 
@@ -86,6 +95,50 @@
                     transform: translateY(-3px);
                     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
                 }
+
+                .countdown {
+                    font-size: 1.5rem;
+                    color: #d9534f;
+                    margin-top: 1.5rem;
+                }
+
+                .disabled-btn {
+                    color: #ccc;
+                    cursor: not-allowed;
+                }
+
+                .input-group {
+                    display: flex;
+                    flex-direction: column;
+                    margin-bottom: 1.5rem;
+                }
+
+                .input-group input {
+                    padding: 0.8rem;
+                    font-size: 1rem;
+                    border: 1px solid #ddd;
+                    border-radius: 5px;
+                    transition: border-color 0.3s;
+                    outline: none;
+                }
+
+                .input-group input:focus {
+                    border-color: #6a11cb;
+                }
+
+                .input-group input::placeholder {
+                    color: #aaa;
+                }
+
+                .input-group input:focus::placeholder {
+                    color: transparent;
+                }
+
+                .form-error {
+                    font-size: 0.9rem;
+                    color: #d9534f;
+                    margin-top: 0.5rem;
+                }
             </style>
         </head>
 
@@ -94,29 +147,80 @@
                 <h2>Reset Password</h2>
                 <p>Enter the OTP sent to your email and set a new password.</p>
 
-                <!-- Hiển thị lỗi chung nếu có -->
                 <c:if test="${not empty error}">
                     <div class="error">${error}</div>
                 </c:if>
 
                 <form:form method="post" action="/reset-password" modelAttribute="resetPasswordForm">
-                    <div class="input-group">
-                        <form:input path="otp" placeholder="Enter OTP" required="true" />
-                        <form:errors path="otp" cssClass="error" />
+                    <div class="otp-input-container">
+                        <form:input path="otp1" maxlength="1" id="otp1" required="true"
+                            oninput="moveFocus(this, 'otp2')" />
+                        <form:input path="otp2" maxlength="1" id="otp2" required="true"
+                            oninput="moveFocus(this, 'otp3')" />
+                        <form:input path="otp3" maxlength="1" id="otp3" required="true"
+                            oninput="moveFocus(this, 'otp4')" />
+                        <form:input path="otp4" maxlength="1" id="otp4" required="true" oninput="submitOtp()" />
                     </div>
+                    <div id="otp-error" class="error" style="display: none;">Invalid OTP, please try again.</div>
+
+                    <input type="hidden" id="otp" name="otp" />
+
                     <div class="input-group">
                         <form:input path="newPassword" type="password" placeholder="Enter new password"
                             required="true" />
                         <form:errors path="newPassword" cssClass="error" />
                     </div>
+
                     <div class="input-group">
                         <form:input path="confirmPassword" type="password" placeholder="Confirm new password"
                             required="true" />
                         <form:errors path="confirmPassword" cssClass="error" />
                     </div>
+
                     <button type="submit">Reset Password</button>
                 </form:form>
+
+                <div id="countdown" class="countdown">3:00</div>
             </div>
+
+            <script>
+                var timeLeft = 180;
+
+                function updateCountdown() {
+                    var minutes = Math.floor(timeLeft / 60);
+                    var seconds = timeLeft % 60;
+
+                    if (seconds < 10) {
+                        seconds = "0" + seconds;
+                    }
+
+                    document.getElementById("countdown").textContent = minutes + ":" + seconds;
+
+                    if (timeLeft <= 0) {
+                        clearInterval(countdownInterval);
+                        document.getElementById("countdown").textContent = "00:00";
+                    }
+
+                    timeLeft--;
+                }
+
+                var countdownInterval = setInterval(updateCountdown, 1000);
+
+                function moveFocus(currentInput, nextInputId) {
+                    if (currentInput.value.length == currentInput.maxLength) {
+                        document.getElementById(nextInputId).focus();
+                    }
+                }
+
+                function submitOtp() {
+                    var otp = '';
+                    otp += document.getElementById('otp1').value;
+                    otp += document.getElementById('otp2').value;
+                    otp += document.getElementById('otp3').value;
+                    otp += document.getElementById('otp4').value;
+                    document.getElementById('otp').value = otp;
+                }
+            </script>
         </body>
 
         </html>

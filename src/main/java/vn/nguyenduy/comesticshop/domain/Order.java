@@ -1,6 +1,7 @@
 package vn.nguyenduy.comesticshop.domain;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import jakarta.persistence.*;
@@ -30,11 +31,13 @@ public class Order implements Serializable {
 
     private String status;
 
+    private String paymentMethod;
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderDetail> orderDetails;
 
     @ManyToOne
@@ -44,4 +47,11 @@ public class Order implements Serializable {
     @ManyToOne
     @JoinColumn(name = "shipper_id")
     private Shipper shipper;
+
+    @ManyToOne
+    @JoinColumn(name = "promotion_id")
+    private Promotion promotion;
+
+    @Column(name = "order_date")
+    private LocalDateTime orderDate;
 }

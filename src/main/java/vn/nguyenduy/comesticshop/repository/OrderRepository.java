@@ -3,6 +3,7 @@ package vn.nguyenduy.comesticshop.repository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import vn.nguyenduy.comesticshop.domain.Order;
@@ -28,5 +29,11 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     // List<Order> getDeliveredOrdersByShipper(Long shipperId);
 
     long countByShipperIdAndStatus(Long shipperId, String status);
+
+    @Query("SELECT MONTH(o.orderDate) AS month, SUM(o.totalPrice) FROM Order o " +
+            "WHERE o.shop.id = :shopId " +
+            "AND YEAR(o.orderDate) = :year " +
+            "GROUP BY MONTH(o.orderDate)")
+    List<Object[]> findMonthlyRevenueByShopId(long shopId, int year);
 
 }

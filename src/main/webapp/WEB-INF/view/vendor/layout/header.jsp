@@ -27,6 +27,15 @@
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                         <li><a class="dropdown-item" href="#!">Settings</a></li>
 
+
+                        <c:if test="${sessionScope.role == 'ADMIN' or sessionScope.role == 'VENDOR'}">
+                            <li>
+                                <hr class="dropdown-divider" />
+                            </li>
+                            <li>
+                                <a href="/chat" class="dropdown-item style=" color: #000;">Hỗ trợ người bán</a>
+                            </li>
+                        </c:if>
                         <li>
                             <hr class="dropdown-divider" />
                         </li>

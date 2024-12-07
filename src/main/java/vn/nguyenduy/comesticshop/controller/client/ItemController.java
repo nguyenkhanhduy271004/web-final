@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -40,18 +41,14 @@ import vn.nguyenduy.comesticshop.service.UserService;
 @Controller
 public class ItemController {
 
-    private final ProductService productService;
-    private final ReviewService reviewService;
-    private final UserService userService;
-    private final PromotionService promotionService;
-
-    public ItemController(ProductService productService, ReviewService reviewService, UserService userService,
-            PromotionService promotionService) {
-        this.productService = productService;
-        this.reviewService = reviewService;
-        this.userService = userService;
-        this.promotionService = promotionService;
-    }
+    @Autowired
+    private ProductService productService;
+    @Autowired
+    private ReviewService reviewService;
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private PromotionService promotionService;
 
     @GetMapping("/product/{id}")
     public String getProductPage(Model model, @PathVariable long id, @RequestParam(defaultValue = "1") int page,
@@ -189,22 +186,70 @@ public class ItemController {
 
         List<CartDetail> cartDetails = cart == null ? new ArrayList<CartDetail>() : cart.getCartDetails();
         double totalPrice = 0;
+        // for (CartDetail cd : cartDetails) {
+        // Double discountPercentage = cd.getProduct().getDiscountPercentage();
+        // if (discountPercentage != null && discountPercentage > 0) {
+        // totalPrice += (cd.getPrice() * (1 - discountPercentage / 100)) *
+        // cd.getQuantity();
+        // } else {
+        // totalPrice += cd.getPrice() * cd.getQuantity();
+        // }
+        // }
+
+        Map<Shop, List<CartDetail>> shopCartDetailsMap = new HashMap<>();
         for (CartDetail cd : cartDetails) {
             Double discountPercentage = cd.getProduct().getDiscountPercentage();
-            if (discountPercentage != null && discountPercentage > 0) {
-                totalPrice += (cd.getPrice() * (1 - discountPercentage / 100)) * cd.getQuantity();
-            } else {
-                totalPrice += cd.getPrice() * cd.getQuantity();
+            double productPrice = discountPercentage != null && discountPercentage > 0
+                    ? cd.getPrice() * (1 - discountPercentage / 100)
+                    : cd.getPrice();
+
+            totalPrice += productPrice * cd.getQuantity();
+
+            Shop shop = cd.getProduct().getShop();
+            shopCartDetailsMap.computeIfAbsent(shop, k -> new ArrayList<>()).add(cd);
+        }
+
+        Map<Shop, Double> shopTotalPrices = new HashMap<>();
+        double totalShippingFee = 0;
+
+        for (Map.Entry<Shop, List<CartDetail>> entry : shopCartDetailsMap.entrySet()) {
+            double shopTotal = entry.getValue().stream()
+                    .mapToDouble(cd -> {
+                        Double discountPercentage = cd.getProduct().getDiscountPercentage();
+                        double productPrice = discountPercentage != null && discountPercentage > 0
+                                ? cd.getPrice() * (1 - discountPercentage / 100)
+                                : cd.getPrice();
+                        return productPrice * cd.getQuantity();
+                    })
+                    .sum();
+
+            shopTotalPrices.put(entry.getKey(), shopTotal);
+
+            Shop shop = entry.getKey();
+            Carrier firstCarrier = getFirstCarrierOfShop(shop);
+
+            if (firstCarrier != null) {
+                totalShippingFee += firstCarrier.getShippingFee();
             }
         }
 
+        totalPrice += totalShippingFee;
+
         List<Promotion> promotions = promotionService.findAll();
 
+        List<Long> shopIdsInCart = cartDetails.stream()
+                .map(cd -> cd.getProduct().getShop().getId())
+                .distinct()
+                .collect(Collectors.toList());
+
         promotions = promotions.stream()
+                .filter(promotion -> promotion.getShop() == null ||
+                        shopIdsInCart.contains(promotion.getShop().getId()))
                 .filter(promotion -> !promotion.getEndDate().isBefore(LocalDate.now()))
                 .collect(Collectors.toList());
 
         model.addAttribute("cartDetails", cartDetails);
+        model.addAttribute("totalShippingFee", totalShippingFee);
         model.addAttribute("totalPrice", totalPrice);
         model.addAttribute("promotions", promotions);
         if (user.isPresent()) {
@@ -229,31 +274,63 @@ public class ItemController {
             @RequestParam("receiverName") String receiverName,
             @RequestParam("receiverAddress") String receiverAddress,
             @RequestParam("receiverPhone") String receiverPhone,
-            @RequestParam(value = "paymentMethod", required = false) String paymentMethod) {
+            @RequestParam(value = "promotionId", required = false) Long promotionId,
+            @RequestParam(value = "paymentMethod", required = false) String paymentMethod,
+            @RequestParam(value = "totalShippingFee", required = false) double totalShippingFee) {
+
         User currentUser = new User();
         HttpSession session = request.getSession(false);
+
+        if (session == null || session.getAttribute("id") == null) {
+            return "redirect:/login";
+        }
+
         long id = (long) session.getAttribute("id");
         currentUser.setId(id);
 
         Cart cart = this.productService.fetchByUser(currentUser);
+        if (cart == null || cart.getCartDetails() == null || cart.getCartDetails().isEmpty()) {
+            return "redirect:/cart";
+        }
+
+        Optional<Promotion> promotion = Optional.empty();
+        if (promotionId != null && promotionId != 0) {
+            promotion = promotionService.getPromotionById(promotionId);
+        }
+
         double totalPrice = 0;
-        if (cart != null && cart.getCartDetails() != null) {
-            for (CartDetail cd : cart.getCartDetails()) {
-                Double discountPercentage = cd.getProduct().getDiscountPercentage();
-                if (discountPercentage != null && discountPercentage > 0) {
-                    totalPrice += (cd.getPrice() * (1 - discountPercentage / 100)) * cd.getQuantity();
+
+        for (CartDetail cd : cart.getCartDetails()) {
+            Double discountPercentage = cd.getProduct().getDiscountPercentage();
+            double productPrice = cd.getPrice() * cd.getQuantity();
+
+            if (promotion.isPresent()) {
+                if (promotion.get().getShop() == null || promotion.get().getShop().equals(cd.getProduct().getShop())) {
+                    totalPrice += (productPrice * (1 - discountPercentage / 100));
                 } else {
-                    totalPrice += cd.getPrice() * cd.getQuantity();
+                    totalPrice += productPrice;
                 }
+            } else {
+                totalPrice += productPrice;
             }
         }
 
+        if (promotion.isPresent() && promotion.get().getShop() == null) {
+            totalPrice -= (totalPrice * promotion.get().getDiscountRate()) / 100;
+        }
+
+        totalPrice += totalShippingFee;
+
         session.setAttribute("totalPrice", totalPrice);
 
-        this.productService.handlePlaceOrder(currentUser, session, receiverName, receiverAddress, receiverPhone);
+        this.productService.handlePlaceOrder(currentUser, session, receiverName, receiverAddress, receiverPhone,
+                paymentMethod, totalShippingFee,
+                promotionId);
+
         if ("VNPay".equalsIgnoreCase(paymentMethod)) {
             return "redirect:/pay";
         }
+
         return "redirect:/thanks";
     }
 
@@ -327,6 +404,62 @@ public class ItemController {
         model.addAttribute("queryString", qs);
 
         return "client/product/show";
+    }
+
+    @GetMapping("/products-sell")
+    public String getProductPageSell(Model model, ProductCriteriaDTO productCriteriaDTO, HttpServletRequest request) {
+        int page = 1;
+        try {
+            if (productCriteriaDTO.getPage().isPresent()) {
+                page = Integer.parseInt(productCriteriaDTO.getPage().get());
+            }
+        } catch (Exception e) {
+        }
+
+        Pageable pageable = PageRequest.of(page - 1, 10);
+
+        if (productCriteriaDTO.getSort() != null && productCriteriaDTO.getSort().isPresent()) {
+            String sort = productCriteriaDTO.getSort().get();
+            if (sort.equals("gia-tang-dan")) {
+                pageable = PageRequest.of(page - 1, 10, Sort.by(Product_.PRICE).ascending());
+            } else if (sort.equals("gia-giam-dan")) {
+                pageable = PageRequest.of(page - 1, 10, Sort.by(Product_.PRICE).descending());
+            }
+        }
+
+        if (productCriteriaDTO.getCriteria() != null && productCriteriaDTO.getCriteria().isPresent()) {
+            String criteria = productCriteriaDTO.getCriteria().get();
+            if (criteria.equals("best_seller")) {
+                pageable = PageRequest.of(page - 1, 10, Sort.by(Product_.QUANTITY_SOLD).descending());
+            } else if (criteria.equals("new")) {
+                pageable = PageRequest.of(page - 1, 10, Sort.by(Product_.CREATE_DATE).descending());
+            } else if (criteria.equals("evaluate")) {
+                pageable = PageRequest.of(page - 1, 10, Sort.by(Product_.STAR).descending());
+            } else if (criteria.equals("favorite")) {
+                pageable = PageRequest.of(page - 1, 10, Sort.by(Product_.LIKES).descending());
+            }
+        }
+
+        Page<Product> prs = this.productService.fetchProductsWithSpec(pageable, productCriteriaDTO);
+
+        List<Product> products = prs.getContent().size() > 0 ? prs.getContent() : new ArrayList<Product>();
+
+        // Lọc các sản phẩm có discountPercentage khác null
+        products = products.stream()
+                .filter(product -> product.getDiscountPercentage() != null)
+                .collect(Collectors.toList());
+
+        String qs = request.getQueryString();
+        if (qs != null && !qs.isBlank()) {
+            qs = qs.replace("page=" + page, "");
+        }
+
+        model.addAttribute("products", products);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", prs.getTotalPages());
+        model.addAttribute("queryString", qs);
+
+        return "client/product/show-for-sell";
     }
 
 }

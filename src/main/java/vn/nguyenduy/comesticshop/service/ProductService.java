@@ -3,6 +3,7 @@ package vn.nguyenduy.comesticshop.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -16,6 +17,7 @@ import vn.nguyenduy.comesticshop.domain.CartDetail;
 import vn.nguyenduy.comesticshop.domain.Order;
 import vn.nguyenduy.comesticshop.domain.OrderDetail;
 import vn.nguyenduy.comesticshop.domain.Product;
+import vn.nguyenduy.comesticshop.domain.Promotion;
 import vn.nguyenduy.comesticshop.domain.Shop;
 import vn.nguyenduy.comesticshop.domain.User;
 import vn.nguyenduy.comesticshop.domain.dto.ProductCriteriaDTO;
@@ -34,6 +36,9 @@ public class ProductService {
     private final UserService userService;
     private final OrderRepository orderRepository;
     private final OrderDetailsRepository orderDetailRepository;
+
+    @Autowired
+    private PromotionService promotionService;
 
     public ProductService(
             ProductRepository productRepository,
@@ -58,8 +63,8 @@ public class ProductService {
         return this.productRepository.findAll(page);
     }
 
-    public List<Product> fetchTopSellingProducts(int limit) {
-        return productRepository.findAllByOrderByQuantitySoldDesc(PageRequest.of(0, limit)).getContent();
+    public List<Product> fetchTopSellingProducts(int page, int limit) {
+        return productRepository.findAllByOrderByQuantitySoldDesc(PageRequest.of(page, limit)).getContent();
     }
 
     public Page<Product> fetchProductsWithSpec(Pageable page, ProductCriteriaDTO productCriteriaDTO) {
@@ -291,7 +296,8 @@ public class ProductService {
 
     public void handlePlaceOrder(
             User user, HttpSession session,
-            String receiverName, String receiverAddress, String receiverPhone) {
+            String receiverName, String receiverAddress, String receiverPhone, String paymentMethod,
+            double totalShippingFee, Long promotionId) {
 
         Cart cart = this.cartRepository.findByUser(user);
         if (cart != null) {
@@ -300,11 +306,22 @@ public class ProductService {
             if (cartDetails != null) {
 
                 Order order = new Order();
+
+                Optional<Promotion> promotion = Optional.empty();
+                if (promotionId != null && promotionId != 0) {
+                    promotion = promotionService.getPromotionById(promotionId);
+                }
+
+                if (promotion.isPresent()) {
+                    order.setPromotion(promotion.get());
+                }
+
                 order.setUser(user);
                 order.setReceiverName(receiverName);
                 order.setReceiverAddress(receiverAddress);
                 order.setReceiverPhone(receiverPhone);
                 order.setStatus("PENDING");
+                order.setPaymentMethod(paymentMethod);
 
                 double sum = 0;
                 for (CartDetail cd : cartDetails) {
@@ -315,6 +332,11 @@ public class ProductService {
                         sum += cd.getPrice() * cd.getQuantity();
                     }
                 }
+
+                if (promotion.isPresent()) {
+                    sum -= (sum * promotion.get().getDiscountRate()) / 100;
+                }
+                sum += totalShippingFee;
                 order.setTotalPrice(sum);
                 order = this.orderRepository.save(order);
 
@@ -324,6 +346,7 @@ public class ProductService {
                     orderDetail.setProduct(cd.getProduct());
                     orderDetail.setPrice(cd.getPrice());
                     orderDetail.setQuantity(cd.getQuantity());
+                    orderDetail.setStatus("PENDING");
 
                     this.orderDetailRepository.save(orderDetail);
                 }
@@ -337,7 +360,6 @@ public class ProductService {
                 session.setAttribute("sum", 0);
             }
         }
-
     }
 
     public List<Product> searchProductsByName(String name, int page, int size) {

@@ -56,68 +56,6 @@
                             pointer-events: none;
                             background-color: var(--bs-pagination-disabled-bg);
                         }
-
-                        #criteriaFilter, #factoryFilter, #targetFilter, #priceFilter, #shortprice {
-                            background-color: #f9f9f9;
-                            border-radius: 8px;
-                            padding: 20px;
-                            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-                            margin-bottom: 20px;
-                        }
-
-                        #criteriaFilter .mb-2, #factoryFilter .mb-2 {
-                            font-size: 1.2rem;
-                            font-weight: 600;
-                            color: #333;
-                            margin-bottom: 10px;
-                        }
-
-                        .form-check-inline {
-                            margin-right: 15px;
-                        }
-
-                        .form-check-input {
-                            position: relative;
-                            top: 2px;
-                            margin-right: 8px;
-                            cursor: pointer;
-                        }
-
-                        .form-check-label {
-                            font-size: 1rem;
-                            color: #555;
-                            cursor: pointer;
-                            transition: color 0.3s;
-                        }
-
-                        .form-check-label:hover {
-                            color: #007bff;
-                        }
-
-                        .form-check-input:checked {
-                            background-color: #007bff;
-                            border-color: #007bff;
-                        }
-
-                        .col-12 {
-                            margin-bottom: 15px;
-                        }
-
-                        @media (max-width: 768px) {
-                            .row.g-4 {
-                                flex-direction: column;
-                            }
-
-                            .col-md-4 {
-                                margin-bottom: 15px;
-                            }
-                        }
-
-                        .form-check-input:checked + .form-check-label {
-                            font-weight: 700;
-                            color: #007bff;
-                        }
-
                     </style>
                 </head>
 
@@ -293,7 +231,7 @@
                                                     <label class="form-check-label" for="price-5">Trên 3 triệu</label>
                                                 </div>
                                             </div>
-                                            <div class="col-12" id="shortprice">
+                                            <div class="col-12">
                                                 <div class="mb-2"><b>Sắp xếp</b></div>
 
                                                 <div class="form-check form-check-inline">
@@ -337,7 +275,9 @@
                                                                 class="img-fluid w-100 rounded-top" alt="">
                                                         </div>
                                                         <div class="text-white bg-secondary px-3 py-1 rounded position-absolute"
-                                                            style="top: 10px; left: 10px;">Item
+                                                            style="top: 10px; left: 10px;">
+                                                            <fmt:formatNumber value="${product.discountPercentage}"
+                                                                type="number" pattern="0" />%
                                                         </div>
                                                         <div
                                                             class="p-4 border border-secondary border-top-0 rounded-bottom">
