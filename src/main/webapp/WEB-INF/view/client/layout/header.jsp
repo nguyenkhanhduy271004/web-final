@@ -57,7 +57,7 @@
                         <!-- navigation mobile -->
                         <ul id="navbar__list--mobile">
                             <li class="navbar__item"><a href="#">Home</a></li>
-                            <li class="navbar__item"><a href="#">About</a></li>
+                            <li class="navbar__item"><a href="/about">About</a></li>
                             <li class="navbar__item"><a href="#">Specials</a></li>
                             <li class="navbar__item"><a href="#">New</a></li>
                             <li class="navbar__item"><a href="#">Contact</a></li>

@@ -117,6 +117,11 @@ public class HomePageController {
         return "client/infor/profile";
     }
 
+    @GetMapping("/about")
+    public String getAboutPage() {
+        return "client/about/show";
+    }
+
     @GetMapping("/shop/register")
     public String getRegisterShopPage(Model model, HttpServletRequest request) {
         HttpSession session = request.getSession(false);
