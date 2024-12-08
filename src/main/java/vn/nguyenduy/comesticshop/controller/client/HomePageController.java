@@ -122,6 +122,11 @@ public class HomePageController {
         return "client/about/show";
     }
 
+    @GetMapping("/contact")
+    public String getContactPage() {
+        return "client/contact/show";
+    }
+
     @GetMapping("/shop/register")
     public String getRegisterShopPage(Model model, HttpServletRequest request) {
         HttpSession session = request.getSession(false);
