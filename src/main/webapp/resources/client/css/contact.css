@@ -13,15 +13,31 @@ body {
     line-height: 1.6;
     padding: 0;
     margin: 0;
+    position: relative;
 }
 
 /* Header */
 header {
-    background-color: #ff7b7b; /* Màu hồng nhẹ, phù hợp với mỹ phẩm */
+    padding-top: 5px;
+    background-color: #ff7b7b;
     color: #fff;
     text-align: center;
     padding: 60px 0;
-    border-bottom: 5px solid #f24c4c; /* Đường viền dưới tạo điểm nhấn */
+    border-bottom: 5px solid #f24c4c;
+    position: absolute;
+    /* Thay đổi từ absolute thành relative */
+    display: flex;
+    /* Sử dụng Flexbox */
+    flex-direction: column;
+    /* Đảm bảo các phần tử con xếp theo chiều dọc */
+    align-items: center;
+    /* Căn giữa theo chiều dọc */
+    justify-content: center;
+    /* Căn giữa theo chiều ngang */
+    height: 100px;
+    top: 125px;
+
+    /* Thiết lập chiều cao cho header */
 }
 
 header h1 {
@@ -34,6 +50,7 @@ header p {
     font-weight: 300;
     margin-top: 10px;
 }
+
 
 /* Container */
 .container {
@@ -48,7 +65,9 @@ header p {
     padding: 40px;
     border-radius: 8px;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-    margin-top: 40px;
+    position: absolute;
+    top: 250px;
+    width: 100%;
 }
 
 .contact-form h2 {
@@ -81,7 +100,8 @@ header p {
 
 .form-group input:focus,
 .form-group textarea:focus {
-    border-color: #ff7b7b; /* Đổi màu viền khi focus vào */
+    border-color: #ff7b7b;
+    /* Đổi màu viền khi focus vào */
     outline: none;
 }
 
@@ -91,7 +111,8 @@ textarea {
 
 /* Button */
 button {
-    background-color: #ff7b7b; /* Màu hồng */
+    background-color: #ff7b7b;
+    /* Màu hồng */
     color: #fff;
     padding: 15px 30px;
     font-size: 18px;
@@ -102,7 +123,8 @@ button {
 }
 
 button:hover {
-    background-color: #f24c4c; /* Đổi màu khi hover */
+    background-color: #f24c4c;
+    /* Đổi màu khi hover */
 }
 
 button:active {
@@ -143,6 +165,10 @@ footer {
     padding: 20px 0;
     text-align: center;
     margin-top: 40px;
+    position: absolute;
+    top: 890px;
+    z-index: 1000;
+    width: 100%;
 }
 
 footer p {
