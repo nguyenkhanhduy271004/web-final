@@ -7,6 +7,7 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
@@ -43,7 +44,7 @@ public class Product implements Serializable {
     @NotEmpty(message = "Short description cannot be empty")
     private String shortDesc;
 
-    @PositiveOrZero(message = "Quantity cannot be negative")
+    @Min(value = 0, message = "Quantity cannot be negative")
     private long quantity;
 
     @PositiveOrZero(message = "Sold quantity cannot be negative")

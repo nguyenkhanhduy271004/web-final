@@ -121,6 +121,7 @@ public class ProductVendorController {
             Product currentProduct = currentProductOpt.get();
             currentProduct.setName(product.getName());
             currentProduct.setPrice(product.getPrice());
+            currentProduct.setQuantity(product.getQuantity());
             currentProduct.setFactory(product.getFactory());
 
             this.productService.createProduct(currentProduct);

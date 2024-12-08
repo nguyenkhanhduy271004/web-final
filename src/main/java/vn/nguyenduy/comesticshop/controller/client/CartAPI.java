@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RestController;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import vn.nguyenduy.comesticshop.domain.CartDetail;
+import vn.nguyenduy.comesticshop.domain.Product;
 import vn.nguyenduy.comesticshop.service.CartDetailService;
 import vn.nguyenduy.comesticshop.service.ProductService;
 
@@ -51,18 +52,25 @@ public class CartAPI {
     private CartDetailService cartDetailService;
 
     @PostMapping("/api/add-product-to-cart")
-    public ResponseEntity<Integer> addProductToCart(
+    public ResponseEntity<String> addProductToCart(
             @RequestBody() CartRequest cartRequest,
             HttpServletRequest request) {
 
         HttpSession session = request.getSession(false);
         String email = (String) session.getAttribute("email");
+        Product product = this.productService.fetchProductById(cartRequest.getProductId()).get();
+        System.out.println("Product quantity: " + product.getQuantity());
+        System.out.println("Cart quantity: " + cartRequest.getQuantity());
+        if (product.getQuantity() < cartRequest.getQuantity()) {
+            return ResponseEntity.badRequest().body("Số lượng sản phẩm vượt quá số lượng còn lại trong kho");
+        }
+
         this.productService.handleAddProductToCart(email, cartRequest.getProductId(), session,
                 cartRequest.getQuantity());
 
         int sum = (int) session.getAttribute("sum");
 
-        return ResponseEntity.ok().body(sum);
+        return ResponseEntity.ok().body(String.valueOf(sum));
     }
 
     @PostMapping("/cart/increase")

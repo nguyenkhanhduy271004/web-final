@@ -220,7 +220,7 @@
                 <script src="<c:url value='/client/lib/waypoints/waypoints.min.js' />"></script>
                 <script src="<c:url value='/client/lib/lightbox/js/lightbox.min.js' />"></script>
                 <script src="<c:url value='/client/lib/owlcarousel/owl.carousel.min.js' />"></script>
-                <script src="<c:url value='/client/js/main.js?version=4' />"></script>
+                <script src="<c:url value='/client/js/main.js?version=6' />"></script>
                 <script
                     src="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.js"></script>
                 <!-- 

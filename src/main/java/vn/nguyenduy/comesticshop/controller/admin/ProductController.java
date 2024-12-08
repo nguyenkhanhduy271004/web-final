@@ -102,6 +102,7 @@ public class ProductController {
             Product currentProduct = currentProductOpt.get();
             currentProduct.setName(product.getName());
             currentProduct.setPrice(product.getPrice());
+            currentProduct.setQuantity(product.getQuantity());
             currentProduct.setFactory(product.getFactory());
             currentProduct.setDiscountPercentage(product.getDiscountPercentage());
 

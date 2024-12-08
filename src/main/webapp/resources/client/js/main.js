@@ -164,7 +164,14 @@
         let change = 0;
 
         var button = $(this);
+        const input = button.parent().parent().find('input');
         var oldValue = button.parent().parent().find('input').val();
+        const quantityProduct = input.attr("data-cart-product-quantity")
+        console.log(oldValue, quantityProduct);
+        if (oldValue + 1 > quantityProduct) {
+            return;
+        }
+
         if (button.hasClass('btn-plus')) {
             var newVal = parseFloat(oldValue) + 1;
             change = 1;
@@ -176,7 +183,6 @@
                 newVal = 1;
             }
         }
-        const input = button.parent().parent().find('input');
         input.val(newVal);
 
         //set form index
@@ -229,9 +235,19 @@
 
         const input = $(this).closest('.input-group').find('input');
         let quantity = parseInt(input.val());
+        const quantityProduct = input.data('cart-product-quantity');
 
         // Kiểm tra loại nút (cộng hoặc trừ)
         if ($(this).hasClass('btn-plus')) {
+            if (quantity + 1 > quantityProduct) {
+                $.toast({
+                    heading: 'Lỗi thao tác',
+                    text: 'Sản phẩm hết hàng',
+                    position: 'top-right',
+                    icon: 'error'
+                })
+                return;
+            }
             quantity += 0;
         } else if ($(this).hasClass('btn-minus') && quantity > 1) {
             quantity -= 0;
@@ -502,8 +518,9 @@
             error: function (response) {
                 $.toast({
                     heading: 'Giỏ hàng',
-                    text: 'Thêm sản phẩm vào giỏ hàng không thành công',
+                    text: 'Sản phẩm hết hàng',
                     position: 'top-right',
+                    icon: 'error'
 
                 })
             }
@@ -525,7 +542,7 @@
         const productList = document.querySelector('.list-hot-product');
 
         let scrollAmount = 0;
-        const scrollStep = 200; // Số pixel di chuyển mỗi lần bấm
+        const scrollStep = 200;
 
         prevButton.addEventListener('click', () => {
             scrollAmount -= scrollStep;

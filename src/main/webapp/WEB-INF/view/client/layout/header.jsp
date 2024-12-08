@@ -57,14 +57,9 @@
                         <!-- navigation mobile -->
                         <ul id="navbar__list--mobile">
                             <li class="navbar__item"><a href="#">Home</a></li>
-<<<<<<< HEAD
                             <li class="navbar__item"><a href="/about">About</a></li>
-                            <li class="navbar__item"><a href="#">Specials</a></li>
-=======
-                            <li class="navbar__item"><a href="#">About</a></li>
->>>>>>> ec213a6939fd35ee50f269bb1fc83626473dced2
                             <li class="navbar__item"><a href="#">New</a></li>
-                            <li class="navbar__item"><a href="#">Contact</a></li>
+                            <li class="navbar__item"><a href="/contact">Contact</a></li>
                         </ul>
                     </div>
                     <%-- <button class="navbar-toggler py-2 px-3" type="button" data-bs-toggle="collapse" --%>
@@ -123,6 +118,11 @@
                                                             </div>
                                                         </li>
 
+                                                        <li>
+                                                            <a class="dropdown-item" href="/forgot-password">Đổi mật
+                                                                khẩu</a>
+                                                        </li>
+
 
                                                         <li><a class="dropdown-item" href="/profile">Quản lý tài
                                                                 khoản</a></li>
@@ -139,6 +139,8 @@
                                                                     style="color: #000;">Hỗ trợ người bán</a>
                                                             </c:if>
                                                         </li>
+
+
 
                                                         <hr class="dropdown-divider">
                                                         </li>

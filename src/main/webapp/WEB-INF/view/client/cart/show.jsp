@@ -49,6 +49,8 @@
                     <link href="<c:url value='/client/css/hot-product.css' />" rel="stylesheet">
                     <link href="<c:url value='/client/css/sale-product.css' />" rel="stylesheet">
                     <link href="<c:url value='/client/css/responsive-home.css' />" rel="stylesheet">
+                    <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.css"
+                        rel="stylesheet">
                 </head>
 
                 <body>
@@ -141,8 +143,9 @@
                                                                 class="form-control form-control-sm text-center border-0"
                                                                 value="${cartDetail.quantity}"
                                                                 data-cart-detail-id="${cartDetail.id}"
-                                                                data-cart-detail-price="${cartDetail.price}"
-                                                                data-cart-detail-index="${status.index}">
+                                                                data-cart-detail-price="${cartDetail.product.discountPercentage > 0 ? (cartDetail.price * (1 - cartDetail.product.discountPercentage / 100)) : cartDetail.price}"
+                                                                data-cart-detail-index="${status.index}"
+                                                                data-cart-product-quantity="${cartDetail.product.quantity}">
                                                             <div class="input-group-btn">
                                                                 <button
                                                                     class="btn btn-sm btn-plus rounded-circle bg-light border">
@@ -281,9 +284,13 @@
                     <script src="/client/lib/owlcarousel/owl.carousel.min.js"></script>
 
                     <!-- Template Javascript -->
-                    <script src="/client/js/main.js?version=11?"></script>
+                    <script src="/client/js/main.js?version=17"></script>
+                    <script
+                        src="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.js"></script>
 
+                    <script>
 
+                    </script>
 
                 </body>
 
