@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+/* =================== PC ==================== */
+>>>>>>> fb1e01e2ff0793c3e051170fa3e9cb3458746d88
 @media (min-width: 992px) {
     .filter-toggle {
         display: none;
@@ -55,6 +59,10 @@
 }
 
 /* =================== mobile ==================== */
+<<<<<<< HEAD
+=======
+
+>>>>>>> fb1e01e2ff0793c3e051170fa3e9cb3458746d88
 /* CSS chung */
 body {
     font-size: 16px;
@@ -107,4 +115,8 @@ body {
         overflow-y: auto;
         padding: 20px;
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> fb1e01e2ff0793c3e051170fa3e9cb3458746d88
 }
