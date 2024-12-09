@@ -1,7 +1,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
         <!DOCTYPE html>
-        <html lang="en">
+        <html lang="vi">
 
         <head>
             <meta charset="utf-8" />
@@ -65,6 +65,18 @@
                 .breadcrumb-item.active {
                     color: #6c757d;
                 }
+
+                /* CSS cho phần biểu đồ */
+                .chart-container {
+                    width: 100%;
+                    max-width: 800px;
+                    margin: 2em auto;
+                }
+
+                canvas {
+                    width: 100% !important;
+                    height: 400px;
+                }
             </style>
         </head>
 
@@ -74,7 +86,7 @@
                 <jsp:include page="../layout/sidebar.jsp" />
                 <div id="layoutSidenav_content">
                     <main>
-                        <div class="container-fluid px-4">
+                        <div class="container-fluid px-4" style="margin-top: 180px;">
                             <h1 class="mt-4">Dashboard</h1>
                             <ol class="breadcrumb mb-4">
                                 <li class="breadcrumb-item active">Thống kê</li>
@@ -111,6 +123,12 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <!-- Biểu đồ thu nhập theo tháng -->
+                            <div class="chart-container">
+                                <h4 class="text-center">Thu nhập theo tháng</h4>
+                                <canvas id="incomeChart"></canvas>
+                            </div>
                         </div>
                     </main>
                     <jsp:include page="../layout/footer.jsp" />
@@ -121,11 +139,38 @@
             <script src="js/scripts.js"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"
                 crossorigin="anonymous"></script>
-            <script src="js/chart-area-demo.js"></script>
-            <script src="js/chart-bar-demo.js"></script>
-            <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
-                crossorigin="anonymous"></script>
-            <script src="js/datatables-simple-demo.js"></script>
+            <script>
+                // Dữ liệu thu nhập theo tháng (thêm tháng có thu nhập = 0 cho các tháng không có dữ liệu)
+                var incomeData = {
+                    labels: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'],
+                    datasets: [{
+                        label: 'Thu nhập (VND)',
+                        data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 14000000, 15000000, 16000000], // Dữ liệu thu nhập cho 3 tháng và 0 cho các tháng còn lại
+                        backgroundColor: 'rgba(0, 123, 255, 0.6)',
+                        borderColor: 'rgba(0, 123, 255, 1)',
+                        borderWidth: 1
+                    }]
+                };
+
+                // Cấu hình biểu đồ
+                var ctx = document.getElementById('incomeChart').getContext('2d');
+                var incomeChart = new Chart(ctx, {
+                    type: 'bar', // Chọn loại biểu đồ là cột
+                    data: incomeData,
+                    options: {
+                        responsive: true,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    stepSize: 2000000,
+                                    callback: function (value) { return value.toLocaleString(); } // Định dạng số
+                                }
+                            }
+                        }
+                    }
+                });
+            </script>
         </body>
 
         </html>

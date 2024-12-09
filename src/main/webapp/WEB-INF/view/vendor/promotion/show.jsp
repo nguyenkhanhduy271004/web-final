@@ -32,14 +32,14 @@
                 <div id="layoutSidenav_content">
                     <main>
                         <div class="container-fluid px-4">
-                            <h1 class="mt-4 text-primary">Quản lý Chương trình Khuyến mãi</h1>
-                            <ol class="breadcrumb mb-4">
+                            <h1 class="mt-4" style="display: flex; justify-content: center;">Manage Promotions </h1>
+                            <!-- <ol class="breadcrumb mb-4">
                                 <li class="breadcrumb-item"><a href="/vendor" class="text-decoration-none">Dashboard</a>
                                 </li>
                                 <li class="breadcrumb-item"><a href="/vendor/product" class="text-decoration-none">Sản
                                         phẩm</a></li>
                                 <li class="breadcrumb-item active">Chương trình Khuyến mãi</li>
-                            </ol>
+                            </ol> -->
                             <div class="card shadow-sm mt-5">
                                 <div
                                     class="card-header bg-primary text-white d-flex justify-content-between align-items-center">

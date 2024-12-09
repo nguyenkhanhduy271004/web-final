@@ -6,8 +6,9 @@ import java.util.List;
 import java.util.Set;
 
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -40,15 +41,15 @@ public class User implements Serializable {
 
     private String nickName;
 
-    @NotNull()
-    @Email(message = "Email is not valid", regexp = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$")
+    @NotBlank(message = "Email không được để trống")
+    @Email(message = "Email không hợp lệ", regexp = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$")
     private String email;
 
-    @NotNull()
-    @Size(min = 2, message = "Password phải có tối thiểu 2 ký tự")
+    @NotBlank(message = "Password không được để trống")
+    @Size(min = 6, message = "Password phải có tối thiểu 6 ký tự")
     private String password;
 
-    @NotNull()
+    @NotBlank(message = "Họ và tên không được để trống")
     @Size(min = 2, message = "Fullname phải có tối thiểu 2 ký tự")
     private String fullName;
 
@@ -61,13 +62,13 @@ public class User implements Serializable {
     @JoinColumn(name = "role_id")
     private Role role;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<Order> orders;
 
-    @OneToOne(mappedBy = "user")
+    @OneToOne(mappedBy = "user", cascade = CascadeType.REMOVE)
     private Cart cart;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.REMOVE)
     @JoinTable(name = "user_favorites", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "product_id"))
     private Set<Product> favorites = new HashSet<>();
 

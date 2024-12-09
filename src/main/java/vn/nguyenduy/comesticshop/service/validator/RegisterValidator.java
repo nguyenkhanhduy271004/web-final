@@ -37,6 +37,14 @@ public class RegisterValidator implements ConstraintValidator<RegisterChecked, R
                     .disableDefaultConstraintViolation();
             valid = false;
         }
+
+        if (user.getPassword().length() < 6) {
+            context.buildConstraintViolationWithTemplate("Password must be at least 8 characters long")
+                    .addPropertyNode("password")
+                    .addConstraintViolation()
+                    .disableDefaultConstraintViolation();
+            valid = false;
+        }
         return valid;
     }
 }

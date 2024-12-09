@@ -148,8 +148,10 @@ public class OrderVendorController {
                     .mapToDouble(od -> od.getPrice() * od.getQuantity())
                     .sum();
 
-            currentOrder.setStatus(currentOrder.getOrderDetails().get(0).getStatus());
+            // currentOrder.setStatus(currentOrder.getOrderDetails().get(0).getStatus());
+            currentOrder.setStatus(orderDetailsForShop.get(0).getStatus());
             model.addAttribute("newOrder", currentOrder);
+            // model.addAttribute("status", orderDetailsForShop.get(0).getStatus());
             model.addAttribute("orderDetailsForShop", orderDetailsForShop);
             model.addAttribute("totalValueForShop", totalValueForShop);
             // model.addAttribute("status", orderDetailsForShop.get(0).getStatus());

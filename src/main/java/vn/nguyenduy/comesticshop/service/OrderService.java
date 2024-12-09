@@ -59,10 +59,17 @@ public class OrderService {
     public void updateOrder(Order order) {
         Optional<Order> orderOptional = this.fetchOrderById(order.getId());
         if (orderOptional.isPresent()) {
-            System.out.println("12321321312");
             Order currentOrder = orderOptional.get();
+
             currentOrder.setStatus(order.getStatus());
+
+            for (OrderDetail orderDetail : currentOrder.getOrderDetails()) {
+                orderDetail.setStatus(order.getStatus());
+                this.orderDetailRepository.save(orderDetail);
+            }
+
             this.orderRepository.save(currentOrder);
+
         }
     }
 
@@ -132,6 +139,10 @@ public class OrderService {
 
     public void updateOrderDetail(OrderDetail orderDetail) {
         this.orderDetailRepository.save(orderDetail);
+    }
+
+    public void save(Order order) {
+        this.orderRepository.save(order);
     }
 
 }

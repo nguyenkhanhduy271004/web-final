@@ -1,6 +1,9 @@
 package vn.nguyenduy.comesticshop.controller.client;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +23,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import vn.nguyenduy.comesticshop.domain.Order;
+import vn.nguyenduy.comesticshop.domain.OrderDetail;
 import vn.nguyenduy.comesticshop.domain.Product;
 import vn.nguyenduy.comesticshop.domain.User;
 import vn.nguyenduy.comesticshop.domain.dto.OtpForm;
@@ -68,6 +72,30 @@ public class HomePageController {
         }
 
         List<Order> orders = this.orderService.fetchOrderByUser(userOptional.get());
+
+        Map<String, List<OrderDetail>> groupedOrderDetails = new HashMap<>();
+        for (Order order : orders) {
+            for (OrderDetail orderDetail : order.getOrderDetails()) {
+                String shopName = orderDetail.getProduct().getShop().getName();
+                groupedOrderDetails.computeIfAbsent(shopName, k -> new ArrayList<>()).add(orderDetail);
+            }
+        }
+
+        Map<Long, Boolean> orderPendingStatus = new HashMap<>();
+        for (Order order : orders) {
+            boolean hasPendingStatus = true;
+            for (OrderDetail orderDetail : order.getOrderDetails()) {
+                if (!"PENDING".equals(orderDetail.getStatus())) {
+                    hasPendingStatus = false;
+                    break;
+                }
+            }
+            orderPendingStatus.put(order.getId(), hasPendingStatus);
+            hasPendingStatus = true;
+        }
+
+        model.addAttribute("orderPendingStatus", orderPendingStatus);
+        model.addAttribute("groupedOrderDetails", groupedOrderDetails);
         model.addAttribute("orders", orders);
 
         return "client/cart/order-history";
@@ -163,7 +191,6 @@ public class HomePageController {
     public String handleRegister(
             @ModelAttribute("registerUser") @Valid RegisterDTO registerDTO,
             BindingResult bindingResult, Model model, HttpServletRequest request) {
-        System.out.println("Redirecting to /verify-otp");
 
         if (bindingResult.hasErrors()) {
             return "client/auth/register";

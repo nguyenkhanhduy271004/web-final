@@ -32,18 +32,13 @@
                     <jsp:include page="../layout/sidebar.jsp" />
                     <div id="layoutSidenav_content">
                         <main>
-                            <div class="container-fluid px-4">
-                                <h1 class="mt-4">Products</h1>
-                                <ol class="breadcrumb mb-4">
-                                    <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
-                                    <li class="breadcrumb-item"><a href="/admin/product">Product</a></li>
-                                    <li class="breadcrumb-item active">Create</li>
-                                </ol>
+                            <div class="container-fluid px-4" style="margin-top: 100px;">
+                                <h1 class="mt-4">Create Product</h1>
+
                                 <div class="mt-5">
                                     <div class="row">
                                         <div class="col-md-6 col-12 mx-auto">
-                                            <h3>Create a product</h3>
-                                            <hr />
+
                                             <form:form method="post" action="/admin/product/create" class="row"
                                                 enctype="multipart/form-data" modelAttribute="newProduct">
                                                 <c:set var="errorName">

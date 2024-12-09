@@ -24,19 +24,39 @@
                         <main>
                             <div class="container-fluid px-4">
                                 <h1 class="mt-4">Manage Orders</h1>
-                                <ol class="breadcrumb mb-4">
+                                <!-- <ol class="breadcrumb mb-4">
                                     <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
                                     <li class="breadcrumb-item active">Order</li>
-                                </ol>
-                                <div class="mt-5">
-                                    <div class="row">
-                                        <div class="col-12 mx-auto">
-                                            <div class="d-flex">
-                                                <h3>Table Orders</h3>
-                                            </div>
+                                </ol> -->
 
-                                            <hr />
-                                            <table class=" table table-bordered table-hover">
+                                <!-- Filter Form -->
+                                <div class="row justify-content-center mb-4">
+                                    <form action="/admin/order" method="get" class="form-inline"
+                                        style="display: flex; align-items: center; gap: 10px; width: 90%; margin: 0 auto;">
+                                        <label for="status" class="mr-2"
+                                            style="flex: 1; text-align: right; font-weight: bold;">
+                                            Filter by Status:</label>
+                                        <select name="status" id="status" class="form-control mr-3"
+                                            style="flex: 2; padding: 5px 10px;">
+                                            <option value="">All</option>
+                                            <option value="PENDING" ${param.status eq 'PENDING' ? 'selected' : '' }>
+                                                PENDING</option>
+                                            <option value="SHIPPING" ${param.status eq 'SHIPPING' ? 'selected' : '' }>
+                                                SHIPPING</option>
+                                            <option value="COMPLETE" ${param.status eq 'COMPLETE' ? 'selected' : '' }>
+                                                COMPLETE</option>
+                                            <option value="CANCELLED" ${param.status eq 'CANCELLED' ? 'selected' : '' }>
+                                                CANCELLED</option>
+                                        </select>
+                                        <button type="submit" class="btn btn-primary">Filter</button>
+                                    </form>
+                                </div>
+
+                                <!-- Order Table -->
+                                <div class="mt-5">
+                                    <c:choose>
+                                        <c:when test="${not empty orders}">
+                                            <table class="table table-bordered table-hover">
                                                 <thead>
                                                     <tr>
                                                         <th>ID</th>
@@ -48,28 +68,32 @@
                                                 </thead>
                                                 <tbody>
                                                     <c:forEach var="order" items="${orders}">
-                                                        <tr>
-                                                            <th>${order.id}</th>
-                                                            <td>
-                                                                <fmt:formatNumber type="number"
-                                                                    value="${order.totalPrice}" /> đ
-                                                            </td>
-                                                            <td>${order.user.fullName}</td>
-                                                            <td>${order.status}</td>
-                                                            <td>
-                                                                <a href="/admin/order/${order.id}"
-                                                                    class="btn btn-success">View</a>
-                                                                <a href="/admin/order/update/${order.id}"
-                                                                    class="btn btn-warning  mx-2">Update</a>
-                                                                <a href="/admin/order/delete/${order.id}"
-                                                                    class="btn btn-danger">Delete</a>
-                                                            </td>
-                                                        </tr>
-
+                                                        <!-- Check status filter -->
+                                                        <c:if
+                                                            test="${param.status == null || param.status == '' || order.status eq param.status}">
+                                                            <tr>
+                                                                <th>${order.id}</th>
+                                                                <td>
+                                                                    <fmt:formatNumber type="number"
+                                                                        value="${order.totalPrice}" /> đ
+                                                                </td>
+                                                                <td>${order.user.fullName}</td>
+                                                                <td>${order.status}</td>
+                                                                <td>
+                                                                    <a href="/admin/order/${order.id}"
+                                                                        class="btn btn-success">View</a>
+                                                                    <a href="/admin/order/update/${order.id}"
+                                                                        class="btn btn-warning mx-2">Update</a>
+                                                                    <a href="/admin/order/delete/${order.id}"
+                                                                        class="btn btn-danger">Delete</a>
+                                                                </td>
+                                                            </tr>
+                                                        </c:if>
                                                     </c:forEach>
-
                                                 </tbody>
                                             </table>
+
+                                            <!-- Pagination -->
                                             <nav aria-label="Page navigation">
                                                 <ul class="pagination justify-content-center">
                                                     <li class="page-item ${currentPage eq 1 ? 'disabled' : ''}">
@@ -96,21 +120,21 @@
                                                     </li>
                                                 </ul>
                                             </nav>
-
-                                        </div>
-
-                                    </div>
-
+                                        </c:when>
+                                        <c:otherwise>
+                                            <div class="alert alert-warning text-center">No orders available</div>
+                                        </c:otherwise>
+                                    </c:choose>
                                 </div>
                             </div>
                         </main>
                         <jsp:include page="../layout/footer.jsp" />
                     </div>
                 </div>
+
                 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
                     crossorigin="anonymous"></script>
                 <script src="/js/scripts.js"></script>
-
             </body>
 
             </html>

@@ -78,7 +78,7 @@
                                                         <form:option value="PENDING">PENDING</form:option>
                                                         <form:option value="SHIPPING">SHIPPING</form:option>
                                                         <form:option value="COMPLETE">COMPLETE</form:option>
-                                                        <form:option value="CANCEL">CANCEL</form:option>
+                                                        <form:option value="CANCELLED">CANCELLED</form:option>
                                                     </form:select>
                                                 </div>
 

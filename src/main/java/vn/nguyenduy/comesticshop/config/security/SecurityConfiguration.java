@@ -69,8 +69,10 @@ public class SecurityConfiguration {
                                 "/reset-password",
                                 "/send-otp",
                                 "/chat",
-                                "about",
+                                "/about",
+                                "/contact",
                                 "/products/**",
+                                "/products-sell",
                                 "/client/**", "/css/**", "/js/**", "/images/**")
                         .permitAll()
 

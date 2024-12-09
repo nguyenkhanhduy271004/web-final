@@ -238,7 +238,8 @@
                                                                 style="display: none;">
                                                                 <p><strong>Đã chọn:</strong> <span
                                                                         id="discountName"></span><span
-                                                                        id="discountRate"></span></p>
+                                                                        id="discountRate"></span> <a href="#"
+                                                                        onclick="resetPage()">x</a></p>
 
                                                             </div>
                                                         </div>
@@ -380,6 +381,13 @@
                                     modal.hide();
                                 });
                             });
+
+                            function resetPage() {
+                                document.getElementById('discountName').textContent = '';
+                                document.getElementById('discountRate').textContent = '';
+
+                                location.reload();
+                            }
                         </script>
 
 

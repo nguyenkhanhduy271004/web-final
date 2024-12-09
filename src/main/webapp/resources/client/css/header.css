@@ -28,10 +28,10 @@
 }
 
 .separator {
-    width: 2px;
-    height: 2px;
+    /* width: 2px;
+    height: 2px; */
     border-radius: 50px;
-    background-color: white;
+    /* background-color: white; */
 }
 
 /* ---------<section class="nav-bar">------------- */

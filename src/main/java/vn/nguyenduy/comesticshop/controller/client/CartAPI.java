@@ -124,6 +124,9 @@ public class CartAPI {
             Optional<CartDetail> cartDetailOptional = cartDetailService.findById(id);
             if (cartDetailOptional.isPresent()) {
                 CartDetail cartDetail = cartDetailOptional.get();
+                Product product = this.productService.fetchProductById(cartDetail.getProduct().getId()).get();
+                product.setQuantity(product.getQuantity() + (cartDetail.getQuantity() - quantity));
+                this.productService.saveProduct(product);
                 cartDetail.setQuantity(quantity);
                 cartDetailService.save(cartDetail);
                 return ResponseEntity.ok("Cập nhật thành công");

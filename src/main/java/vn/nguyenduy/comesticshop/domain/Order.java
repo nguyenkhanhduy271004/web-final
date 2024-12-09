@@ -54,4 +54,11 @@ public class Order implements Serializable {
 
     @Column(name = "order_date")
     private LocalDateTime orderDate;
+
+    @PrePersist
+    public void prePersist() {
+        if (this.orderDate == null) {
+            this.orderDate = LocalDateTime.now();
+        }
+    }
 }

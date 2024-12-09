@@ -23,7 +23,7 @@
                     <div id="layoutSidenav_content">
                         <main>
                             <div class="container-fluid">
-                                <h1 class="mt-4">Danh sách Shop</h1>
+                                <h1 class="mt-4">Manage Shops</h1>
 
                                 <table class="table table-bordered">
                                     <thead>
@@ -32,7 +32,7 @@
                                             <th>Tên Shop</th>
                                             <th>Mô Tả</th>
                                             <th>Logo</th>
-                                            <th>Trạng Thái</th>
+                                            <!-- <th>Trạng Thái</th> -->
                                             <th>Hành Động</th>
                                         </tr>
                                     </thead>
@@ -48,14 +48,26 @@
                                                             height="50" />
                                                     </c:if>
                                                 </td>
-                                                <td>${shop.active ? 'Kích hoạt' : 'Không kích hoạt'}</td>
+                                                <!-- <td>${shop.active ? 'Kích hoạt' : 'Không kích hoạt'}</td> -->
 
-                                                <td>
-                                                    <a href="/admin/shops/view/${shop.id}" class="btn btn-info">View</a>
-                                                    <a href="/admin/shops/edit/${shop.id}"
-                                                        class="btn btn-warning">Edit</a>
-                                                    <a href="/admin/shops/delete/${shop.id}" class="btn btn-danger"
-                                                        onclick="return confirm('Bạn chắc chắn muốn xóa shop này?')">Delete</a>
+                                                <td style="display: flex; gap: 4px;">
+                                                    <div>
+                                                        <a href="/admin/shops/view/${shop.id}"
+                                                            class="btn btn-info">View</a>
+                                                    </div>
+                                                    <div>
+                                                        <a href="/admin/shops/edit/${shop.id}"
+                                                            class="btn btn-warning">Edit</a>
+                                                    </div>
+                                                    <div>
+                                                        <form action="/admin/shops/delete/${shop.id}" method="POST"
+                                                            onsubmit="return confirm('Bạn chắc chắn muốn xóa shop này?')">
+                                                            <input type="hidden" name="${_csrf.parameterName}"
+                                                                value="${_csrf.token}" />
+                                                            <button type="submit" class="btn btn-danger">Delete</button>
+                                                        </form>
+                                                    </div>
+
                                                 </td>
                                             </tr>
                                         </c:forEach>

@@ -249,7 +249,8 @@
                             </c:if>
                             <c:forEach begin="1" end="${reviews.totalPages}" var="i">
                                 <li class="page-item ${currentPage == i ? 'active' : ''}">
-                                    <a class="page-link" href="<c:url value='/product/${id}'/>?page=${i}">${i}</a>
+                                    <a style="background-color: #000;" class="page-link"
+                                        href="<c:url value='/product/${id}'/>?page=${i}">${i}</a>
                                 </li>
                             </c:forEach>
                             <c:if test="${reviews.hasNext()}">

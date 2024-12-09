@@ -2,6 +2,7 @@
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
         <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
+
             <!DOCTYPE html>
             <html lang="en">
 
@@ -125,6 +126,47 @@
                         padding: 20px;
                         font-size: 1.2em;
                     }
+
+                    button {
+                        padding: 10px 20px;
+                        font-size: 16px;
+                        font-weight: bold;
+                        border: none;
+                        border-radius: 5px;
+                        cursor: pointer;
+                        transition: background-color 0.3s ease, transform 0.3s ease;
+                    }
+
+                    /* Nút hủy với nền đỏ */
+                    button[type="submit"] {
+                        background-color: #f44336;
+                        /* Màu đỏ */
+                        color: white;
+                    }
+
+                    /* Khi người dùng hover (di chuột) */
+                    button[type="submit"]:hover {
+                        background-color: #d32f2f;
+                        /* Màu đỏ đậm */
+                        transform: translateY(-3px);
+                        /* Hiệu ứng nhấn nút */
+                    }
+
+                    /* Khi người dùng nhấn vào nút */
+                    button[type="submit"]:active {
+                        background-color: #c62828;
+                        /* Màu đỏ sậm hơn */
+                        transform: translateY(0);
+                        /* Khôi phục hiệu ứng nhấn */
+                    }
+
+                    /* Tạo hiệu ứng khi di chuột qua nút */
+                    button[type="submit"]:focus {
+                        outline: none;
+                        /* Loại bỏ đường viền khi nút được focus */
+                        box-shadow: 0 0 0 3px rgba(244, 67, 54, 0.5);
+                        /* Tạo viền sáng khi focus */
+                    }
                 </style>
             </head>
 
@@ -161,57 +203,86 @@
                                     <tbody>
                                         <c:if test="${empty orders}">
                                             <tr>
-                                                <td colspan="6" class="no-orders">Không có đơn hàng nào được tạo</td>
+                                                <td colspan="6" class="no-orders">Không có đơn hàng nào được tạo
+                                                </td>
                                             </tr>
                                         </c:if>
                                         <c:forEach var="order" items="${orders}">
                                             <tr class="order-id-row">
-                                                <td colspan="6">Order ID: ${order.id} - <span class="text-muted">Trạng
-                                                        thái: ${order.status}</span> - Tổng tiền:
+                                                <td colspan="6">Order ID: ${order.id} </span> - Tổng tiền:
                                                     <fmt:formatNumber type="number" value="${order.totalPrice}" /> đ
+                                                    - <span id="orderDate">Ngày đặt hàng:
+                                                        2024-12-09T08:37:17.717889</span>
+
                                                 </td>
                                             </tr>
-                                            <c:forEach var="orderDetail" items="${order.orderDetails}">
-                                                <tr>
-                                                    <td><img src="/images/product/${orderDetail.product.image}"
-                                                            class="img-fluid product-image"></td>
-                                                    <td><a href="/product/${orderDetail.product.id}"
-                                                            class="text-decoration-none">${orderDetail.product.name}</a>
-                                                    </td>
-                                                    <td>
-                                                        <c:choose>
-                                                            <c:when
-                                                                test="${orderDetail.product.discountPercentage != null}">
-                                                                <fmt:formatNumber type="number"
-                                                                    value="${orderDetail.price * (1 - orderDetail.product.discountPercentage / 100)}" />
-                                                            </c:when>
-                                                            <c:otherwise>
-                                                                <fmt:formatNumber type="number"
-                                                                    value="${orderDetail.price}" />
-                                                            </c:otherwise>
-                                                        </c:choose>
-                                                        đ
-                                                    </td>
 
-                                                    <td>${orderDetail.quantity}</td>
-                                                    <td>
-                                                        <c:choose>
-                                                            <c:when
-                                                                test="${orderDetail.product.discountPercentage != null}">
-                                                                <fmt:formatNumber type="number"
-                                                                    value="${orderDetail.price * orderDetail.quantity * (1 - orderDetail.product.discountPercentage / 100)}" />
-                                                            </c:when>
-                                                            <c:otherwise>
-                                                                <fmt:formatNumber type="number"
-                                                                    value="${orderDetail.price * orderDetail.quantity}" />
-                                                            </c:otherwise>
-                                                        </c:choose>
-                                                        đ
-                                                    </td>
-                                                    <td>${orderDetail.status}</td>
+                                            <!-- Lặp qua các shop -->
+                                            <c:forEach var="entry" items="${groupedOrderDetails}">
+                                                <!-- entry.getKey() sẽ là tên shop -->
+                                                <tr class="shop-id-row">
+                                                    <td colspan="6"><span style="font-weight: 600;">Shop:
+                                                            ${entry.key}</span></td>
+                                                    <!-- Hiển thị tên shop -->
                                                 </tr>
+
+                                                <!-- Lặp qua các orderDetail của shop đó -->
+                                                <c:forEach var="orderDetail" items="${entry.value}">
+                                                    <tr>
+                                                        <td><img src="/images/product/${orderDetail.product.image}"
+                                                                class="img-fluid product-image"></td>
+                                                        <td><a href="/product/${orderDetail.product.id}"
+                                                                class="text-decoration-none">${orderDetail.product.name}</a>
+                                                        </td>
+                                                        <td>
+                                                            <c:choose>
+                                                                <c:when
+                                                                    test="${orderDetail.product.discountPercentage != null}">
+                                                                    <fmt:formatNumber type="number"
+                                                                        value="${orderDetail.price * (1 - orderDetail.product.discountPercentage / 100)}" />
+                                                                </c:when>
+                                                                <c:otherwise>
+                                                                    <fmt:formatNumber type="number"
+                                                                        value="${orderDetail.price}" />
+                                                                </c:otherwise>
+                                                            </c:choose>
+                                                            đ
+                                                        </td>
+                                                        <td>${orderDetail.quantity}</td>
+                                                        <td>
+                                                            <c:choose>
+                                                                <c:when
+                                                                    test="${orderDetail.product.discountPercentage != null}">
+                                                                    <fmt:formatNumber type="number"
+                                                                        value="${orderDetail.price * orderDetail.quantity * (1 - orderDetail.product.discountPercentage / 100)}" />
+                                                                </c:when>
+                                                                <c:otherwise>
+                                                                    <fmt:formatNumber type="number"
+                                                                        value="${orderDetail.price * orderDetail.quantity}" />
+                                                                </c:otherwise>
+                                                            </c:choose>
+                                                            đ
+                                                        </td>
+                                                        <td>${orderDetail.status}</td>
+                                                    </tr>
+                                                </c:forEach>
                                             </c:forEach>
+                                            <c:if test="${orderPendingStatus[order.id]}">
+                                                <tr class="cancel-order-row">
+                                                    <td colspan="6" style="text-align: right; padding-right: 70px;">
+                                                        <form action="/cancelOrder" method="post">
+                                                            <input type="hidden" name="${_csrf.parameterName}"
+                                                                value="${_csrf.token}" />
+                                                            <input type="hidden" name="orderId" value="${order.id}" />
+                                                            <button type="submit" class="btn-cancel">Hủy đặt
+                                                                hàng</button>
+                                                        </form>
+                                                    </td>
+                                                </tr>
+                                            </c:if>
+
                                         </c:forEach>
+
                                     </tbody>
                                 </table>
                             </div>
@@ -234,6 +305,8 @@
                 <script src="<c:url value='/client/js/main.js?version=4' />"></script>
                 <script
                     src="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.js"></script>
+
+
             </body>
 
             </html>

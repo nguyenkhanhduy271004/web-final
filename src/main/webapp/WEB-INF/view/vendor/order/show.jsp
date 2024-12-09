@@ -14,8 +14,37 @@
                 <title>Manager Orders - Nguyễn Duy</title>
                 <link href="/css/styles.css" rel="stylesheet" />
                 <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
-                <!-- Add Bootstrap Icons for extra visual elements -->
                 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
+                <style>
+                    .custom-btn {
+                        background-color: #007bff;
+                        /* Màu nền của nút */
+                        color: white;
+                        /* Màu chữ */
+                        padding: 10px 20px;
+                        /* Khoảng cách trong nút */
+                        font-size: 16px;
+                        /* Kích thước chữ */
+                        border: none;
+                        /* Không viền */
+                        border-radius: 5px;
+                        /* Làm tròn góc */
+                        transition: background-color 0.3s ease, transform 0.3s ease;
+                        /* Hiệu ứng mượt khi hover */
+                    }
+
+                    .custom-btn:hover {
+                        background-color: #0056b3;
+                        /* Màu nền khi hover */
+                        transform: scale(1.05);
+                        /* Phóng to khi hover */
+                    }
+
+                    .custom-btn:focus {
+                        outline: none;
+                        /* Loại bỏ viền focus */
+                    }
+                </style>
             </head>
 
             <body class="sb-nav-fixed">
@@ -28,11 +57,14 @@
                                 <h1 class="mt-4 mb-4">Manage Orders</h1>
 
                                 <!-- Filter Form -->
-                                <!-- <div class="row justify-content-center mb-4">
-                                    <form action="/vendor/search" method="get" class="form-inline"
-                                        style="display: flex; align-items: center; gap: 6px;">
-                                        <label for="status" class="mr-2" style="width: 100%;">Filter by Status:</label>
-                                        <select name="status" id="status" class="form-control mr-3">
+                                <div class="row justify-content-center mb-4">
+                                    <form action="/vendor/order" method="get" class="form-inline"
+                                        style="display: flex; align-items: center; gap: 10px; width: 80%; margin: 0 auto;">
+                                        <label for="status" class="mr-2"
+                                            style="flex: 1; text-align: right; font-weight: bold;">Filter by
+                                            Status:</label>
+                                        <select name="status" id="status" class="form-control mr-3"
+                                            style="flex: 2; padding: 5px 10px;">
                                             <option value="">All</option>
                                             <option value="PENDING" ${param.status eq 'PENDING' ? 'selected' : '' }>
                                                 PENDING</option>
@@ -40,19 +72,18 @@
                                                 SHIPPING</option>
                                             <option value="COMPLETE" ${param.status eq 'COMPLETE' ? 'selected' : '' }>
                                                 COMPLETE</option>
-                                            <option value="CANCEL" ${param.status eq 'CANCEL' ? 'selected' : '' }>CANCEL
-                                            </option>
-                                            <option value="RETURN-REFUND" ${param.status eq 'RETURN-REFUND' ? 'selected'
-                                                : '' }>RETURN-REFUND</option>
+                                            <option value="CANCELLED" ${param.status eq 'CANCELLED' ? 'selected' : '' }>
+                                                CANCELLED</option>
                                         </select>
-                                        <button type="submit" class="btn btn-primary">Filter</button>
+                                        <button type="submit" class="btn custom-btn"
+                                            style="padding: 6px 20px; font-weight: bold;">Filter</button>
                                     </form>
-                                </div> -->
+                                </div>
 
                                 <!-- Order Table -->
                                 <div class="mt-5">
                                     <c:choose>
-                                        <c:when test="${not empty orderDetails}">
+                                        <c:when test="${not empty orders}">
                                             <table class="table table-striped table-bordered">
                                                 <thead>
                                                     <tr>
@@ -60,64 +91,68 @@
                                                         <th scope="col">Tên khách hàng</th>
                                                         <th scope="col">Số lượng</th>
                                                         <th scope="col">Giá</th>
-                                                        <!-- <th scope="col">Total</th> -->
+                                                        <th scope="col">Trạng thái</th>
                                                         <th scope="col">Hành động</th>
-
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     <c:forEach var="order" items="${orders}">
-                                                        <tr>
-                                                            <td>${order.id}</td>
-                                                            <td>${order.user.fullName}</td>
+                                                        <!-- Kiểm tra trạng thái của đơn hàng -->
+                                                        <c:if
+                                                            test="${param.status == null || param.status == '' || order.status eq param.status}">
+                                                            <tr>
+                                                                <td>${order.id}</td>
+                                                                <td>${order.user.fullName}</td>
 
-                                                            <c:set var="totalQuantity" value="0" />
+                                                                <c:set var="totalQuantity" value="0" />
+                                                                <c:forEach var="orderDetail"
+                                                                    items="${order.orderDetails}">
+                                                                    <c:if
+                                                                        test="${orderDetail.product.shop.id == shopId}">
+                                                                        <c:set var="totalQuantity"
+                                                                            value="${totalQuantity + orderDetail.quantity}" />
+                                                                    </c:if>
+                                                                </c:forEach>
+                                                                <td>${totalQuantity}</td>
 
-                                                            <c:forEach var="orderDetail" items="${order.orderDetails}">
-                                                                <c:if test="${orderDetail.product.shop.id == shopId}">
-                                                                    <c:set var="totalQuantity"
-                                                                        value="${totalQuantity + orderDetail.quantity}" />
-                                                                </c:if>
-                                                            </c:forEach>
+                                                                <c:set var="totalOrderPrice" value="0" />
+                                                                <c:forEach var="orderDetail"
+                                                                    items="${order.orderDetails}">
+                                                                    <c:if
+                                                                        test="${orderDetail.product.shop.id == shopId}">
+                                                                        <c:set var="totalOrderPrice"
+                                                                            value="${totalOrderPrice + (orderDetail.price * orderDetail.quantity)}" />
+                                                                    </c:if>
+                                                                </c:forEach>
 
-                                                            <td>${totalQuantity}</td>
+                                                                <td>
+                                                                    <fmt:formatNumber type="number"
+                                                                        value="${totalOrderPrice}" /> đ
+                                                                </td>
 
+                                                                <td>${order.orderDetails[0].status}</td>
+                                                                <td>
+                                                                    <a href="/vendor/order/${order.id}"
+                                                                        class="btn btn-success">
+                                                                        <i class="bi bi-eye"></i>
+                                                                    </a>
+                                                                    <a href="/vendor/order/update/${order.id}"
+                                                                        class="btn btn-warning mx-2">
+                                                                        <i class="bi bi-pencil"></i>
+                                                                    </a>
+                                                                    <a href="/vendor/order/delete/${order.id}"
+                                                                        class="btn btn-danger">
+                                                                        <i class="bi bi-trash"></i>
+                                                                    </a>
+                                                                </td>
+                                                            </tr>
+                                                        </c:if>
 
-                                                            <c:set var="totalOrderPrice" value="0" />
-
-                                                            <c:forEach var="orderDetail" items="${order.orderDetails}">
-                                                                <c:if test="${orderDetail.product.shop.id == shopId}">
-                                                                    <c:set var="totalOrderPrice"
-                                                                        value="${totalOrderPrice + (orderDetail.price * orderDetail.quantity)}" />
-                                                                </c:if>
-                                                            </c:forEach>
-
-                                                            <td>
-                                                                <fmt:formatNumber type="number"
-                                                                    value="${totalOrderPrice}" /> đ
-                                                            </td>
-
-                                                            <td>
-                                                                <a href="/vendor/order/${order.id}"
-                                                                    class="btn btn-success">
-                                                                    <i class="bi bi-eye"></i>
-                                                                </a>
-                                                                <a href="/vendor/order/update/${order.id}"
-                                                                    class="btn btn-warning mx-2">
-                                                                    <i class="bi bi-pencil"></i>
-                                                                </a>
-                                                                <a href="/vendor/order/delete/${order.id}"
-                                                                    class="btn btn-danger">
-                                                                    <i class="bi bi-trash"></i>
-                                                                </a>
-                                                            </td>
-                                                        </tr>
                                                     </c:forEach>
-
-
                                                 </tbody>
                                             </table>
 
+                                            <!-- Pagination -->
                                             <nav aria-label="Page navigation example">
                                                 <ul class="pagination justify-content-center">
                                                     <li class="page-item ${currentPage eq 1 ? 'disabled' : ''}">
@@ -150,7 +185,6 @@
                                                     </li>
                                                 </ul>
                                             </nav>
-
                                         </c:when>
                                         <c:otherwise>
                                             <div class="alert alert-warning text-center">No orders available</div>

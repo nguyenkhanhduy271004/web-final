@@ -26,6 +26,8 @@ import jakarta.servlet.http.HttpSession;
 import vn.nguyenduy.comesticshop.domain.Carrier;
 import vn.nguyenduy.comesticshop.domain.Cart;
 import vn.nguyenduy.comesticshop.domain.CartDetail;
+import vn.nguyenduy.comesticshop.domain.Order;
+import vn.nguyenduy.comesticshop.domain.OrderDetail;
 import vn.nguyenduy.comesticshop.domain.Product;
 import vn.nguyenduy.comesticshop.domain.Product_;
 import vn.nguyenduy.comesticshop.domain.Promotion;
@@ -33,6 +35,8 @@ import vn.nguyenduy.comesticshop.domain.Review;
 import vn.nguyenduy.comesticshop.domain.Shop;
 import vn.nguyenduy.comesticshop.domain.User;
 import vn.nguyenduy.comesticshop.domain.dto.ProductCriteriaDTO;
+import vn.nguyenduy.comesticshop.service.CartDetailService;
+import vn.nguyenduy.comesticshop.service.OrderService;
 import vn.nguyenduy.comesticshop.service.ProductService;
 import vn.nguyenduy.comesticshop.service.PromotionService;
 import vn.nguyenduy.comesticshop.service.ReviewService;
@@ -49,6 +53,10 @@ public class ItemController {
     private UserService userService;
     @Autowired
     private PromotionService promotionService;
+    @Autowired
+    OrderService orderService;
+    @Autowired
+    CartDetailService cartDetailService;
 
     @GetMapping("/product/{id}")
     public String getProductPage(Model model, @PathVariable long id, @RequestParam(defaultValue = "1") int page,
@@ -56,7 +64,7 @@ public class ItemController {
         Product pr = this.productService.fetchProductById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Product not found"));
 
-        Pageable pageable = PageRequest.of(page - 1, 2);
+        Pageable pageable = PageRequest.of(page - 1, 5);
         Page<Review> reviews = this.reviewService.getAllReviewsByProductId(id, pageable);
 
         HttpSession session = request.getSession(false);
@@ -164,6 +172,10 @@ public class ItemController {
     public String deleteCartDetail(@PathVariable long id, HttpServletRequest request) {
         HttpSession session = request.getSession(false);
         long cartDetailId = id;
+        CartDetail cartDetail = this.cartDetailService.findById(cartDetailId).get();
+        Product product = this.productService.fetchProductById(cartDetail.getProduct().getId()).get();
+        product.setQuantity(cartDetail.getQuantity());
+        this.productService.saveProduct(product);
         this.productService.handleRemoveCartDetail(cartDetailId, session);
         return "redirect:/cart";
     }
@@ -446,7 +458,7 @@ public class ItemController {
 
         // Lọc các sản phẩm có discountPercentage khác null
         products = products.stream()
-                .filter(product -> product.getDiscountPercentage() != null)
+                .filter(product -> product.getDiscountPercentage() != null && product.getDiscountPercentage() > 0)
                 .collect(Collectors.toList());
 
         String qs = request.getQueryString();
@@ -460,6 +472,29 @@ public class ItemController {
         model.addAttribute("queryString", qs);
 
         return "client/product/show-for-sell";
+    }
+
+    @PostMapping("/cancelOrder")
+    public String cancelOrder(@RequestParam("orderId") long orderId, HttpSession session) {
+        if (session.getAttribute("id") == null) {
+            return "redirect:/login";
+        }
+
+        Optional<Order> orderOptional = this.orderService.fetchOrderById(orderId);
+        if (!orderOptional.isPresent()) {
+            return "redirect:/order-history?error=OrderNotFound";
+        }
+
+        Order order = orderOptional.get();
+
+        order.setStatus("CANCELLED");
+        for (OrderDetail orderDetail : order.getOrderDetails()) {
+            orderDetail.setStatus("CANCELLED");
+        }
+
+        this.orderService.save(order);
+
+        return "redirect:/order-history?success=OrderCancelled";
     }
 
 }

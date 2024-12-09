@@ -347,7 +347,10 @@ public class ProductService {
                     orderDetail.setPrice(cd.getPrice());
                     orderDetail.setQuantity(cd.getQuantity());
                     orderDetail.setStatus("PENDING");
-
+                    // Product product =
+                    // this.productRepository.findById(cd.getProduct().getId()).get();
+                    // product.setQuantity(product.getQuantity() - cd.getQuantity());
+                    // this.productRepository.save(product);
                     this.orderDetailRepository.save(orderDetail);
                 }
 
@@ -369,6 +372,10 @@ public class ProductService {
 
     public Page<Product> fetchProductsByShop(Shop shop, Pageable pageable) {
         return productRepository.findByShop(shop, pageable);
+    }
+
+    public void saveProduct(Product product) {
+        this.productRepository.save(product);
     }
 
 }

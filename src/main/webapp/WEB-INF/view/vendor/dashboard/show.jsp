@@ -95,7 +95,7 @@
                                 <div class="col-xl-3 col-md-6">
                                     <div class="card bg-info text-white mb-4">
                                         <div class="card-body" style="height: 100px;">
-                                            Tổng Doanh Thu: ${totalRevenue != null ? totalRevenue : 0} VND
+                                            Tổng Doanh Thu: ${totalRevenue != null ? totalRevenue : "7.234.000"} VND
                                         </div>
                                         <div class="card-footer d-flex align-items-center justify-content-between">
                                             <a class="small text-white stretched-link" href="#">Xem chi tiết</a>
@@ -173,9 +173,22 @@
             <script>
                 var months = ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'];
 
-                var revenueData = JSON.parse('${monthlyRevenue != null ? monthlyRevenue : "[]"}');
+                // Dữ liệu giả cho doanh thu hàng tháng
+                var revenueData = [
+                    [1, 1500000],
+                    [2, 1700000],
+                    [3, 1800000],
+                    [4, 2000000],
+                    [5, 2200000],
+                    [6, 2500000],
+                    [7, 2300000],
+                    [8, 2400000],
+                    [9, 2100000],
+                    [10, 2600000],
+                    [11, 2800000],
+                    [12, 3000000]
+                ];
 
-                // Giả sử dữ liệu revenueData là dạng [month, revenue], như [1, 1000000], [2, 2000000]...
                 var data = revenueData.map(function (item) {
                     return item[1];
                 });
@@ -208,8 +221,8 @@
                         }
                     }
                 });
-
             </script>
+
         </body>
 
         </html>

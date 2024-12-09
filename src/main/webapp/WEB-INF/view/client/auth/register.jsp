@@ -84,6 +84,7 @@
                                                                     placeholder="Confirm password"
                                                                     path="confirmPassword" />
                                                                 <label>Confirm Password</label>
+                                                                ${errorPassword}
                                                             </div>
                                                         </div>
                                                     </div>

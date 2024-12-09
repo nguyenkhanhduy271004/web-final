@@ -2,15 +2,14 @@
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
-
         <div class="fixed-top">
             <div class="bg-gradient">
                 <div class="menu-content d-flex justify-content-center">
-                    <div class="menu-item">Freeship 15K mọi đơn hàng</div>
+                    <div class="menu-item">Freeship 15K cho tất cả đơn hàng mỹ phẩm</div>
                     <div class="separator mx-2">|</div>
-                    <div class="menu-item">Mua trước trả sau 0%</div>
+                    <div class="menu-item">Mua sắm dễ dàng, nhận hàng tại cửa hàng gần nhất</div>
                     <div class="separator mx-2">|</div>
-                    <div class="menu-item">Mua online nhận tại cửa hàng gần nhất</div>
+                    <div class="menu-item">Giảm giá đặc biệt cho khách hàng</div>
                 </div>
             </div>
             <div class="container px-0">
@@ -58,7 +57,7 @@
                         <ul id="navbar__list--mobile">
                             <li class="navbar__item"><a href="#">Home</a></li>
                             <li class="navbar__item"><a href="/about">About</a></li>
-                            <li class="navbar__item"><a href="#">New</a></li>
+                            <!-- <li class="navbar__item"><a href="#">New</a></li> -->
                             <li class="navbar__item"><a href="/contact">Contact</a></li>
                         </ul>
                     </div>
@@ -73,7 +72,7 @@
                                         <div class="navbar-nav">
                                             <a href="/" class="nav-item nav-link active" style="color: #000;">Home</a>
                                             <a href="/about" class="nav-item nav-link" style="color: #000;">About</a>
-                                            <a href="/new" class="nav-item nav-link" style="color: #000;">New</a>
+                                            <!-- <a href="/new" class="nav-item nav-link" style="color: #000;">New</a> -->
                                             <a href="/contact" class="nav-item nav-link"
                                                 style="color: #000;">Contact</a>
                                         </div>

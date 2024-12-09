@@ -63,7 +63,8 @@
                     }
 
                     /* Header */
-                    header {
+                    .header {
+                        margin-top: 120px;
                         background-color: #ff7b7b;
                         /* Màu hồng nhẹ, phù hợp với mỹ phẩm */
                         color: #fff;
@@ -73,12 +74,12 @@
                         /* Đường viền dưới tạo điểm nhấn */
                     }
 
-                    header h1 {
+                    .header h1 {
                         font-size: 36px;
                         margin-bottom: 10px;
                     }
 
-                    header p {
+                    .header p {
                         font-size: 18px;
                         font-weight: 300;
                         margin-top: 10px;
@@ -209,18 +210,18 @@
 
                 <jsp:include page="../layout/header.jsp" />
                 <!-- Header -->
-                <header>
-                    <div class="container" style="margin-top: 140px;">
+                <div class="header">
+                    <div class="container" style="margin-top: 0;">
                         <h1>Liên hệ với chúng tôi</h1>
                         <p>
                             Chúng tôi luôn sẵn sàng giúp đỡ bạn. Để lại thông tin và câu hỏi của
                             bạn bên dưới.
                         </p>
                     </div>
-                </header>
+                </div>
 
                 <!-- Contact Form Section -->
-                <section class="contact-form" style="margin-top: 360px;">
+                <section class="contact-form" style="margin-top: 0;">
                     <div class="container">
                         <form action="#" method="POST">
                             <div class="form-group">
@@ -245,7 +246,7 @@
                 </section>
 
                 <!-- Footer -->
-                <footer>
+                <footer style="margin: 0;">
                     <div class="container">
                         <p>&copy; 2024 Mỹ phẩm XYZ. Tất cả quyền lợi được bảo lưu.</p>
                     </div>
